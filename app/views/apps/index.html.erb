@@ -1,0 +1,16 @@
+
+<% 
+	no_apps = true
+	@apps.each do |app|
+		if check_role 'view', app.id
+			no_apps = false %>
+		<%= link_to app.name, app_path(app), :class=>'btn btn-block btn-default' %>
+	<% end%>
+<% end %>
+
+<% if no_apps %>
+	<div class="alert alert-warning">There are currently no applications available.</div>
+<% end %>
+
+<%= link_to '<span class="glyphicon glyphicon-plus"></span> <span class="toggle_text">Create an app</span>'.html_safe, new_app_path, :class=>'btn btn-success margin-bottom' if check_role 'create' %>
+

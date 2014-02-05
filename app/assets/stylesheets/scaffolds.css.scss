@@ -1,0 +1,122 @@
+*{ margin:0; padding:0; }
+
+body {
+  background-color: #efefef;
+  color: #333;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 24px;
+  cursor:default;
+}
+
+a {
+  color: #006699;
+  text-decoration:none;
+  &:hover {
+    color: #0099ff;
+    text-decoration:none;
+  }
+}
+
+form .clearfix:before, form .clearfix:after {
+  display: inline;
+}
+
+.left{ float:left; }
+.right{ float:right; }
+.clear{ clear:both; }
+.block{ display:block; }
+
+.error{ color:#cc0000; }
+.error input, .field_with_errors select{ border-color:#cc0000;}
+
+#alert_message ul{ padding-left:50px; }
+
+h1, h2, h3{ margin:0 0 10px 0; }
+h1#title{ padding:20px 20px 0 20px; color:#999; }
+h1 a{ color:#999; }
+
+.nav-tabs-container{ margin:40px 20px 0 20px; }
+.nav-tabs .active a{ background:#fcfcfc !important; box-shadow:0px 4px 6px #ccc !important; border-color:#fff !important; border-top:1px solid #eaeaea !important;}
+.nav-tabs a:hover{ background:#fff !important; opacity:1; }
+.nav-tabs .alt{ opacity:0.5; }
+
+#user{ position:absolute; top:5px; right:18px;  }
+#content{ margin:0 20px; min-height:600px; padding:20px; background:#fcfcfc; position:relative;  box-shadow:0px 5px 5px #ccc; }
+#content_container{ position:relative; }
+
+div.banner_message.alert{ background:#d2322d;   }
+div.banner_message.notice{ background:#ed9c28;}
+div.banner_message{ position:absolute; top:65px; left:0; width:100%; cursor:pointer; padding:0 2%; color:#fff; text-shadow:1px 1px 2px #000; border-radius:0px; }
+
+.side-margin{ margin:20px !important;  }
+
+#distribute_url{ display:block; width:100%; padding:20px 2%; font-size: 20px; border-radius:5px; border:1px solid #efefef; }
+
+.role_name{ background:#f8f8f8; padding:2px; border:1px solid #ccc; border-radius:3px; color:#888; }
+
+#footer{ margin:0 20px; text-align:right; background:#f8f8f8; padding:5px 20px; border:1px solid white; }
+
+.toggle{ display:none; }
+
+.margin-bottom{ margin-bottom:10px; }
+
+hint{ border-left:1px solid #ccc; padding-left:5px; margin-left:5px; font-weight:normal; font-size:11px; color:#666;}
+
+a .toggle_text{ display:inline-block; margin-bottom:-5px; width:0; overflow:hidden; -webkit-transition: all 0.1s ease-out;  }
+a:hover .toggle_text{ width:100px;  }
+
+
+#form_builder ul{  display:block; overflow:hidden; }
+#form_builder li{ float:left; display:block; margin:5px; min-height:110px; padding:5px; }
+#form_builder li:hover .li_handle{ background:#fff; cursor:move; }
+#form_builder h3{ font-size:14px; color:#666; }
+#form_builder li:hover h3{ color:#333; }
+
+
+.remove{ pointer-events:none; cursor:move !important; }
+
+#form_builder textarea{ width:100%; height:50px; overflow:hidden; }
+
+.li_handle{ float:left; width:20%; border:1px solid #ccc; height:100%; min-height:100px; padding:10px;  background:#f8f8f8; border-radius:5px; overflow:hidden;}
+
+#fields ul{ min-height:120px; display:block; overflow:hidden; border:1px solid white; border-radius:5px;  }
+#fields li{ clear:both; float:none; }
+#fields li:nth-child(odd){ background:#f5f5f5; border-radius:5px; }
+
+#fields .options .option{ display:none; }
+
+#form_builder li{ position:relative; width:20%; }
+#form_builder .form_controls{ float:left; margin-left:2%; width:78%; display:none; }
+#fields li{ width:100%; }
+
+.required-group{ margin-top:6px; }
+
+.form-group.no-margin{ margin-bottom:0; }
+
+#form_builder li#drop_fields_here{ width:100%; padding:0; line-height:100px; text-shadow:1px 1px 1px #333; text-align:center; height:100px; border-radius:5px; cursor:default; opacity:0.5; background:#aaa; color:white; margin:0; font-size:20px; border-color:#999; }
+
+#form_builder #fields{ padding:20px; border:1px solid #ccc; border-radius:5px; margin:20px 0; }
+
+#form_builder li form{ text-align:left; }
+
+#form_builder_actions{ position:absolute; bottom:20px; }
+
+#form_builder .required{ color:red; }
+
+#options_modal input{ margin-bottom:2px; }
+
+#fields .default_label{ color:#999;}
+#field_picker h3, #fields h3{ text-align:center; }
+#field_picker .li_handle{ width:100%; }
+#field_picker li{ margin:0; }
+
+.alert ul{ padding-left:20px; }
+ul{ margin-bottom:0px; }
+ 
+#field_picker .ui-sortable-helper{ max-width:20%; }
+
+#form_builder table{ margin-bottom:0; }
+
+#form_builder th, #form_builder td{ font-size:11px; padding:5px; }
+#form_builder .table_horizontal td, #form_builder .table_horizontal th{ width:50%;  }

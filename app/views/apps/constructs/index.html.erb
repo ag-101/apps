@@ -1,0 +1,10 @@
+<% @apps_constructs.each do |apps_construct| %>
+	<%= link_to apps_construct.name, "/apps/#{ apps_construct.app_id }/constructs/#{ apps_construct.id }/edit", :class => 'btn btn-default btn-block' %>
+<% end %>
+
+<%= '<div class="alert alert-info">There are no forms yet for this application.  Use the <span class="glyphicon glyphicon-plus"></span> icon below to add one.</div>'.html_safe if @apps_constructs.count == 0 %>
+
+<br/></br/>
+<%= link_to '<span class="glyphicon glyphicon-chevron-left"></span> Back'.html_safe, app_path(@app), :class=>'btn btn-default' %>
+<%= link_to '<span class="glyphicon glyphicon-plus"></span> <span class="toggle_text">New</span>'.html_safe, new_app_construct_path, :class=>'btn btn-success' %>
+

@@ -1,0 +1,50 @@
+<table class="table table-bordered table-padded table-striped table-hover">
+	<tr>
+		<% unless params[:id] %>
+			<th>App</th>
+		<% end %>		
+		<th>Role name</th>
+		<th>Users assigned to role <hint>Click a user to remove their role</hint></th>
+		<th>Assign a user</th>
+	</tr>
+	<% @roles.each do |role| %>
+			<tr>
+				<% unless params[:id] %>
+				<td>
+					<%= link_to role.app.name, role_path(role.app), :class=>'btn btn-primary btn-sm' unless !role.app_id or !role.app %>
+				</td>				
+				<% end %>
+				<td>
+					<%= link_to role.name.humanize.titleize, '#', :class=>'btn disabled btn-primary btn-sm btn-block' %>
+				</td>
+			
+				<td>
+					<% role.users.each do |user| %>
+						<%= link_to(user.name, "#{request.original_url}/new?remove=true&user=#{user.id}&role=#{role.id}", {:confirm=>"Are you sure you want to take '#{role.name}' role take away from #{user.name}?", :class=>"btn btn-default btn-sm #{ 'disabled' if current_user == user and role.name == 'admin' }"}) %>
+					<% end %>
+				</td>
+				
+				<td>
+					<form class="form-horizontal form_change" action="<%= request.original_url %>/new" method="get">
+						<input type="hidden" name="role" value="<%= role.id %>"/>
+						<input type="hidden" name="add" value="true"/>
+						<select class="form-control input-sm" name="user">
+							<option value=""></option>
+							<% @users.each do |user| %>
+								<% unless role.users.include?(user) %>
+									<option value="<%= user.id %>"><%= user.name %></option>
+								<% end %>
+							<% end %>
+						</select>
+					</form>
+				</td>
+
+			</tr>
+	<% end %>
+</table>
+
+<div class="alert alert-info"><ul><li>An <strong>admin</strong> role can also <strong>create</strong>, <strong>edit</strong>, <strong>delete</strong> and <strong>view</strong> even if the user isn't assigned those roles directly.</li>  
+	<li>You can't remove an <strong>admin</strong> role from yourself - because that would be stupid and you wouldn't be able to return to this page.</li>
+	<li>The other roles are independent - so adding <strong>edit</strong> won't let them view the app until you give them <strong>view</strong> permission too.</li></ul></div>
+
+<%= link_to '<span class="glyphicon glyphicon-chevron-left"></span> Back'.html_safe, app_path(@roles.first.app), :class=>'btn btn-default margin-bottom' if params[:id] %>
