@@ -58,7 +58,9 @@ class ApplicationController < ActionController::Base
         ldap = Net::LDAP.new :host => vars["host"],
           :port => 389,
           :auth => {
-               :method => :simple
+               :method => :simple,
+               :username => vars["username"],
+               :password => vars["password"]
           }
       
         filter = Net::LDAP::Filter.eq("sAMAccountName", current_user.login)
