@@ -1,7 +1,7 @@
-<div class="created_updated_details">
-	Created <strong><%= time_tag(item.created_at, :format=>'%d/%m/%y %R') %></strong> by <strong><%= item.created_by.name %></strong>
+<div class="created_updated_details alert">
+	Created <strong><%= time_tag(item.created_at, :format=>'%d/%m/%y %R') %></strong> by <strong><%= link_to item.created_by.name, "mailto:#{ item.created_by.email }" %></strong>
 	<% if item.updated_at != item.created_at %>
 	<br/>
-	Updated <strong><%= time_tag(item.updated_at, :format=>'%d/%m/%y %R') %></strong> by <strong><%= item.updated_by.name %></strong>
+	Updated <strong><%= time_tag(item.updated_at, :format=>'%d/%m/%y %R') %></strong> by <strong><%= link_to item.updated_by.name, "mailto:#{ item.updated_by.email }" %></strong>
 	<% end %>
 </div>

@@ -1,3 +1,4 @@
+<div class="edit">
 <%= form_for @apps_construct, :url => (@apps_construct.id?) ? "/apps/#{ @apps_construct.app_id }/constructs/#{ @apps_construct.id }" : app_constructs_path do |f| %>
   <% if @apps_construct.errors.any? %>
     <div class="alert alert-danger" id="alert_message">
@@ -24,7 +25,7 @@
 	  <div id="form_builder_actions" class="clear actions btn-group block">
 	    <%= f.submit 'Save', :class=>'btn btn-success'  %>
 	    <%= link_to '<span class="glyphicon glyphicon-remove"></span> <span class="toggle_text">Delete</span>'.html_safe, {:action => 'destroy', :id => @apps_construct.id }, :method => :delete, :class=>'btn btn-danger', :confirm => 'Are you sure?' if check_role 'delete', @app.id and @apps_construct.id %>
-	    <%= link_to 'Cancel', app_constructs_path(@app), :class=>'btn btn-default' %>
+	    <%= link_to '<span class="glyphicon glyphicon-ban-circle"></span> Cancel'.html_safe, app_constructs_path(@app), :class=>'btn btn-default' %>
 	  </div>
 	</div>
 <% end %>	  
@@ -71,7 +72,7 @@
 		  <div class="clear"></div> 
 	  </div>
   </div> 
-
+</div>
 	  	
 	  	
 <div class="modal fade" id="options_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -79,7 +80,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Options</h4>
+        <h4 class="modal-title" id="myModalLabel"><span class="options_headings_label">Options</span></h4>
       </div>
       <div class="modal-body">
         <form action="#" class="disabled_form form-horizontal">
@@ -88,10 +89,10 @@
 			</div>
 			
 			<div class="default_option hidden">
-				<input class="form-control option_name" name="label" type="text" placeholder="Option name" />			
+				<input class="form-control option_name" name="label" type="text" placeholder="Name" />			
 			</div>
 			
-			<a href="#" class="btn btn-info btn-sm side-margin" id="add_option"><span class="glyphicon glyphicon-plus"></span> Add another option</a>
+			<a href="#" class="btn btn-info btn-sm side-margin" id="add_option"><span class="glyphicon glyphicon-plus"></span> Add another</a>
 			<input type="hidden" id="modal_target" value=""/>
         </form>
       </div>

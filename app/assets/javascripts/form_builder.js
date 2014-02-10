@@ -8,6 +8,10 @@ $(document).ready(function(){
 		e.preventDefault();
 	});
 	
+	$('body').on('keyup', '.additional_option', function(e){
+		update_preview($(this).parents('li'));
+	});	
+	
 	$('body').on('submit', '.disabled_form', function(e){
 		e.preventDefault();
 	});
@@ -121,6 +125,20 @@ function update_content(){
 			current_item.required = false;
 		}
 		
+		$(this).parents('li').find('.additional_option').each(function(){
+			
+			if(typeof parseFloat($(this).val()) ==='number' && ($(this).val()%1)===0) {
+				option_name = $(this).prop('class').split('option_name_');
+				current_item[option_name[1]] = parseFloat($(this).val());
+				
+			} else{
+				alert("Value must be an integer.");
+				$(this).val('');
+				update_preview($(this).parents('li'));
+			}
+
+		});
+		
 		if ($(this).find('.form_save_option').length > 0){
 			current_item.options = [];
 			
@@ -143,32 +161,45 @@ function update_content(){
 function load_content(){
 	objects = JSON.parse($('#construct_content').val());
 
-	for (var object in objects){
-		for (var field_type in objects[object]){
+	$.each(objects, function(k, object) {
+		$.each(object, function(field_type, properties) {
+			
 			$('#field_picker .'+field_type).clone().appendTo($('#fields ul'));
 			var inserted_id = 'field_'+new Date().getTime();
-			$('#fields li').last().prop('id', inserted_id);
+			$('#fields li').last().prop('id', inserted_id);			
 			
-			$('#'+inserted_id).find('.field_label').val(objects[object][field_type]['label']).trigger('keyup');
-			
-			if (objects[object][field_type]['required'] == true){
-				$('#'+inserted_id).find(" .required_checkbox").prop('checked', true).trigger('change');
-			}
-			
-			for (var option in objects[object][field_type]['options']){
-				$('#'+inserted_id).find('.options').append($('#'+inserted_id).find('.default_option_display').html());
-				if($('#'+inserted_id).find('.options .option').last().find('.option_text').length > 0){
-					$('#'+inserted_id).find('.options .option').last().find('.option_text').text(objects[object][field_type]['options'][option]);
-				} else{
-					$('#'+inserted_id).find('.options .option').last().text(objects[object][field_type]['options'][option]);
+			$.each(properties, function(key, value) {			   
+				switch(key){
+					case "label":
+						$('#'+inserted_id).find('.field_label').val(value).trigger('keyup');
+					break;
+					case "required":
+						if(value == true){
+							$('#'+inserted_id).find(" .required_checkbox").prop('checked', true).trigger('change');
+						}
+					break;
+					case "rows":
+						$('#'+inserted_id).find('.option_name_rows').val(value);
+					break;
+					case "columns":
+						$('#'+inserted_id).find('.option_name_columns').val(value);
+					break;
+					case "options":						
+						for (var value_option in value){		
+							$('#'+inserted_id).find('.options').append($('#'+inserted_id).find('.default_option_display').html());
+							if($('#'+inserted_id).find('.options .option').last().find('.option_text').length > 0){
+								$('#'+inserted_id).find('.options .option').last().find('.option_text').text(value[value_option]);
+							} else{
+								$('#'+inserted_id).find('.options .option').last().text(value[value_option]);
+							}
+						}							
+					break;
 				}
-			}	
-			
-			update_preview($('#'+inserted_id));
-		}
-	}
+			}); 
+			update_preview($('#'+inserted_id));			
+		});
+	});		
 
-	
 	if ($('#fields li').length > 1){
 		$('#drop_fields_here').slideUp(0);
 	}		
@@ -177,7 +208,7 @@ function load_content(){
 }
 
 function init_drag(){
-	$( "#field_picker ul li" ).draggable({ 
+	$(".edit #field_picker ul li").draggable({ 
 		connectToSortable: '#fields ul',
 			helper: 'clone',
 			revert: 'invalid',
@@ -187,7 +218,7 @@ function init_drag(){
 				
 	});	
 	
-	$('#fields ul').droppable({
+	$('.edit #fields ul').droppable({
 	      activate: function( event, ui ) {
 	          $(this).addClass("alert-warning");
 				$("#drop_fields_here").remove();       
@@ -209,7 +240,7 @@ function init_drag(){
 	      }	  	      
 	});	
 	
-	$( "#fields ul" ).sortable({  revert:true,  tolerance: 'pointer', 
+	$(".edit #fields ul").sortable({  revert:true,  tolerance: 'pointer', 
 		items: "li:not(#drop_fields_here)",
 		handle: '.li_handle',
 		stop: function(event, ui) {
@@ -240,57 +271,68 @@ function update_preview(object){
 		$(this).removeClass('remove');
 	});
 	
-	if(object.hasClass('radio_buttons') || object.hasClass('checkboxes')){
-		object.find('.form_save_option, .li_handle .remove, .li_handle input, .li_handle .option_text, .li_handle br').remove();
-		object.find('.options .option').each(function(){
-			object.find('.li_handle').append('<input type="hidden" class="form_save_option" value="'+$(this).find('.option_text').text()+'">');
-			object.find('.li_handle').append($(this).html()+"<br/>");
-		});
-	}
+	switch(object.prop('class').replace('ui-draggable', '').replace(/\s/g, "")){
+		case 'table_horizontal':
+			object.find('table, .form_save_option').remove();
+			
+			var table_html = '<table class="table table-striped table-bordered table-hover">';
 
-	if(object.hasClass('select_box')){
-		object.find('.li_handle select').prop('disabled', false).html('');
-		object.find('.form_save_option').remove();
-		object.find('.options .option').each(function(){
-			object.find('.li_handle').append('<input type="hidden" class="form_save_option" value="'+$(this).text()+'">');
-			object.find('.li_handle select').append("<option>"+$(this).text()+"</option>");
-		});
-	}
-	
-	if(object.hasClass('table_vertical')){
-		object.find('table').remove();
-		
-		var table_html = '<table class="table table-striped table-bordered table-hover"><tr>';
-		
-		object.find('.options .option').each(function(){
-			table_html += '<th>'+$(this).text()+'</th>';
-			object.find('.li_handle').append('<input type="hidden" class="form_save_option" value="'+$(this).text()+'">');
-		});		
-		table_html += '</tr><tr>';
-		
-		object.find('.options .option').each(function(){
-			table_html += '<td>&nbsp;</td>';
-		});		
-		table_html += '</tr>';
-		
-		table_html += "</table>";
-		object.find('.li_handle').append(table_html);
-	}
-	
-	if(object.hasClass('table_horizontal')){
-		object.find('table').remove();
-		
-		var table_html = '<table class="table table-striped table-bordered table-hover">';
-		
-		object.find('.options .option').each(function(){
-			table_html += '<tr><th>'+$(this).text()+'</th><td></td></tr>';
-			object.find('.li_handle').append('<input type="hidden" class="form_save_option" value="'+$(this).text()+'">');
-		});		
+			
+			object.find('.options .option').each(function(){
+				columns = "";
+				for(var i = 0; i < parseFloat(object.find('.option_name_columns').val()); i++){
+					columns += "<td></td>";
+				}
 				
-		table_html += "</table>";
-		object.find('.li_handle').append(table_html);
-	}	
-	
-	update_content();
+				table_html += '<tr><th>'+$(this).text()+'</th>'+columns+'</tr>';
+				object.find('.li_handle').append('<input type="hidden" class="form_save_option" value="'+$(this).text()+'">');
+			});		
+					
+			table_html += "</table>";
+			object.find('.li_handle').append(table_html);
+		break;
+		case 'table_vertical':
+			object.find('table, .form_save_option').remove();
+			
+			
+			var table_html = '<table class="table table-striped table-bordered table-hover"><tr>';
+			
+			object.find('.options .option').each(function(){
+				table_html += '<th>'+$(this).text()+'</th>';
+				object.find('.li_handle').append('<input type="hidden" class="form_save_option" value="'+$(this).text()+'">');
+			});		
+			table_html += '</tr>';
+			
+			for(var i = 0; i < parseFloat(object.find('.option_name_rows').val()); i++){
+				table_html += '<tr>';
+				object.find('.options .option').each(function(){
+						table_html += '<td>&nbsp;</td>';
+				});	
+				table_html += '</tr>';	
+			}
 
+			table_html += "</table>";
+			object.find('.li_handle').append(table_html);			
+		break;
+		case 'radio_buttons':
+		case 'checkboxes':
+			object.find('.form_save_option, .li_handle .remove, .li_handle input, .li_handle .option_text, .li_handle br').remove();
+			object.find('.options .option').each(function(){
+				object.find('.li_handle').append('<input type="hidden" class="form_save_option" value="'+$(this).find('.option_text').text()+'">');
+				object.find('.li_handle').append($(this).html()+"<br/>");
+			});			
+		break;
+		case 'select_box':
+			object.find('.li_handle select').prop('disabled', false).html('');
+			object.find('.form_save_option').remove();
+			object.find('.options .option').each(function(){
+				object.find('.li_handle').append('<input type="hidden" class="form_save_option" value="'+$(this).text()+'">');
+				object.find('.li_handle select').append("<option>"+$(this).text()+"</option>");
+			});		
+		break;
+	}
+	update_content();
 }
+
+
+

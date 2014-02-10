@@ -36,7 +36,8 @@
 		
 		  <div class="actions btn-group">
 		    <%= f.submit 'Save', :class=>'btn btn-success'  %>
-		    <%= link_to 'Cancel', @app.id ? app_path(@app.id) : apps_path, :class=>'btn btn-default' %>
+		    <%= link_to '<span class="glyphicon glyphicon-wrench"></span> Build forms'.html_safe, app_constructs_path(@app), :class=>'btn btn-info' if check_role 'admin', @app.id %>
+		    <%= link_to '<span class="glyphicon glyphicon-ban-circle"></span> Cancel'.html_safe, @app.id ? app_path(@app.id) : apps_path, :class=>'btn btn-default' %>
 		  </div>
 		<% end %>
 	</div>

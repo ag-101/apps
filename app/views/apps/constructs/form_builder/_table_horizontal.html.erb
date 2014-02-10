@@ -1,31 +1,63 @@
-<div class='li_handle'>
-	<h3><span class="text_content default_label">Table - horizontal</span></h3>
-	<table class="table table-bordered table-striped">
-		<tr>
-			<th>Heading</th>
-			<td></td>
-		</tr>
-		<tr>
-			<th>Heading</th>
-			<td></td>
-		</tr>
-	</table>
-</div>
-<div class="form_controls form-horizontal">
-	<form action="#">
-		<%= render 'apps/constructs/form_builder/required_options', :type => 'select_box' %>
-		<div class="form-group no-margin">
-			<div class="col-sm-12 options">
-				<div class="btn-group">
-					<%= link_to '<span class="glyphicon glyphicon-remove"></span> <span class="toggle_text">Remove</span>'.html_safe, '#', :class=>'btn-sm btn btn-danger remove_field' %>
-					<%= link_to '<span class="glyphicon glyphicon-pencil"></span> <span class="toggle_text">Edit headings</span>'.html_safe, '#', "data-toggle" => "modal", "data-target" =>'#options_modal', :class=>'btn-sm btn btn-warning launch_modal' %>
+<% if @use_form %>
+	<div class='form-group'>
+		<label class="col-sm-2 control-label">
+			<% if properties['required']%>
+				<span class='required'>*</span>
+			<% end %>
+			<%= properties['label'] %>
+		</label>
+		
+		<div class='col-sm-10'>
+			<table class="table table-striped table-hover table-bordered col-sm-12">
+					<%  if properties['options']
+							properties['options'].each do |option|%>
+							<tr>
+								<th><%= option %></th>
+								<% (1..(properties['columns'] || 1)).each do |i| %>
+									<td class='no_padding'><input type='text' class='table_input' placeholder='...'/></td>
+								<% end %>
+							</tr>
+						<% end 
+					end%>
+								
+			</table>
+		</div>
+	</div>
+<% else %>
+	<div class='li_handle'>
+		<h3><span class="text_content default_label">Table - horizontal</span></h3>
+		<table class="table table-bordered table-striped">
+			<tr>
+				<th>Heading</th>
+				<td></td>
+			</tr>
+			<tr>
+				<th>Heading</th>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+	<div class="form_controls form-horizontal">
+		<form action="#">
+			<%= render 'apps/constructs/form_builder/required_options', :type => 'select_box' %>
+			<div class="form-group no-margin">
+				<div class="form-controls options">
+					<div class="btn-group col-sm-4">
+						<%= link_to '<span class="glyphicon glyphicon-remove"></span> <span class="toggle_text">Remove</span>'.html_safe, '#', :class=>'btn-sm btn btn-danger remove_field' %>
+						<%= link_to '<span class="glyphicon glyphicon-pencil"></span> <span class="toggle_text">Edit headings</span>'.html_safe, '#', "data-toggle" => "modal", "data-target" =>'#options_modal', :class=>'btn-sm btn btn-warning launch_modal' %>
+					</div>
+					
+					<div class="input-group-sm input-group col-lg-2">
+						<input type="text" class="form-control additional_option option_name_columns" value="1">
+						<span class="input-group-addon">columns</span>
+					</div>				
 				</div>
-			</div>
-			
-			<div class="hidden default_option_display">
-				<a href="#" class="option disabled">Option</a>
-			</div>
-		</div>						
-	</form>				
-</div>
-<div class="clear"></div>
+				
+				<div class="hidden default_option_display">
+					<a href="#" class="option disabled">Option</a>
+				</div>
+			</div>						
+		</form>				
+	</div>
+	<div class="clear"></div>
+<% end %>

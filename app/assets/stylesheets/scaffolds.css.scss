@@ -27,6 +27,13 @@ form .clearfix:before, form .clearfix:after {
 .clear{ clear:both; }
 .block{ display:block; }
 
+.created_updated_details{ font-family:'courier new', monospace; }
+
+a.align_right.disabled, a.align_left.disabled{ color:#333; }
+
+.align_left{ text-align:left; }
+.align_right{ text-align:right; }
+
 .error{ color:#cc0000; }
 .error input, .field_with_errors select{ border-color:#cc0000;}
 
@@ -69,7 +76,7 @@ a:hover .toggle_text{ width:100px;  }
 
 #form_builder ul{  display:block; overflow:hidden; }
 #form_builder li{ float:left; display:block; margin:5px; min-height:110px; padding:5px; }
-#form_builder li:hover .li_handle{ background:#fff; cursor:move; }
+.edit #form_builder li:hover .li_handle{ background:#fff; cursor:move; }
 #form_builder h3{ font-size:14px; color:#666; }
 #form_builder li:hover h3{ color:#333; }
 
@@ -102,7 +109,7 @@ a:hover .toggle_text{ width:100px;  }
 
 #form_builder_actions{ position:absolute; bottom:20px; }
 
-#form_builder .required{ color:red; }
+.required{ color:red; }
 
 #options_modal input{ margin-bottom:2px; }
 
@@ -110,6 +117,7 @@ a:hover .toggle_text{ width:100px;  }
 #field_picker h3, #fields h3{ text-align:center; }
 #field_picker .li_handle{ width:100%; }
 #field_picker li{ margin:0; }
+#field_picker{ margin-bottom:50px;}
 
 .alert ul{ padding-left:20px; }
 ul{ margin-bottom:0px; }
@@ -119,4 +127,12 @@ ul{ margin-bottom:0px; }
 #form_builder table{ margin-bottom:0; }
 
 #form_builder th, #form_builder td{ font-size:11px; padding:5px; }
-#form_builder .table_horizontal td, #form_builder .table_horizontal th{ width:50%;  }
+#field_picker .table_horizontal td, #field_picker .table_horizontal th{ width:50%;  }
+
+
+.form_show .li_handle{ float:none; display:block; width:100%; border:none; padding:0;  }
+
+.table_input{ width:100%; height:100%; min-height:20px; border:none; padding:0 5px; }
+.no_padding{ padding:0 !important; }
+
+table .no_padding{ line-height:1 !important;}

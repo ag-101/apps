@@ -3,14 +3,28 @@ class ApplicationController < ActionController::Base
     render :text => exception, :status => 500
   end
   
- # before_filter :authenticate_user!
+  # before_filter :authenticate_user!
   before_filter :get_ldap_info
   
   helper_method :check_role, :check_permission
   
   protect_from_forgery
   
+  def home_checks(url)
+    @app = App.find_by_id(params[:id]) unless url
+     
+    if url
+      url = url.split("/") if url
+      @app = App.where("slug = '#{url.first}'").first
+    end
     
+    if @app
+      @home = Home.where('app_id = ?', @app.id)
+      @forms = Construct.where("app_id = #{@app.id}")      
+      @action = 'home'
+    end
+  end  
+  
   def find_app
     @app = App.find_by_id(params[:app_id]) if params[:app_id]
   end

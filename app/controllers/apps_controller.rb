@@ -17,6 +17,10 @@ class AppsController < ApplicationController
       format.json { render json: @apps }
     end
   end
+    
+  def home
+    home_checks params[:url]
+  end
 
   # GET /apps/1
   # GET /apps/1.json
@@ -32,27 +36,22 @@ class AppsController < ApplicationController
     end
   end
   
-  def home
-    @app = App.find_by_id(params[:id])
-    @home = Home.where('app_id = ?', @app.id)
-    
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @app }
-    end
-  end
-  
   def route  
-   url = params[:url].split("/")
-   
-   @app = App.where("slug = '#{url[0]}'").first
-   
-   if @app
-     @home = Home.where('app_id = ?', @app.id)
-     render :action => "home"
-   else
-     redirect_to root_path, :notice => 'Could not find the page you were looking for'
-   end
+    home_checks params[:url]
+
+#    unless @app
+#      url = URI::parse(request.original_url).path.split('/')    
+#      @app = App.find_by_id(url[2])
+#      @apps_construct = Construct.find_by_id(url[4])
+#      
+#      @construct = @apps_construct.content
+#           
+#      @action = 'show' if @app and @apps_construct
+#    end
+
+    render :action => @action
+
+     # redirect_to root_path, :notice => 'Could not find the page you were looking for'
   end
 
   # GET /apps/new

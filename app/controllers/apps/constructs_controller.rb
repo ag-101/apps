@@ -17,7 +17,10 @@ class Apps::ConstructsController < ApplicationController
   # GET /apps/constructs/1
   # GET /apps/constructs/1.json
   def show
+    require 'json' 
     @apps_construct = Construct.find(params[:id])
+    @use_form = true
+    
 
     respond_to do |format|
       format.html # show.html.erb

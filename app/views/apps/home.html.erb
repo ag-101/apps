@@ -2,3 +2,8 @@
 	<%= home.content.html_safe %>
 	<%= link_to '<span class="glyphicon glyphicon-pencil"></span> <span class="toggle_text">Edit</span>'.html_safe, edit_home_path(home), :class=>'btn btn-xs btn-warning right' if check_role('edit', @app.id)%>
 <% end %>
+
+
+<% @forms.each do |form| %>
+	<%= link_to form.name, "/apps/#{ form.app_id }/constructs/#{ form.id }", :class => 'btn btn-default btn-block' %>
+<% end %>
