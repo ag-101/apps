@@ -8,4 +8,6 @@ class Construct < ActiveRecord::Base
   validates :name, length: { minimum: 2 }, presence: true, uniqueness: true
   validates :content, presence: true
   
+  has_many :submission, :dependent => :destroy
+  
 end

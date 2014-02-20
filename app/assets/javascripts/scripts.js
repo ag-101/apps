@@ -40,4 +40,68 @@ $(document).ready(function(){
 	    "color": true, //Button to change color of font
 	    "size": 'sm' //Button size like sm, xs etc.
 	});
+	
+	$('.admin_link').fadeOut(0);
+	$('.admin_button').on('click', function(){
+		show_admin_buttons('fast');
+	});
+	
+	if ($('.nav .active').find('.admin_link').length > 0){
+		show_admin_buttons(0);
+	}
+	
+	$('.validate_form').on('click', function(e){
+		validate_form($(this).parents('form'));
+		e.preventDefault();
+	});
 });
+
+function validate_form(form){
+	$('.error.field_with_errors').removeClass('error').removeClass('field_with_errors');
+	$('#notice').html('');
+	
+	var form_valid = true;
+	var errors = [];
+	$(form).find('.required').each(function(){
+		var parent = $(this).parents('.form-group');
+		var app_type = parent.prop('class').split(" ");
+
+
+
+		switch (app_type[1]){
+			case 'select':
+			case 'text_field':
+			case 'textarea':
+			case 'table_vertical':
+			case 'table_horizontal':
+				if (parent.find('select, input, textarea').val() == ''){
+					errors.push(parent);
+					form_valid = false;
+				}				
+			break;
+			case 'radio':
+			case 'checkbox':
+				if (parent.find('input:checked').length == 0){
+					errors.push(parent);
+					form_valid = false;
+				}
+			break;
+		}
+	});
+	if (form_valid == true){
+		$(form).submit();
+	} else{
+		$('#notice').html('<div class="alert alert-danger">One or more mandatory fields have not been completed.</div>');
+		for (var i = 0; i < errors.length; i++) {
+			errors[i].addClass('field_with_errors').addClass('error');
+		};
+		page_id = errors[0].parents('.page').prop('id').split('page_');
+		display_page(page_id[1], 100);
+	}
+}
+
+function show_admin_buttons(speed){
+	$('.admin_button').fadeOut(speed, function(){
+		$('.admin_link').fadeIn(speed);
+	});
+}

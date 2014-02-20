@@ -19,8 +19,7 @@ class ApplicationController < ActionController::Base
     end
     
     if @app
-      @home = Home.where('app_id = ?', @app.id)
-      @forms = Construct.where("app_id = #{@app.id}")      
+      @home = Home.where('app_id = ?', @app.id)      
       @action = 'home'
     end
   end  

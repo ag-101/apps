@@ -1,5 +1,5 @@
 <% if @use_form %>
-	<div class='form-group'>
+	<div class='form-group radio'>
 		<label class="col-sm-2 control-label">
 			<% if properties['required']%>
 				<span class='required'>*</span>
@@ -8,27 +8,27 @@
 		</label>
 		
 		<div class='col-sm-10'>
-			<select name="<%= properties['label'].parameterize %>" class="form-control">
-				<option></option>
-				<% if properties['options'] 
-					properties['options'].each do |option|%>
-					<option value='<%= option.parameterize %>'><%= option %></option>
-				<% end 
-				end %>
-			</select>
+			<% if properties['options']
+				properties['options'].each do |option|%>
+				<div class="radio"
+					<label>
+						<input <%= 'checked="checked"' if properties['response'] and properties['response'].include? option %> <%= 'disabled="disabled"' if properties['response'] %> type="radio" name="<%= properties['label'].parameterize %>" value="<%= option%>">
+						<%= option %>
+					</label>
+				</div>
+			<% end 
+			end%>
 		</div>
 	</div>
 <% else %>
 	<div class='li_handle'>
-		<h3><span class="text_content default_label">Select box</span></h3>
-		<select disabled="disabled" class="form-control remove">
-			<option>Option 1</option>
-			<option>Option 2</option>
-		</select>
+		<h3><span class="text_content default_label">Radio buttons</span></h3>
+		<div class="remove"><input type="radio" name="roptions" value="r1" disabled="disabled"> Option 1<br/></div>
+		<div class="remove"><input type="radio" name="roptions" value="r2" disabled="disabled"> Option 2</div>
 	</div>
 	<div class="form_controls form-horizontal">
 		<form action="#">
-			<%= render 'apps/constructs/form_builder/required_options', :type => 'select_box' %>
+			<%= render 'apps/forms/form_builder/required_options', :type => 'radio' %>
 			<div class="form-group no-margin">
 				<div class="col-sm-12 options">
 					<div class="btn-group">
@@ -38,10 +38,12 @@
 				</div>
 				
 				<div class="hidden default_option_display">
-					<a href="#" class="option disabled">Option</a>
+					<span class="option">
+						<input type="radio" name="roptions" value="r1"> <span class="option_text"></span>
+					</span>
 				</div>
-			</div>						
-		</form>				
+			</div>	
+		</form>
 	</div>
 	<div class="clear"></div>
 <% end %>

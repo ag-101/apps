@@ -1,7 +1,7 @@
 *{ margin:0; padding:0; }
 
 body {
-  background-color: #efefef;
+  background-color: #f8f8f8;
   color: #333;
   font-family: arial, helvetica, sans-serif;
   font-size: 12px;
@@ -44,12 +44,13 @@ h1#title{ padding:20px 20px 0 20px; color:#999; }
 h1 a{ color:#999; }
 
 .nav-tabs-container{ margin:40px 20px 0 20px; }
-.nav-tabs .active a{ background:#fcfcfc !important; box-shadow:0px 4px 6px #ccc !important; border-color:#fff !important; border-top:1px solid #eaeaea !important;}
-.nav-tabs a:hover{ background:#fff !important; opacity:1; }
+.nav-tabs a{ color:#999; }
+.nav-tabs .active a, .nav-tabs a:hover{ background:#fff !important; box-shadow:0px 4px 6px #ccc !important; border-color:#ccc !important; border-bottom:1px solid #fff !important; }
 .nav-tabs .alt{ opacity:0.5; }
+.nav-tabs{ border-bottom:1px solid #ccc; }
 
 #user{ position:absolute; top:5px; right:18px;  }
-#content{ margin:0 20px; min-height:600px; padding:20px; background:#fcfcfc; position:relative;  box-shadow:0px 5px 5px #ccc; }
+#content{ margin:0 20px; min-height:600px; padding:20px; background:#fff; position:relative;  box-shadow:0px 5px 5px #ccc; border:1px solid #ccc; border-top:none; }
 #content_container{ position:relative; }
 
 div.banner_message.alert{ background:#d2322d;   }
@@ -62,7 +63,7 @@ div.banner_message{ position:absolute; top:65px; left:0; width:100%; cursor:poin
 
 .role_name{ background:#f8f8f8; padding:2px; border:1px solid #ccc; border-radius:3px; color:#888; }
 
-#footer{ margin:0 20px; text-align:right; background:#f8f8f8; padding:5px 20px; border:1px solid white; }
+#footer{ margin:0 20px; text-align:right; padding:5px 20px; }
 
 .toggle{ display:none; }
 
@@ -75,7 +76,7 @@ a:hover .toggle_text{ width:100px;  }
 
 
 #form_builder ul{  display:block; overflow:hidden; }
-#form_builder li{ float:left; display:block; margin:5px; min-height:110px; padding:5px; }
+#form_builder li{ position:relative; width:20%; float:left; display:block; margin:0; min-height:120px; padding:5px 0; border-radius:5px; }
 .edit #form_builder li:hover .li_handle{ background:#fff; cursor:move; }
 #form_builder h3{ font-size:14px; color:#666; }
 #form_builder li:hover h3{ color:#333; }
@@ -87,27 +88,29 @@ a:hover .toggle_text{ width:100px;  }
 
 .li_handle{ float:left; width:20%; border:1px solid #ccc; height:100%; min-height:100px; padding:10px;  background:#f8f8f8; border-radius:5px; overflow:hidden;}
 
-#fields ul{ min-height:120px; display:block; overflow:hidden; border:1px solid white; border-radius:5px;  }
-#fields li{ clear:both; float:none; }
-#fields li:nth-child(odd){ background:#f5f5f5; border-radius:5px; }
+#fields ul{ min-height:120px; display:block; overflow:hidden; position:relative; }
+#fields li{ width:100%; clear:both; float:none; padding:10px; }
+#fields{  background:#efefef; margin-bottom:70px; border:1px solid #ccc; border-radius:5px; }
 
 #fields .options .option{ display:none; }
 
-#form_builder li{ position:relative; width:20%; }
+
 #form_builder .form_controls{ float:left; margin-left:2%; width:78%; display:none; }
-#fields li{ width:100%; }
+
 
 .required-group{ margin-top:6px; }
 
 .form-group.no-margin{ margin-bottom:0; }
 
-#form_builder li#drop_fields_here{ width:100%; padding:0; line-height:100px; text-shadow:1px 1px 1px #333; text-align:center; height:100px; border-radius:5px; cursor:default; opacity:0.5; background:#aaa; color:white; margin:0; font-size:20px; border-color:#999; }
+#add_page{ margin:0 0 20px 20px; }
 
-#form_builder #fields{ padding:20px; border:1px solid #ccc; border-radius:5px; margin:20px 0; }
+#form_builder li.drop_fields_here{ position:absolute; border-radius:5px; min-height:120px; width:100%; padding:0; line-height:100px; text-shadow:1px 1px 1px #333; text-align:center; height:111px; cursor:default; opacity:0.5; background:#aaa; color:white; margin:0; font-size:20px; border-color:#999; }
+
+#form_builder #fields .page{ background:#fff;  border-radius:5px; }
 
 #form_builder li form{ text-align:left; }
 
-#form_builder_actions{ position:absolute; bottom:20px; }
+#form_builder_actions{ position:absolute; bottom:180px; }
 
 .required{ color:red; }
 
@@ -116,8 +119,9 @@ a:hover .toggle_text{ width:100px;  }
 #fields .default_label{ color:#999;}
 #field_picker h3, #fields h3{ text-align:center; }
 #field_picker .li_handle{ width:100%; }
-#field_picker li{ margin:0; }
-#field_picker{ margin-bottom:50px;}
+#field_picker li{ margin:10px; width:200px; }
+
+#fields .page{ border:1px solid #ccc;   border:1px solid white; border-radius:5px; border-radius:5px; padding:10px; margin:20px; }
 
 .alert ul{ padding-left:20px; }
 ul{ margin-bottom:0px; }
@@ -136,3 +140,87 @@ ul{ margin-bottom:0px; }
 .no_padding{ padding:0 !important; }
 
 table .no_padding{ line-height:1 !important;}
+
+#form_builder .form-horizontal .form-group{ border-bottom:none; padding-bottom:0px; }
+.form-horizontal .form-group{ padding-bottom:15px; border-bottom:1px solid #efefef; }
+
+.form-horizontal .form-group:last-child{ border-bottom:none; padding-bottom:0px; }
+
+.form_show .page{
+  border:1px solid #ccc;
+  padding:15px;
+  border-radius:5px;
+  margin:10px 0;
+}
+
+.form-group.text_field{ padding-top:15px; }
+
+.form_show .page h4{ 
+  margin:-15px -15px 15px -15px;
+  background:#efefef;
+  padding:10px;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+  border-bottom:1px solid #dfdfdf; 
+  }
+
+#construct_content, #prepared_submission{ width:100%; }
+.message{ color:#999; font-size:11px; } 
+
+.pagination .disabled a{ background:#efefef; opacity:0.5; }
+.pagination .disabled a:hover{ background:#d9534f; border-color:#d43f3a; color:white; opacity:0.2; }
+
+.submissions_select{ position:relative; }
+.submissions_select .badge{ right:4px; top:7px; position:absolute; background:#999; }
+
+.radio .li_handle  input[type='radio'], .checkbox .li_handle  input[type='checkbox']{
+  margin:5px 5px 0 0;
+box-sizing: border-box;
+padding: 0 10px 0 0;  
+}
+
+#field_picker{ border-radius:0px; position:fixed; z-index:1000; bottom:0; left:0; margin:0; height:200px; width:auto; width:100%; overflow:hidden; }
+
+
+
+
+
+.als-prev{ left:25px; }
+.als-next{ right:25px;}
+
+.als-container {
+  position: relative;
+  width: 100%;
+  margin: 0px auto;
+  z-index: 0;
+}
+
+.als-viewport {
+  position: relative;
+  overflow: hidden;
+  margin: 0px auto;
+}
+
+.als-wrapper {
+  position: relative;
+  list-style: none;
+}
+
+.als-item {
+  position: relative;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  float: left;
+}
+
+.als-prev, .als-next {
+  position: absolute;
+  cursor: pointer;
+  clear: both;
+  top:115px;
+  z-index:100;
+}
+
+.error textarea{ border-color:#cc0000; }
+.radio .control-label, .checkbox .control-label{ font-weight:bold; }

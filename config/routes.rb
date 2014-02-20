@@ -3,7 +3,14 @@ Forms::Application.routes.draw do
   
   resources :apps do
     scope module: :apps do
-      resources :constructs, :controller => 'constructs'
+      match 'submissions_select', to: 'submissions'
+      resources :forms do
+        resources :submissions
+        get 'swap_disabled_status', :on => :member
+        get 'publish', :on => :member
+        get 'new_submission', :on => :member
+        match 'save'
+      end
     end
   end
   

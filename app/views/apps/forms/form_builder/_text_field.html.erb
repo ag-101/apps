@@ -1,5 +1,5 @@
 <% if @use_form %>
-	<div class='form-group'>
+	<div class='form-group text_field'>
 		<label class="col-sm-2 control-label">
 			<% if properties['required']%>
 				<span class='required'>*</span>
@@ -8,18 +8,17 @@
 		</label>
 		
 		<div class='col-sm-10'>
-			<textarea name="<%= properties['label'].parameterize %>" class='form-control' rows='10'></textarea>
+			<input type="text" name="<%= properties['label'].parameterize %>" class="form-control" <%= 'disabled="disabled"' if properties['response'] %> value="<%= properties['response'] %>" />
 		</div>
 	</div>
 <% else %>
 	<div class='li_handle'>
-		<h3><span class="text_content default_label">Textarea</span></h3>
-		<textarea disabled="disabled" class="no_wysiwyg form-control remove"></textarea>
-		
+		<h3><span class="text_content default_label">Text field</span></h3>
+		<input type="text" disabled="disabled" class="form-control remove" />
 	</div>
 	<div class="form_controls form-horizontal">
 		<form action="#">
-			<%= render 'apps/constructs/form_builder/required_options', :type => 'textarea' %>
+			<%= render 'apps/forms/form_builder/required_options', :type => 'text_field' %>
 			<div class="form-group no-margin">
 				<div class="col-sm-12 options">
 					<div class="btn-group">
@@ -28,7 +27,5 @@
 				</div>						
 			</div>
 		</form>
-		
 	</div>
-	<div class="clear"></div>
 <% end %>

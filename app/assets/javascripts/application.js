@@ -17,3 +17,4 @@
 //= require bootstrap3-wysihtml5.js
 //= require scripts.js
 //= require form_builder.js
+//= require jquery.als-1.3.min.js

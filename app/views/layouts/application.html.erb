@@ -23,7 +23,7 @@
 					<%= link_to "Sign out", destroy_user_session_path, :method => :delete, :class=>'btn btn-primary btn-xs' %>
 				</div>				
 				
-				<div id="toggle_roles" class="toggle clear"><%= "You have no roles assigned to you." if current_user.roles.count < 1 %><%= current_user.roles.map { |r| link_to r.name.humanize.titleize, "#", :class=>'btn btn-xs btn-default disabled' }.join(" ").html_safe %></div>
+				<div id="toggle_roles" class="toggle clear"><%= "You have no roles assigned to you." if current_user.roles.count < 1 %><%= current_user.roles.map { |r| link_to r.name.humanize.titleize, "#", :class=>'btn btn-xs btn-default',  :onclick => "alert('App #{r.app_id}')" }.join(" ").html_safe %></div>
 			<% else %>
 				<div class="right btn-group">
 					<%= link_to "Sign in", new_user_session_path, :class=>'btn btn-default btn-xs btn-primary' %>

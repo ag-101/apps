@@ -1,6 +1,56 @@
-class Apps::ConstructsController < ApplicationController
+class Apps::FormsController < ApplicationController
   
   before_filter :find_app 
+  
+  def swap_disabled_status
+    @apps_construct = Construct.find(params[:id])
+    
+    if @apps_construct.disabled?
+      @apps_construct.disabled = false
+    else
+      @apps_construct.disabled = true
+    end
+
+    if @apps_construct.save
+      redirect_to app_forms_path(params[:app_id])
+    end
+  end
+  
+  def save
+    @submission = Submission.new()
+    @submission.content = params[:content]
+    @submission.construct_id = params[:form_id]
+    @submission.created_by_id = current_user.id
+    @submission.updated_by_id = current_user.id
+
+    if @submission.construct.published?
+      if @submission.save
+        redirect_to app_home_path(params[:app_id]), notice: "Your response to form '#{ @submission.construct.name }' has been saved"
+      else
+        redirect_to app_home_path(params[:app_id]), alert: "There has been an error saving your response"
+      end
+    else
+       redirect_to app_home_path(params[:app_id]), alert: "The form '#{ @submission.construct.name }' has not yet been published."  
+    end
+  end
+  
+  def submissions
+    @submissions = Submission.where('construct_id = ?', params[:form_id]).order('created_at DESC')
+  end
+  
+  def submission
+    
+  end
+  
+  def publish
+    @apps_construct = Construct.find(params[:id])
+    
+    @apps_construct.published = true
+
+    if @apps_construct.save
+      redirect_to app_forms_path(params[:app_id])
+    end
+  end  
   
   # GET /apps/constructs
   # GET /apps/constructs.json
@@ -55,7 +105,7 @@ class Apps::ConstructsController < ApplicationController
 
     respond_to do |format|
       if @apps_construct.save
-        format.html { redirect_to app_constructs_path(params[:app_id]), notice: 'Construct was successfully created.' }
+        format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Construct was successfully created.' }
         format.json {  }
       else
         format.html { render action: "new" }
@@ -63,21 +113,28 @@ class Apps::ConstructsController < ApplicationController
       end
     end
   end
+  
+
 
   # PUT /apps/constructs/1
   # PUT /apps/constructs/1.json
   def update
     @apps_construct = Construct.find(params[:id])
-    @apps_construct.updated_by_id = current_user.id
-
-    respond_to do |format|
-      if @apps_construct.update_attributes(params[:construct])
-        format.html { redirect_to app_constructs_path(params[:app_id]), notice: 'Construct was successfully updated.' }
-        format.json {  }
-      else
-        format.html { render action: "edit" }
-        format.json {  }
-      end
+    
+    if @apps_construct.published?
+      redirect_to app_forms_path(params[:app_id]), alert: "<strong>'#{@apps_construct.name}'</strong> has already been published and can't now be updated.".html_safe
+    else
+      @apps_construct.updated_by_id = current_user.id
+  
+      respond_to do |format|
+        if @apps_construct.update_attributes(params[:construct])
+          format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Construct was successfully updated.' }
+          format.json {  }
+        else
+          format.html { render action: "edit" }
+          format.json {  }
+        end
+      end      
     end
   end
 
@@ -88,8 +145,9 @@ class Apps::ConstructsController < ApplicationController
     @apps_construct.destroy
 
     respond_to do |format|
-      format.html { redirect_to app_constructs_path(params[:app_id]), notice: 'Construct was successfully deleted.'}
+      format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Construct was successfully deleted.'}
       format.json { head :no_content }
     end
   end
+  
 end

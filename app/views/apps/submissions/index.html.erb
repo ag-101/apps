@@ -1,0 +1,23 @@
+<h3><strong><%= @submissions.first.construct.name %></strong> responses</h3>
+
+<table class="table table-bordered table-striped">
+	<tr>
+		<th>Created</th>
+		<th>Created by</th>
+		<th></th>
+	</tr>
+<% @submissions.each do |submission| %>
+	<tr>
+		<td>
+			<%= submission.created_at.to_formatted_s(:long_ordinal)  %>
+		</td>
+		<td>
+			<%= submission.created_by.name %>
+		</td>
+		<td>
+			<%= link_to 'View response', app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-default btn-xs' %>
+
+		</td>
+	</tr>
+<% end %>
+</table>

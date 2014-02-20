@@ -1,5 +1,5 @@
 <% if @use_form %>
-	<div class='form-group'>
+	<div class='form-group select'>
 		<label class="col-sm-2 control-label">
 			<% if properties['required']%>
 				<span class='required'>*</span>
@@ -8,26 +8,27 @@
 		</label>
 		
 		<div class='col-sm-10'>
-			<% if properties['options'] 
-			    properties['options'].each do |option| %>
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" name="<%= properties['label'].parameterize %>" value="<%= option %>"> <%= option %>
-					</label>
-				</div>
-			<% end
-			end %>
+			<select name="<%= properties['label'].parameterize %>" class="form-control" <%= 'disabled="disabled"' if properties['response'] %>>
+				<option></option>
+				<% if properties['options'] 
+					properties['options'].each do |option|%>
+					<option <%= 'selected="selected"' if option.parameterize == properties['response'] %> value='<%= option.parameterize %>'><%= option %></option>
+				<% end 
+				end %>
+			</select>
 		</div>
 	</div>
 <% else %>
 	<div class='li_handle'>
-		<h3><span class="text_content default_label">Checkboxes</span></h3>
-		<div class="remove"><input type="checkbox" name="coptions" value="c1" disabled="disabled"> Option 1</br/></div>
-		<div class="remove"><input type="checkbox" name="coptions" value="c2" disabled="disabled"> Option 2</div>
+		<h3><span class="text_content default_label">Select box</span></h3>
+		<select disabled="disabled" class="form-control remove">
+			<option>Option 1</option>
+			<option>Option 2</option>
+		</select>
 	</div>
 	<div class="form_controls form-horizontal">
 		<form action="#">
-			<%= render 'apps/constructs/form_builder/required_options', :type => 'checkboxes' %>
+			<%= render 'apps/forms/form_builder/required_options', :type => 'select' %>
 			<div class="form-group no-margin">
 				<div class="col-sm-12 options">
 					<div class="btn-group">
@@ -37,12 +38,10 @@
 				</div>
 				
 				<div class="hidden default_option_display">
-					<span class="option">
-						<input type="checkbox" name="coptions" value="c2"> <span class="option_text"></span>
-					</span>
+					<a href="#" class="option disabled">Option</a>
 				</div>
-			</div>							
-		</form>
+			</div>						
+		</form>				
 	</div>
 	<div class="clear"></div>
 <% end %>

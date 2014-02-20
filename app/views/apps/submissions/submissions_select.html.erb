@@ -1,0 +1,5 @@
+<h3>Select a form to view responses</h3>
+
+<% @app.constructs.each do |construct| %>
+	<%= link_to "#{construct.name} #{'(Unpublished)' unless construct.published? } #{content_tag :span, :class=>'badge' do pluralize(construct.submission.count, 'response') end}".html_safe, app_form_submissions_path(@app, construct), :class=>"#{ 'disabled' unless construct.published?} btn btn-block submissions_select btn-default" %>	
+<% end %>

@@ -1,0 +1,143 @@
+<div class="edit">
+<%= form_for @apps_construct, :url => (@apps_construct.id?) ? "/apps/#{ @apps_construct.app_id }/forms/#{ @apps_construct.id }" : app_forms_path do |f| %>
+  <% if @apps_construct.errors.any? %>
+    <div class="alert alert-danger" id="alert_message">
+      <strong><%= pluralize(@apps_construct.errors.count, "error") %> prohibited this apps_construct from being saved:</strong>
+
+      <ul>
+      <% @apps_construct.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>  
+  <div class="form-horizontal">	  
+	  <div class="form-group">
+	    <%= f.label :name, :class=>'col-sm-2 control-label' %>
+	    <div class="col-sm-10">
+	    	<%= f.text_field :name, :class=>'form-control', :rows=>5 %>
+	    </div>
+	  </div>  
+	  
+	  <%= f.hidden_field :content %>
+	  
+
+	  <div id="form_builder_actions" class="clear actions btn-group block">
+	    <%= f.submit 'Save', :class=>'btn btn-success'  %>
+	    <%= link_to '<span class="glyphicon glyphicon-remove"></span> <span class="toggle_text">Delete</span>'.html_safe, {:action => 'destroy', :id => @apps_construct.id }, :method => :delete, :class=>'btn btn-danger', :confirm => 'Are you sure?' if check_role 'delete', @app.id and @apps_construct.id %>
+	    <%= link_to '<span class="glyphicon glyphicon-ban-circle"></span> Cancel'.html_safe, app_forms_path(@app), :class=>'btn btn-default' %>
+	  </div>
+	</div>
+<% end %>	  
+	  
+  <div id="form_builder">
+	  <div id="fields" class="connectedSortable">
+	  	<div class="fields_content">
+	  		<div id="page1" class="page form-horizontal">
+	  			<div class="form-group">
+	  				<label class="control-label col-sm-1">Page 1</label>
+	  				<div class="col-sm-11">
+	  					<input type="text"/ placeholder="Page name (optional)" name="page_1" class="form-control page_name">
+	  				</div>
+	  			</div>
+	  			<ul>
+					<li class="drop_fields_here">Drop field types here</li>
+	  			</ul>
+	  		</div>
+	  		
+	  		<div class="page form-horizontal hidden">
+	  			<div class="form-group">
+	  				<label class="control-label col-sm-1">Page x</label>
+	  				<div class="col-sm-10">
+	  					<input type="text"/ placeholder="Page name (optional)" name="page_x" class="form-control page_name">
+	  				</div>
+	  				<%= link_to 'Remove'.html_safe, '#', :class=>'remove_page btn btn-danger' %>
+	  			</div>
+	  			<ul>
+	  			</ul>
+	  		</div>	 
+	  	</div>
+  		<a class="btn btn-success" id="add_page">Add page</a> 		
+	  		
+  		<div class="clear"></div> 
+	  </div>
+	  
+	  <div id="field_picker" class="well draggable connectedSortable als-container">
+	  	<div class="field_picker_content">
+		  	<h2>Available field types</h2>
+		  	
+		  	<span class="als-prev"><img src="<%= asset_path 'prev.png' %>" alt="prev" title="previous" /></span>
+			<div class="als-viewport">
+			<ul class="als-wrapper">
+				<li class="text_field als-item">
+					<%= render 'apps/forms/form_builder/text_field' %>
+				</li>
+				
+				<li class="textarea als-item">
+					<%= render 'apps/forms/form_builder/textarea' %>
+				</li>		
+				
+				<li class="select als-item">
+					<%= render 'apps/forms/form_builder/select' %>				
+				</li>
+				
+				<li class="radio als-item">
+					<%= render 'apps/forms/form_builder/radio' %>
+				</li>
+				<li class="checkbox als-item">
+					<%= render 'apps/forms/form_builder/checkbox' %>
+				</li>
+				
+				<li class="table_vertical als-item">
+					<%= render 'apps/forms/form_builder/table_vertical'%>
+				</li>
+				
+				<li class="table_horizontal als-item">
+					<%= render 'apps/forms/form_builder/table_horizontal'%>
+				</li>			
+				
+				<li class="page_content als-item">
+					<%= render 'apps/forms/form_builder/page_content'%>
+				</li>				
+			</ul>
+			</div>
+			<span class="als-next"><img src="<%= asset_path 'next.png' %>" alt="next" title="next" /></span>
+		
+			<div class="clear"></div> 
+		  </div>
+	  </div>
+  </div> 
+</div>
+	  	
+	  	
+<div class="modal fade" id="options_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"><span class="options_headings_label">Options</span></h4>
+      </div>
+      <div class="modal-body">
+        <form action="#" class="disabled_form form-horizontal">
+			<div class="form-group side-margin edited_options">
+				
+			</div>
+			
+			<div class="default_option hidden">
+				<input class="form-control option_name" name="label" type="text" placeholder="Name" />			
+			</div>
+			
+			<a href="#" class="btn btn-info btn-sm side-margin" id="add_option"><span class="glyphicon glyphicon-plus"></span> Add another</a>
+			<input type="hidden" id="modal_target" value=""/>
+        </form>
+      </div>
+      <div class="modal-footer">
+      	<div class="btn-group">
+	      	<button type="button" class="btn btn-success" id="options_save">Save</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  	  	
+

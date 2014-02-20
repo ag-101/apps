@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<h3><%= @apps_construct.name %></h3>
+
+<div class="form-horizontal form_show">
+<%= form_for @apps_construct, :url => "/apps/#{ @apps_construct.app_id }/forms/#{ @apps_construct.id }/save" do |f| %>
+	<% pages = JSON.parse @apps_construct.content %>
+	
+	<input type="hidden" name="content" id="prepared_submission">
+	
+  	<% if pages.count > 1 %>
+		<ul class="pagination">
+		  <li><a id="page_trigger_previous" class="page_trigger_pn disabled" href="#">&laquo;</a></li>
+		  <% current_page = params[:page] ? params[:page].to_i : 1 %>
+		  
+		  <% pages.each_with_index do |page, index| %>
+		  	<li <%= 'class=active disabled' if current_page == index+1 %>><a id="page_trigger<%= index+1 %>"  class="page_trigger" href="#"><%= index+1 %></a></li>
+		  <% end %>
+		  <li><a id="page_trigger_next" class="page_trigger_pn" href="#">&raquo;</a></li>
+		</ul>
+	<% end %>
+	
+	<% pages.each_with_index do |(page, page_contents), index| %>
+		<div class="page <%= 'slideUp' if index+1 != current_page && pages.count > 1 %>" id="page_<%= index+1 %>">
+			<%= "<h4>#{ page.split(":", 2)[1] }</h4>".html_safe unless page.blank? or page.split(":", 2)[1] == '' %>
+			
+
+			
+			<% page_contents.each do |page|%>
+				<% page.each do |item_type, properties| %>
+					<%= render "apps/forms/form_builder/#{item_type}", :properties => properties %>
+				<% end %>
+			<% end %>
+		</div>
+		
+	<% end %>
+	<div class="btn-group alert no-padding">
+		<input type="submit" class="validate_form btn btn-success <%= 'disabled' if !@apps_construct.published? or @apps_construct.disabled? %>" value="Save">	
+		<%= link_to '<span class="glyphicon glyphicon-pencil"></span> <span class="toggle_text">Edit form</span>'.html_safe, "/apps/#{ @apps_construct.app_id }/forms/#{ @apps_construct.id }/edit", :class => 'btn btn-warning' if check_role 'edit', @app.id and @apps_construct.id and !@apps_construct.published? %>
+		
+		<% if !@apps_construct.published? or @apps_construct.disabled?
+			cancel_link = app_forms_path
+		else
+			cancel_link = "/#{@app.slug}"
+		end
+		 %>
+		
+		<%= link_to '<span class="glyphicon glyphicon-ban-circle"></span> Cancel'.html_safe, cancel_link, :class=>'btn btn-default' %>
+	</div> 	
+	<% unless @apps_construct.published? %>
+		<div class="alert alert-info">
+			This form has not yet been published for use.  
+			<%= link_to 'Publish', publish_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-primary right', :confirm=>'Are you sure?  This cannot be undone, and once a form is published it cannot be edited.' %>
+		</div>
+	<% end %>
+	
+	<% if @apps_construct.disabled? %>
+		<div class="alert alert-danger">
+			This form is currently disabled.
+			<%= link_to 'Enable', swap_disabled_status_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-default btn-danger right' %>
+		</div>
+	<% end %>	
+<% end %>
+</div>

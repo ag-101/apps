@@ -1,0 +1,24 @@
+<% pages = JSON.parse @submission.construct.content %>
+<% response = JSON.parse @submission.content %>
+
+<h3><strong><%= @submission.construct.name %></strong> response by <strong><%= @submission.created_by.name %></strong>, <%= @submission.created_at.to_formatted_s(:long_ordinal)  %></h3>
+
+<%= link_to '<span class="glyphicon glyphicon-chevron-left"></span> Back to responses list'.html_safe, app_form_submissions_path(@app, @submission.construct), :class=>'btn btn-default' %>
+
+<div class="form-horizontal form_show">
+	<% pages.each_with_index do |(page, page_contents), index| %>
+		<div class="page" id="page_<%= index+1 %>">
+			<%= "<h4><strong>#{ index+1 }</strong>. #{ page.split(":", 2)[1] }</h4>".html_safe unless page.blank? %>
+			
+			<% retractions = 0 %>
+			<% page_contents.each_with_index do |page, page_index|%>
+				<% page.each do |item_type, properties| %>
+					<% properties['response'] = response["page_#{index+1}"][(page_index - retractions)][item_type] unless item_type == 'page_content' %>
+					<% retractions = retractions +1 if item_type == 'page_content'%>
+					<%= render "apps/forms/form_builder/#{item_type}", :properties => properties %>
+				<% end %>
+			<% end %>
+		</div>
+		
+	<% end %>
+</div>
