@@ -7,6 +7,7 @@ body {
   font-size: 12px;
   line-height: 24px;
   cursor:default;
+  overflow-x:hidden;
 }
 
 a {
@@ -74,7 +75,7 @@ hint{ border-left:1px solid #ccc; padding-left:5px; margin-left:5px; font-weight
 a .toggle_text{ display:inline-block; margin-bottom:-5px; width:0; overflow:hidden; -webkit-transition: all 0.1s ease-out;  }
 a:hover .toggle_text{ width:100px;  }
 
-
+.edit{ padding-bottom:150px; }
 #form_builder ul{  display:block; overflow:hidden; }
 #form_builder li{ position:relative; width:20%; float:left; display:block; margin:0; min-height:120px; padding:5px 0; border-radius:5px; }
 .edit #form_builder li:hover .li_handle{ background:#fff; cursor:move; }
@@ -224,3 +225,8 @@ padding: 0 10px 0 0;
 
 .error textarea{ border-color:#cc0000; }
 .radio .control-label, .checkbox .control-label{ font-weight:bold; }
+
+.edit_form_details{ position: absolute; bottom: 212px; left: 5px; }
+.edit_form_details .alert{ margin:0; }
+
+.next_prev{ padding:5px 0; }

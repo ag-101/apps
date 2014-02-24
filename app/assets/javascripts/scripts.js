@@ -92,6 +92,13 @@ function validate_form(form){
 		$(form).submit();
 	} else{
 		$('#notice').html('<div class="alert alert-danger">One or more mandatory fields have not been completed.</div>');
+		$('#notice .alert').slideUp(0, function(){
+			$(this).slideDown("fast", function(){
+				$(this).animate({opacity:1}, 3000, function(){
+					$(this).slideUp();
+				});
+			});
+		});
 		for (var i = 0; i < errors.length; i++) {
 			errors[i].addClass('field_with_errors').addClass('error');
 		};

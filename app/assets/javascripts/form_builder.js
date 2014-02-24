@@ -31,7 +31,7 @@ $(document).ready(function(){
 		if(!$(this).parents('li').hasClass('disabled')){
 			id = $('.pagination li.active a').prop('id').split('page_trigger');
 	
-			if($(this).prop('id') == 'page_trigger_previous'){
+			if($(this).hasClass('page_trigger_previous')){
 				display_page((parseFloat(id[1])-1), "fast");
 			} else{
 				display_page((parseFloat(id[1])+1), "fast");
@@ -161,19 +161,27 @@ $(document).ready(function(){
 });
 
 function display_page(page, speed){
+	
+	
 	$('.pagination li.active').removeClass('active');
 	$('#page_trigger'+page).parents('li').addClass('active');
 	
 	if(page == 1){
-		$('#page_trigger_previous').parents('li').addClass('disabled');
+		$('.page_trigger_previous').addClass('disabled');		
+		$('.page_trigger_previous').parents('li').addClass('disabled');
 	} else{
-		$('#page_trigger_previous').parents('li').removeClass('disabled');
+		$('.page_trigger_previous').removeClass('disabled');
+		$('.page_trigger_previous').parents('li').removeClass('disabled');
 	}
 	
 	if(page == $('.page').length){
-		$('#page_trigger_next').parents('li').addClass('disabled');
+		$('.validate_form').removeClass('hidden');
+		$('.page_trigger_next').addClass('disabled');
+		$('.page_trigger_next').parents('li').addClass('disabled');
 	} else{
-		$('#page_trigger_next').parents('li').removeClass('disabled');
+		$('.validate_form').addClass('hidden');
+		$('.page_trigger_next').removeClass('disabled');
+		$('.page_trigger_next').parents('li').removeClass('disabled');
 	}
 	$('.page').removeClass('hidden');
 	$('.page').slideUp(speed);

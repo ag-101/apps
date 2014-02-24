@@ -29,9 +29,9 @@
 			</td>
 			<td class='col-sm-2'>	
 				<% if apps_construct.disabled? %>
-					<%= link_to 'Disabled', swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-danger' %>
+					<%= link_to 'Hidden', swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-danger' %>
 				<% else %> 
-					<%= link_to 'Enabled', swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-success' %>
+					<%= link_to 'Visible', swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-success' %>
 				<% end %>				
 			</td>
 		</tr>

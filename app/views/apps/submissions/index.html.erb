@@ -1,9 +1,11 @@
 <h3><strong><%= @submissions.first.construct.name %></strong> responses</h3>
 
-<table class="table table-bordered table-striped">
+<%= paginate @submissions %>
+
+<table class="table table-bordered table-striped table-hover">
 	<tr>
-		<th>Created</th>
-		<th>Created by</th>
+		<th>Submitted</th>
+		<th>Submitted by</th>
 		<th></th>
 	</tr>
 <% @submissions.each do |submission| %>
@@ -21,3 +23,5 @@
 	</tr>
 <% end %>
 </table>
+
+<%= paginate @submissions %>
