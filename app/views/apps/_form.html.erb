@@ -2,7 +2,7 @@
 	<%= form_for(@app) do |f| %>
 	  <% if @app.errors.any? %>
 	    <div class="alert alert-danger" id="alert_message">
-	      <strong><%= pluralize(@app.errors.count, "error") %> prohibited this form from being saved</strong>
+	      <strong><%= t('error.count', :count => pluralize(@app.errors.count, "error")) %> </strong>
 	
 	      <ul>
 	      <% @app.errors.full_messages.each do |msg| %>
@@ -35,9 +35,9 @@
 		  </div>
 		
 		  <div class="actions btn-group">
-		    <%= f.submit 'Save', :class=>'btn btn-success'  %>
-		    <%= link_to '<span class="glyphicon glyphicon-wrench"></span> Build forms'.html_safe, app_forms_path(@app), :class=>'btn btn-info' if @app.id and check_role 'admin', @app.id %>
-		    <%= link_to '<span class="glyphicon glyphicon-ban-circle"></span> Cancel'.html_safe, @app.id ? app_path(@app.id) : apps_path, :class=>'btn btn-default' %>
+		    <%= f.submit t('text.save'), :class=>'btn btn-success'  %>
+		    <%= button_icon_link('wrench', t('text.build_forms'), app_forms_path(@app), 'info')  if @app.id and check_role 'admin', @app.id%>
+   		    <%= button_icon_link('ban-circle', t('text.cancel'), @app.id ? app_path(@app.id) : apps_path) %>
 		  </div>
 		<% end %>
 	</div>

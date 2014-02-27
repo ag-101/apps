@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140219111009) do
+ActiveRecord::Schema.define(:version => 20140227120514) do
 
   create_table "apps", :force => true do |t|
     t.string   "name"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20140219111009) do
     t.datetime "updated_at",                                :null => false
     t.integer  "published",     :limit => 1, :default => 0
     t.integer  "disabled",      :limit => 1, :default => 0
+    t.integer  "workflow_id"
   end
 
   create_table "homes", :force => true do |t|
@@ -82,5 +83,35 @@ ActiveRecord::Schema.define(:version => 20140219111009) do
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+
+  create_table "workflow_contents", :force => true do |t|
+    t.integer  "workflow_stage_id"
+    t.integer  "submission_id"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "status"
+    t.text     "comment"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "workflow_stages", :force => true do |t|
+    t.integer  "workflow_id"
+    t.integer  "stage"
+    t.integer  "send_to_id"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "workflows", :force => true do |t|
+    t.string   "name"
+    t.integer  "app_id"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
 end

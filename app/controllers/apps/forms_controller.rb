@@ -113,8 +113,6 @@ class Apps::FormsController < ApplicationController
       end
     end
   end
-  
-
 
   # PUT /apps/constructs/1
   # PUT /apps/constructs/1.json

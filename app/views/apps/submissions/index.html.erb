@@ -1,11 +1,12 @@
-<h3><strong><%= @submissions.first.construct.name %></strong> responses</h3>
+<h3><strong><%= @apps_construct.name %></strong> <%= t('text.submissions').downcase %></h3>
 
 <%= paginate @submissions %>
 
+<% if @submissions.count > 0 %>
 <table class="table table-bordered table-striped table-hover">
 	<tr>
-		<th>Submitted</th>
-		<th>Submitted by</th>
+		<th><%= t('text.submitted') %></th>
+		<th><%= t('text.submitted_by') %></th>
 		<th></th>
 	</tr>
 <% @submissions.each do |submission| %>
@@ -17,11 +18,17 @@
 			<%= submission.created_by.name %>
 		</td>
 		<td>
-			<%= link_to 'View response', app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-default btn-xs' %>
+			<%= link_to t('text.view_response'), app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-default btn-xs' %>
 
 		</td>
 	</tr>
 <% end %>
 </table>
-
+<% else %>
+	<%= t('text.no_responses')%>
+<% end %>
 <%= paginate @submissions %>
+<br/>
+<%= button_icon_link 'chevron-left', t('text.submissions_list'), app_submissions_select_path(@app) %>
+
+

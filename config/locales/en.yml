@@ -2,6 +2,12 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  helpers:
+    label:
+      app:
+        name: 'Name'
+        app_type: 'Application type'
+        description: 'Brief description'
   views:
     pagination:
       first: "&laquo;"
@@ -9,3 +15,72 @@ en:
       previous: "&lsaquo;"
       next: "&rsaquo;"
       truncate: "..."
+  time:
+    created_by_html: 'Created <strong>%{time}</strong> by <a href="%{email}">%{name}</a>'
+    updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="%{email}">%{name}</a>' 
+  text:
+    admin: Admin
+    save: Save
+    edit: Edit
+    new: New
+    edit_page_content: Edit page content
+    build_forms: Build forms
+    cancel: Cancel
+    run: Run
+    delete: Delete
+    permissions: Permissions
+    build_forms: Build forms
+    applications: Applications
+    home: Home
+    apps: Apps
+    app: App
+    role_name: Role name
+    users_assigned_html: Users assigned to role <hint>Click a user to remove their role</hint>
+    assign_a_user: Assign a user
+    forms: Forms
+    responses: Responses
+    workflows: Workflows
+    workflow: Workflow
+    previous: Previous
+    submissions: Responses
+    submissions_list: Responses list
+    submission: Response
+    next: Next
+    publish: Publish
+    published: Published
+    enable: Show
+    disable: Hide
+    enabled: Visible
+    disabled: Hidden
+    use_this_form: Use this form
+    preview: Preview
+    not_yet_published: This form has not yet been published for use.
+    currently_disabled: This form is currently hidden.
+    submitted: Submitted
+    submitted_by: Submitted by
+    view_response: View response
+    global: Global
+    completed: Completed
+    permissions_text_html:   "
+    <ul>
+      <li>An <strong>admin</strong> role can also <strong>create</strong>, <strong>edit</strong>, <strong>delete</strong> and <strong>view</strong> even if the user isn't assigned those roles directly.</li>  
+      <li>You can't remove an <strong>admin</strong> role from yourself - because that would be stupid and you wouldn't be able to return to this page.</li>
+      <li>The other roles are independent - so adding <strong>edit</strong> won't let them view the app until you give them <strong>view</strong> permission too.</li>
+    </ul>"
+    new_workflow: New workflow
+    new_stage: New stage
+    no_workflows: There are no workflows yet for this app. 
+    remove_stage_html: <div class="glyphicon glyphicon-remove"></div>
+    no_forms: There are no forms in this project to be able to view responses.
+    no_responses: There have been no responses for this form.
+    used: Used on
+  confirm:
+    delete_app: Delete '%{app_name}' application?
+    delete_form: Delete '%{form_name}' form?
+    publish_form: Are you sure?  This cannot be undone, and once a form is published it cannot be edited.
+    role_remove: Are you sure you want to take '%{role}' role take away from %{user}?
+  error:
+    count: '%{count} prohibited this form from being saved'
+  arrows:
+    down_html: '<div class="workflow_arrow"><div class="glyphicon glyphicon-arrow-down"></div></div>'
+    

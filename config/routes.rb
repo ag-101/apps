@@ -3,9 +3,15 @@ Forms::Application.routes.draw do
   
   resources :apps do
     scope module: :apps do
+      resources :workflows do
+        resources :workflow_stages
+      end      
+      
       match 'submissions_select', to: 'submissions'
       resources :forms do
-        resources :submissions
+        resources :submissions do
+          resources :workflow_content
+        end
         get 'swap_disabled_status', :on => :member
         get 'publish', :on => :member
         get 'new_submission', :on => :member
@@ -14,6 +20,8 @@ Forms::Application.routes.draw do
     end
   end
   
+
+  
   get '/roles', to: 'roles#index'
   get '/roles/new', to: 'roles#new'
   
@@ -21,7 +29,6 @@ Forms::Application.routes.draw do
   match '/role/:id', to: 'roles#index_app', as: 'role'
    
   match '/apps/new', to: 'apps#new' 
-  match '/apps/:id/home', to: 'apps#home', as: 'app_home'
 
   
 

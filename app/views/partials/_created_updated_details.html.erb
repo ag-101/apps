@@ -1,7 +1,6 @@
 <div class="created_updated_details alert">
-	Created <strong><%= time_tag(item.created_at, :format=>'%d/%m/%y %R') %></strong> by <strong><%= link_to item.created_by.name, "mailto:#{ item.created_by.email }" %></strong>
+	<%= t('time.created_by_html', :time => time_tag(item.created_at, :format=>'%d/%m/%y %R'), :name => item.created_by.name, :email => item.created_by.email)%>	
 	<% if item.updated_at != item.created_at %>
-	<br/>
-	Updated <strong><%= time_tag(item.updated_at, :format=>'%d/%m/%y %R') %></strong> by <strong><%= link_to item.updated_by.name, "mailto:#{ item.updated_by.email }" %></strong>
+		<%= t('time.updated_by_html', :time => time_tag(item.updated_at, :format=>'%d/%m/%y %R'), :name => item.updated_by.name, :email => item.updated_by.email)%>
 	<% end %>
 </div>

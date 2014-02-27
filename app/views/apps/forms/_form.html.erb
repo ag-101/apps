@@ -1,5 +1,5 @@
 <div class="edit">
-<%= form_for @apps_construct, :url => (@apps_construct.id?) ? "/apps/#{ @apps_construct.app_id }/forms/#{ @apps_construct.id }" : app_forms_path do |f| %>
+<%= form_for @apps_construct, :url => (@apps_construct.id?) ? app_form_path(@app, @apps_construct) : app_forms_path do |f| %>
   <% if @apps_construct.errors.any? %>
     <div class="alert alert-danger" id="alert_message">
       <strong><%= pluralize(@apps_construct.errors.count, "error") %> prohibited this apps_construct from being saved:</strong>

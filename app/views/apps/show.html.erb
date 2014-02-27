@@ -1,25 +1,42 @@
-<div class="alert alert-success"><strong><%= app_types.select{ |x| x[1] == @app.app_type }.first.first %></strong> application</div>
-<%= @app.description %>
+<% @home.each do |home| %>
+	<%= home.content.html_safe %>
+	<%= button_closer_link 'pencil', t('text.edit_page_content'), edit_home_path(home), 'warning btn-xs right' if check_role 'edit', @app.id %>
+<% end %>
+
+
+
+
+
+
+<% if check_role 'admin', @app.id %>
 <br/><br/>
-Direct link:
-<input type="text" id="distribute_url" value="<%= "#{root_url}#{@app.name.parameterize}" %>">
-<br/><br/>
 
-
-<%= render :partial => '/partials/created_updated_details', :locals => { :item => @app } %>
-
-<br/><br/>
-
-
-<%= link_to '<span class="glyphicon glyphicon-chevron-left"></span> Applications'.html_safe, apps_path, :class=>'btn btn-default' %>
-
-<div class="btn-group">
-	<%= link_to '<span class="glyphicon glyphicon-play"></span> <span class="toggle_text">Run</span>'.html_safe, "/#{ @app.name.parameterize }", :class=>'btn btn-success' %>
-	<%= link_to '<span class="glyphicon glyphicon-pencil"></span> <span class="toggle_text">Edit</span>'.html_safe, edit_app_path(@app), :class=>'btn btn-warning' if check_role 'admin', @app.id %>
-	<%= link_to '<span class="glyphicon glyphicon-remove"></span> <span class="toggle_text">Delete</span>'.html_safe, {:action => 'destroy', :id => @app.id }, :method => :delete, :class=>'btn btn-danger', :confirm => 'Are you sure?' if check_role 'delete', @app.id %>
-</div>
-
-<div class="btn-group">
-	<%= link_to '<span class="glyphicon glyphicon-wrench"></span> <span class="toggle_text">Build forms</span>'.html_safe, app_forms_path(@app), :class=>'btn btn-info' if check_role 'admin', @app.id %>
-	<%= link_to '<span class="glyphicon glyphicon-thumbs-up"></span> <span class="toggle_text">Permissions</span>'.html_safe, role_path(@app.id), :class=>'btn btn-primary' if check_role 'admin', @app.id %>
-</div>
+	<div class="panel panel-default">
+		<div class="panel-heading"><h3 class="panel-title">Admin</h3></div>
+		<div class="panel-body">
+			<div class="alert alert-success"><strong><%= app_types.select{ |x| x[1] == @app.app_type }.first.first %></strong> application</div>
+			<%= "<div class='alert alert-info'>#{@app.description}</div>".html_safe if @app.description? %>
+			
+			<div class="alert alert-warning">
+				<input type="text" id="distribute_url" value="<%= "#{root_url}#{@app.name.parameterize}" %>">
+			</div>
+			
+			<%= render :partial => '/partials/created_updated_details', :locals => { :item => @app } %>
+			
+			<%= button_icon_link 'chevron-left', t('text.applications'), apps_path %>
+			
+			<div class="btn-group">
+				<%= button_closer_link 'play', t('text.run'), "/#{ @app.name.parameterize }", 'success' %>
+				<%= button_closer_link 'pencil', t('text.edit'), edit_app_path(@app), 'warning' if check_role 'admin', @app.id %>
+				<%= button_closer_link 'remove', t('text.delete'), {:action => 'destroy', :id => @app.id }, 'danger', { :method => :delete, :confirm => "#{ t('confirm.delete_app', :app_name => @app.name)}" } if check_role 'delete', @app.id %>	
+			</div>
+			
+			<div class="btn-group">
+				<%= button_closer_link 'wrench', t('text.build_form'), app_forms_path(@app) if check_role 'admin', @app.id %>	
+				<%= button_closer_link 'stats', t('text.responses'), app_submissions_select_path(@app) if check_role 'admin', @app.id %>
+				<%= button_closer_link 'thumbs-up', t('text.permissions'), role_path(@app) if check_role 'admin', @app.id %>
+				<%= button_closer_link 'tasks', t('text.workflows'), app_workflows_path(@app) if check_role 'admin', @app.id %>
+			</div>
+		</div>
+	</div>
+<% end %>

@@ -1,0 +1,24 @@
+<div class="form-horizontal">
+
+	<%= form_for @workflow_stage, :url => (@workflow_stage.id?) ? app_workflow_stage_path(@app, @workflow, @workflow_stage) : app_workflow_workflow_stages_path do |f| %>
+	  <% if @workflow_stage.errors.any? %>
+    	<div class="alert alert-danger" id="alert_message">
+	      <strong><%= t 'error.count', :count => pluralize(@workflow_stage.errors.count, "error") %></strong>
+	
+	      <ul>
+	      <% @workflow_stage.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+	
+	  <div class="form-group">
+	    <%= f.label :send_to_id, :class=>'col-sm-2 control-label' %>
+	    <div class="col-sm-10">
+			<%= collection_select(:workflow_stage, :send_to_id, User.where('email IS NOT NULL').order('name'), :id, :name, {:include_blank=>''},:class=>'form-control') %>
+	    </div>
+	  </div>
+	  <%= f.submit "Save", :class=>'btn btn-success' %>
+	<% end %>
+</div>

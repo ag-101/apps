@@ -14,24 +14,26 @@
 
 			<td class="col-sm-4">
 				<div class="btn-group">
-					<%= link_to "<span class='glyphicon glyphicon-play'></span> <span class='toggle_text'>#{ apps_construct.published? ? 'Use this form' : 'Preview' }</span>".html_safe, app_form_path(@app, apps_construct), :class => 'btn btn-success' %>
-					<%= link_to '<span class="glyphicon glyphicon-pencil"></span> <span class="toggle_text">Edit form</span>'.html_safe, edit_app_form_path(@app, apps_construct), :class => "btn btn-warning #{ 'disabled' if apps_construct.published? }" if check_role 'edit', @app.id and apps_construct.id %>
-					<%= link_to '<span class="glyphicon glyphicon-remove"></span> <span class="toggle_text">Delete form</span>'.html_safe, {:action => 'destroy', :id => apps_construct.id }, :method => :delete, :class=>'btn btn-danger', :confirm => 'Are you sure?' if check_role 'delete', @app.id and apps_construct.id %>
+					<%= button_closer_link 'play', apps_construct.published? ? t('text.use_this_form') : t('text.preview'), app_form_path(@app, apps_construct), 'success'%>
+					<%= button_closer_link 'pencil', t('text.edit'), edit_app_form_path(@app, apps_construct), "warning #{ 'disabled' if apps_construct.published? }" if check_role 'edit', @app.id and apps_construct.id %>
+					<%= button_closer_link 'remove', t('text.delete'), {:action => 'destroy', :id => apps_construct.id }, "danger #{ 'disabled' if apps_construct.published? }", :method => :delete, :confirm => "#{t('confirm.delete_form', :form_name => apps_construct.name)}" if check_role 'delete', @app.id and apps_construct.id %>
+					
+					
 				</div>
 				<%= link_to pluralize(apps_construct.submission.count, 'response'), app_form_submissions_path(@app, apps_construct), :class=>'btn btn-default' if apps_construct.published? %>
 			</td>
 			<td class='col-sm-2'>
 				<% if apps_construct.published? %>
-					<%= link_to 'Published', '#', :class=>'btn btn-primary disabled' %>
+					<%= link_to t('text.published'), '#', :class=>'btn btn-primary disabled' %>
 				<% else %> 
-					<%= link_to 'Publish', publish_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-primary', :confirm=>'Are you sure?  This cannot be undone, and once a form is published it cannot be edited.' %>
+					<%= link_to t('text.publish'), publish_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-primary', :confirm=>"#{ t('confirm.publish_form')}" %>
 				<% end %>
 			</td>
 			<td class='col-sm-2'>	
 				<% if apps_construct.disabled? %>
-					<%= link_to 'Hidden', swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-danger' %>
+					<%= link_to t('text.disabled'), swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-danger' %>
 				<% else %> 
-					<%= link_to 'Visible', swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-success' %>
+					<%= link_to t('text.enabled'), swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-success' %>
 				<% end %>				
 			</td>
 		</tr>
@@ -39,6 +41,8 @@
 </table>
 
 <br/></br/>
-<%= link_to '<span class="glyphicon glyphicon-chevron-left"></span> Back'.html_safe, app_path(@app), :class=>'btn btn-default' %>
-<%= link_to '<span class="glyphicon glyphicon-plus"></span> <span class="toggle_text">New form</span>'.html_safe, new_app_form_path, :class=>'btn btn-primary' %>
+
+<%= button_icon_link 'chevron-left', 'Back', app_path(@app) %>
+
+<%= button_closer_link 'plus', t('text.new_form'), new_app_form_path, 'success' %>
 

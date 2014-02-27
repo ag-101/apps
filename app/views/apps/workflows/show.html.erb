@@ -1,0 +1,41 @@
+<h3><strong><%= @workflow.name %></strong> <%= t('text.workflow').downcase %></h3>
+
+<div class="workflow_stage_container">
+	<div class="workflow_stage">
+		Form submitted
+	</div>
+	
+	<%= t('arrows.down_html')%>
+</div>
+
+<% @workflow_stages.each do |workflow_stage| %>
+	<div class="workflow_stage_container">
+		<div class="workflow_stage">
+			Send to <%= mail_to workflow_stage.send_to.email, workflow_stage.send_to.name %>
+			<%= link_to t('text.remove_stage_html'), app_workflow_workflow_stage_path(@app, @workflow, workflow_stage), :method => :delete, :class=>'remove_stage btn btn-danger btn-xs' %>
+		</div>
+		
+		<%= t('arrows.down_html')%>
+	</div>
+<% end %>
+
+
+
+
+<div class="workflow_stage_container" id="final_stage">
+	<div class="workflow_stage">
+		<%= t('text.completed') %>
+	</div>
+</div>
+
+<div class="workflow_stage_container hidden">
+	<div class="workflow_stage">
+	</div>
+	<%= t('arrows.down_html')%>
+</div>
+
+
+<%= button_icon_link 'chevron-left', t('text.back'), app_workflows_path(@app)%>
+<span id="new_stage">
+	<%= button_icon_link 'plus', t('text.new_stage'), new_app_workflow_workflow_stage_path(@app, @workflow), 'success' %>
+</span>

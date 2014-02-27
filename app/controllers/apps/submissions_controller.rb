@@ -6,6 +6,7 @@ class Apps::SubmissionsController < ApplicationController
   def index
     @submissions = Submission.where('construct_id = ?', params[:form_id]).order('created_at DESC').page(params[:page]).per(10)
     @app = App.find_by_id(params[:app_id])
+    @apps_construct = Construct.find_by_id(params[:form_id])
 
     respond_to do |format|
       format.html

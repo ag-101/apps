@@ -10,6 +10,9 @@ class User < ActiveRecord::Base
 #  after_save :get_ldap_info
   has_and_belongs_to_many :roles
   has_many :apps
+  has_many :workflow_content
+  has_many :workflow_stages
+  has_many :workflows
   
   def role?(role)
       return !!self.roles.find_by_name(role.to_s.camelize)

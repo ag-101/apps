@@ -17,8 +17,22 @@ $(document).ready(function(){
 		});
 	});
 	
+	$('body').on('change', '#workflow_stage_send_to_id', function(){
+		$(this).parents('form').submit();
+	});
+	
 	$('.toggle_trigger').on('click', function(){
 		$('#toggle_'+$(this).prop('id')).slideToggle();
+	});
+	
+	$('body').on('click', '.remove_stage', function(e){
+		ajax_call($(this).prop('href'), 'json', 'post', {"_method":"delete"}, $(this).parents('.workflow_stage_container'), slide_up_remove);
+		return false;
+	});
+	
+	$('body').on('click', '#new_stage a', function(e){
+		ajax_call($(this).prop('href'), 'html', 'get', '', $(this), load_form);
+		e.preventDefault();
 	});
 	
 	$('.form_change select').on('change', function(){
@@ -105,6 +119,33 @@ function validate_form(form){
 		page_id = errors[0].parents('.page').prop('id').split('page_');
 		display_page(page_id[1], 100);
 	}
+}
+
+function ajax_call(url, dataType, type, data, object, callback){
+	$.ajax({
+		  url: url,
+		  dataType: dataType,
+		  type: type,
+		  data: data,
+		  async: false
+		}).success(function(response, status) {
+			callback(object, response, status);
+		}).error(function(response, status){
+			alert("There was an error.");
+		});
+}
+
+function load_form(object, response, status){
+	$('.workflow_stage_container.hidden').clone().insertBefore($('#final_stage')).removeClass('hidden').slideUp(0, function(){
+		$(this).find('.workflow_stage').html(response);
+		$(this).slideDown();
+	});
+}
+
+function slide_up_remove(object, response, status){
+	object.slideUp("fast", function(){
+		 $(this).remove(); 
+	 });
 }
 
 function show_admin_buttons(speed){

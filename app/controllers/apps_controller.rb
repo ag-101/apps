@@ -18,13 +18,10 @@ class AppsController < ApplicationController
     end
   end
     
-  def home
-    home_checks params[:url]
-  end
-
   # GET /apps/1
   # GET /apps/1.json
   def show
+    home_checks params[:url]
     @app = App.find_by_id(params[:id])
     if !@app
       redirect_to root_path
@@ -38,20 +35,7 @@ class AppsController < ApplicationController
   
   def route  
     home_checks params[:url]
-
-#    unless @app
-#      url = URI::parse(request.original_url).path.split('/')    
-#      @app = App.find_by_id(url[2])
-#      @apps_construct = Construct.find_by_id(url[4])
-#      
-#      @construct = @apps_construct.content
-#           
-#      @action = 'show' if @app and @apps_construct
-#    end
-
     render :action => @action
-
-     # redirect_to root_path, :notice => 'Could not find the page you were looking for'
   end
 
   # GET /apps/new

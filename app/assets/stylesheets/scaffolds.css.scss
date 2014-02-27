@@ -49,6 +49,8 @@ h1 a{ color:#999; }
 .nav-tabs .active a, .nav-tabs a:hover{ background:#fff !important; box-shadow:0px 4px 6px #ccc !important; border-color:#ccc !important; border-bottom:1px solid #fff !important; }
 .nav-tabs .alt{ opacity:0.5; }
 .nav-tabs{ border-bottom:1px solid #ccc; }
+.nav-tabs .active a{  cursor:pointer !important; }
+.nav-tabs .active a:hover{ box-shadow:0px 0px 12px #999 !important; }
 
 #user{ position:absolute; top:5px; right:18px;  }
 #content{ margin:0 20px; min-height:600px; padding:20px; background:#fff; position:relative;  box-shadow:0px 5px 5px #ccc; border:1px solid #ccc; border-top:none; }
@@ -229,4 +231,23 @@ padding: 0 10px 0 0;
 .edit_form_details{ position: absolute; bottom: 212px; left: 5px; }
 .edit_form_details .alert{ margin:0; }
 
+.form-status-message{ margin-top:10px; }
+.form-status-message .btn.right{ margin-top:-5px; }
+
 .next_prev{ padding:5px 0; }
+
+.workflow_stage{ margin-top:-7px; position:relative; border:1px solid #ccc; padding:20px; width:50%; margin:auto; text-align:center; border-radius:5px; background:#fcfcfc;  }
+.workflow_arrow{ text-align:center; }
+.workflow_arrow .glyphicon-arrow-down{ font-size:3.2em; padding-top:5px; color:#009900;  }
+.workflow_actions{ text-align:center; clear:both;  }
+
+.remove_stage { position:absolute; top:2px; right:2px; }
+
+.stage_number{ position:absolute; left:3px; top:3px; color:#999; }
+
+.workflow_stage .form-group{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.workflow_stage .btn-success{ display:none; }
+
+
+ol.breadcrumb{ border-bottom:1px solid #efefef; background:none; margin:-20px -20px 20px -20px; border-radius:0px; }
+.breadcrumb .current_page{ color:#666; cursor:default; }

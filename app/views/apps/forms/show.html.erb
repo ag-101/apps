@@ -35,13 +35,15 @@
 		
 	<% end %>
 	
+	<% if pages.count > 1 %>
 	<div class="next_prev">
-		<a class="page_trigger_previous page_trigger_pn btn-default btn" href="#">&laquo; Previous</a>
-		<a class="page_trigger_next page_trigger_pn right btn btn-primary" href="#">Next &raquo;</a>		
+		<a class="page_trigger_previous page_trigger_pn btn-default btn disabled" href="#">&laquo; <%= t('text.previous')%></a>
+		<a class="page_trigger_next page_trigger_pn right btn btn-primary" href="#"><%= t('text.next')%> &raquo;</a>		
 	</div>
+	<% end %>
 	
 	<div class="actions clear">
-		<input type="submit" class="right validate_form btn btn-success hidden <%= 'disabled' if !@apps_construct.published? or @apps_construct.disabled? %>" value="Save">			
+		<input type="submit" class="right validate_form btn btn-success <%= 'hidden' unless pages.count == 1 %> <%= 'disabled' if !@apps_construct.published? or @apps_construct.disabled? %>" value="<%= t('text.save')%>">			
 		<% if !@apps_construct.published? or @apps_construct.disabled?
 			cancel_link = app_forms_path
 		else
@@ -49,20 +51,20 @@
 		end
 		 %>
 		
-		<%= link_to '<span class="glyphicon glyphicon-ban-circle"></span> Cancel'.html_safe, cancel_link, :class=>'btn btn-default' %>
-		<%= link_to '<span class="glyphicon glyphicon-pencil"></span> <span class="toggle_text">Edit form</span>'.html_safe, "/apps/#{ @apps_construct.app_id }/forms/#{ @apps_construct.id }/edit", :class => 'btn btn-warning' if check_role 'edit', @app.id and @apps_construct.id and !@apps_construct.published? %>
+		<%= button_icon_link 'ban-circle', t('text.cancel'), cancel_link %>
+		<%= button_closer_link 'pencil', t('text.edit'), edit_app_form_path(@app, @apps_construct), 'warning' if check_role 'edit', @app.id and @apps_construct.id and !@apps_construct.published? %>
 	</div> 	
 	<% unless @apps_construct.published? %>
-		<div class="alert alert-info">
-			This form has not yet been published for use.  
-			<%= link_to 'Publish', publish_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-primary right', :confirm=>'Are you sure?  This cannot be undone, and once a form is published it cannot be edited.' %>
+		<div class="alert alert-info form-status-message">
+			<%= t('text.not_yet_published') %>
+			<%= link_to t('text.publish'), publish_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-primary right', :confirm=>"#{ t('confirm.publish_form')}" %>
 		</div>
 	<% end %>
 	
 	<% if @apps_construct.disabled? %>
-		<div class="alert alert-danger">
-			This form is currently disabled.
-			<%= link_to 'Enable', swap_disabled_status_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-default btn-danger right' %>
+		<div class="alert alert-danger form-status-message">
+			<%= t('text.currently_disabled')%>
+			<%= link_to t('text.enable'), swap_disabled_status_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-default btn-danger right' %>
 		</div>
 	<% end %>	
 <% end %>

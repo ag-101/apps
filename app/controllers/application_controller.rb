@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
     
     if @app
       @home = Home.where('app_id = ?', @app.id)      
-      @action = 'home'
+      @action = 'show'
     end
   end  
   

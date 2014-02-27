@@ -13,5 +13,5 @@ class App < ActiveRecord::Base
   validates :name, length: { minimum: 2 }, presence: true, uniqueness: true
   validates :app_type, presence: true
 
-
+  has_many :workflows
 end

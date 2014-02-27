@@ -10,4 +10,5 @@ class Construct < ActiveRecord::Base
   
   has_many :submission, :dependent => :destroy
   
+  belongs_to :workflow
 end
