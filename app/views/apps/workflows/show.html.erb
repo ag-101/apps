@@ -1,7 +1,8 @@
 <h3><strong><%= @workflow.name %></strong> <%= t('text.workflow').downcase %></h3>
 
 <div class="workflow_stage_container">
-	<div class="workflow_stage">
+	<div class="workflow_stage <%= 'completed' if params[:highlight] %>">
+		<span class="glyphicon glyphicon-ok"></span>
 		Form submitted
 	</div>
 	
@@ -10,9 +11,12 @@
 
 <% @workflow_stages.each do |workflow_stage| %>
 	<div class="workflow_stage_container">
-		<div class="workflow_stage">
+		<div class="workflow_stage <%= 'completed' if params[:highlight] and workflow_stage.stage < params[:highlight].to_i %> <%= 'highlighted' if params[:highlight] and workflow_stage.stage == params[:highlight].to_i %>">
+			
+			<span class="glyphicon glyphicon-ok"></span>
+			
 			Send to <%= mail_to workflow_stage.send_to.email, workflow_stage.send_to.name %>
-			<%= link_to t('text.remove_stage_html'), app_workflow_workflow_stage_path(@app, @workflow, workflow_stage), :method => :delete, :class=>'remove_stage btn btn-danger btn-xs' %>
+			<%= link_to t('text.remove_stage_html'), app_workflow_workflow_stage_path(@app, @workflow, workflow_stage), :method => :delete, :class=>'remove_stage btn btn-danger btn-xs' unless @workflow.workflow_contents.count > 0 %>
 		</div>
 		
 		<%= t('arrows.down_html')%>
@@ -23,7 +27,8 @@
 
 
 <div class="workflow_stage_container" id="final_stage">
-	<div class="workflow_stage">
+	<div class="workflow_stage <%= 'completed' if params[:highlight] and params[:highlight].to_i > @workflow_stages.count %>">
+		<span class="glyphicon glyphicon-ok"></span>
 		<%= t('text.completed') %>
 	</div>
 </div>
@@ -37,5 +42,5 @@
 
 <%= button_icon_link 'chevron-left', t('text.back'), app_workflows_path(@app)%>
 <span id="new_stage">
-	<%= button_icon_link 'plus', t('text.new_stage'), new_app_workflow_workflow_stage_path(@app, @workflow), 'success' %>
+	<%= button_icon_link 'plus', t('text.new_stage'), new_app_workflow_workflow_stage_path(@app, @workflow), 'success' unless @workflow.workflow_contents.count > 0 %>
 </span>

@@ -1,7 +1,7 @@
 class Apps::WorkflowsController < ApplicationController
 
   before_filter :authenticate_user!
-    before_filter :find_app 
+  before_filter :find_app 
   
 #  before_filter lambda { check_permission('create') }, :only => [:new]
 #  before_filter lambda { check_permission('edit') }, :only => [:edit]
@@ -21,7 +21,8 @@ class Apps::WorkflowsController < ApplicationController
   
   def new
     @workflow = Workflow.new
-    
+    @new_workflow = true
+  
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @workflow }

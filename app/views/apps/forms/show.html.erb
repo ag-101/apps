@@ -21,16 +21,17 @@
 	<% end %>
 	
 	<% pages.each_with_index do |(page, page_contents), index| %>
-		<div class="page <%= 'slideUp' if index+1 != current_page && pages.count > 1 %>" id="page_<%= index+1 %>">
-			<%= "<h4>#{ page.split(":", 2)[1] }</h4>".html_safe unless page.blank? or page.split(":", 2)[1] == '' %>
+		<div class="panel <%= 'panel-default' if pages.count > 1 %> page <%= 'slideUp' if index+1 != current_page && pages.count > 1 %>" id="page_<%= index+1 %>">
+			<%= "<div class='panel-heading'><h3 class='panel-title'>#{ page.split(":", 2)[1] }</h4></div>".html_safe unless page.blank? or page.split(":", 2)[1] == '' %>
 			
 
-			
-			<% page_contents.each do |page|%>
-				<% page.each do |item_type, properties| %>
-					<%= render "apps/forms/form_builder/#{item_type}", :properties => properties %>
+			<div class="panel-body">
+				<% page_contents.each do |page|%>
+					<% page.each do |item_type, properties| %>
+						<%= render "apps/forms/form_builder/#{item_type}", :properties => properties %>
+					<% end %>
 				<% end %>
-			<% end %>
+			</div>
 		</div>
 		
 	<% end %>
@@ -57,7 +58,7 @@
 	<% unless @apps_construct.published? %>
 		<div class="alert alert-info form-status-message">
 			<%= t('text.not_yet_published') %>
-			<%= link_to t('text.publish'), publish_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-primary right', :confirm=>"#{ t('confirm.publish_form')}" %>
+			<%= link_to t('text.publish'), publish_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-primary right', :confirm=>"#{ t('confirm.publish_form_html')}" %>
 		</div>
 	<% end %>
 	

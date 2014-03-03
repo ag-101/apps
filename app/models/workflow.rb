@@ -5,6 +5,8 @@ class Workflow < ActiveRecord::Base
   belongs_to :created_by, :class_name => "User"
   belongs_to :updated_by, :class_name => "User"     
   
+  has_many :workflow_contents, through: :workflow_stages
+  
   validates :name, length: { minimum: 2 }, presence: true, uniqueness: true
   belongs_to :app
   has_many :constructs

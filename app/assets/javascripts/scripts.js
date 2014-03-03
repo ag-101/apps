@@ -11,6 +11,14 @@ $(document).ready(function(){
 		});
 	});
 	
+	
+	$('.slide_up').slideUp(0);
+	
+	$('body').on('click', '.workflow_item', function(){
+		$(this).parents('.col-sm-4').find('.workflow_item.slide_up').slideDown();
+		$(this).removeClass('toggler');
+	});
+	
 	$('.banner_message').on('click', function(){
 		$(this).stop().slideUp(600, function(){
 			$(this).remove();
@@ -72,6 +80,7 @@ $(document).ready(function(){
 
 function validate_form(form){
 	$('.error.field_with_errors').removeClass('error').removeClass('field_with_errors');
+	$('.panel-danger').removeClass('panel-danger').addClass('panel-default');
 	$('#notice').html('');
 	
 	var form_valid = true;
@@ -115,6 +124,7 @@ function validate_form(form){
 		});
 		for (var i = 0; i < errors.length; i++) {
 			errors[i].addClass('field_with_errors').addClass('error');
+			errors[i].parents('.panel-default').removeClass('panel-default').addClass('panel-danger');
 		};
 		page_id = errors[0].parents('.page').prop('id').split('page_');
 		display_page(page_id[1], 100);

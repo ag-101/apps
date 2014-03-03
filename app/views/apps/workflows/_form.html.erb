@@ -1,6 +1,8 @@
 <div class="form-horizontal">
 
-	<%= form_for @workflow, :url => (@workflow.id?) ? app_workflow_path(@app, @workflow) : app_workflows_path do |f| %>
+	<%#= form_for @workflow, :url => (@workflow.id?) ? app_workflow_path(@app, @workflow) : app_workflows_path(@app) do |f| %>
+	<%= form_for [@app, @workflow], :url => app_workflows_path(@app) do |f| %>
+
 	  <% if @workflow.errors.any? %>
     	<div class="alert alert-danger" id="alert_message">
 	      <strong><%= t 'error.count', :count => pluralize(@workflow.errors.count, "error") %></strong>

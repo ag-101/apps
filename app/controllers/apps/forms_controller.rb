@@ -25,12 +25,19 @@ class Apps::FormsController < ApplicationController
 
     if @submission.construct.published?
       if @submission.save
-        redirect_to app_home_path(params[:app_id]), notice: "Your response to form '#{ @submission.construct.name }' has been saved"
+        
+        additional_info = ''
+        
+        if @submission.construct.app.app_type == 2    # start workflow
+          additional_info = create_workflow_stage_content(@submission)
+        end
+        
+        redirect_to app_path(params[:app_id]), notice: "Your response to form '#{ @submission.construct.name }' has been saved.  #{additional_info}"
       else
-        redirect_to app_home_path(params[:app_id]), alert: "There has been an error saving your response"
+        redirect_to app_path(params[:app_id]), alert: "There has been an error saving your response"
       end
     else
-       redirect_to app_home_path(params[:app_id]), alert: "The form '#{ @submission.construct.name }' has not yet been published."  
+       redirect_to app_path(params[:app_id]), alert: "The form '#{ @submission.construct.name }' has not yet been published."  
     end
   end
   
@@ -55,7 +62,7 @@ class Apps::FormsController < ApplicationController
   # GET /apps/constructs
   # GET /apps/constructs.json
   def index
-    @apps_constructs = Construct.where("app_id = #{ params[:app_id] }")
+    @apps_constructs = Construct.where("app_id = #{ params[:app_id] }").order('name')
     
 
     respond_to do |format|
@@ -82,6 +89,7 @@ class Apps::FormsController < ApplicationController
   # GET /apps/constructs/new.json
   def new
     @apps_construct = Construct.new
+    @new_form = true
 
     respond_to do |format|
       format.html # new.html.erb

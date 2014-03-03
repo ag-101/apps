@@ -16,20 +16,21 @@ en:
       next: "&rsaquo;"
       truncate: "..."
   time:
-    created_by_html: 'Created <strong>%{time}</strong> by <a href="%{email}">%{name}</a>'
-    updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="%{email}">%{name}</a>' 
+    created_by_html: 'Created <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>'
+    updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>' 
   text:
     admin: Admin
     save: Save
     edit: Edit
     new: New
+    name: Name
+    created: Created
+    created_by: Created by
     edit_page_content: Edit page content
-    build_forms: Build forms
     cancel: Cancel
     run: Run
     delete: Delete
     permissions: Permissions
-    build_forms: Build forms
     applications: Applications
     home: Home
     apps: Apps
@@ -38,6 +39,7 @@ en:
     users_assigned_html: Users assigned to role <hint>Click a user to remove their role</hint>
     assign_a_user: Assign a user
     forms: Forms
+    new_form: New form
     responses: Responses
     workflows: Workflows
     workflow: Workflow
@@ -77,7 +79,7 @@ en:
   confirm:
     delete_app: Delete '%{app_name}' application?
     delete_form: Delete '%{form_name}' form?
-    publish_form: Are you sure?  This cannot be undone, and once a form is published it cannot be edited.
+    publish_form_html: Are you sure?  This cannot be undone, and once a form is published it cannot be edited.
     role_remove: Are you sure you want to take '%{role}' role take away from %{user}?
   error:
     count: '%{count} prohibited this form from being saved'

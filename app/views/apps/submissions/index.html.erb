@@ -3,27 +3,89 @@
 <%= paginate @submissions %>
 
 <% if @submissions.count > 0 %>
-<table class="table table-bordered table-striped table-hover">
-	<tr>
-		<th><%= t('text.submitted') %></th>
-		<th><%= t('text.submitted_by') %></th>
-		<th></th>
-	</tr>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<div class="row">
+				<div class="col-sm-2"><%= t('text.submitted') %></div>
+				<div class="col-sm-2"><%= t('text.submitted_by') %></div>
+				<div class="col-sm-2"><%= t('text.submission') %></div>
+				<div class="col-sm-2"><%= t('text.workflow') %></div>
+				<div class="col-sm-4"><%= t('text.status') %></div>
+			</div>
+		</h3>
+	</div>
+	<div class="panel-body">
 <% @submissions.each do |submission| %>
-	<tr>
-		<td>
-			<%= submission.created_at.to_formatted_s(:long_ordinal)  %>
-		</td>
-		<td>
-			<%= submission.created_by.name %>
-		</td>
-		<td>
-			<%= link_to t('text.view_response'), app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-default btn-xs' %>
 
-		</td>
-	</tr>
+	<% row_class = '' %>
+	
+	<% 	if submission.workflow_contents.last 
+			case submission.workflow_contents.last.status 
+			when 'approved'
+				row_class = 'alert-success'
+			when 'pending'
+				row_class = 'alert-warning'
+			when 'rejected'
+				row_class = 'alert-danger'
+		 	end
+		 	highlight_stage = submission.workflow_contents.last.workflow_stage.stage
+		 	highlight_stage = highlight_stage + 1 unless submission.workflow_contents.last.status == 'pending'
+	end%>
+
+	<div class="row border-bottom <%= row_class %>">
+		<div class="col-sm-2">
+			<%= submission.created_at.to_formatted_s(:long_ordinal)  %>
+		</div>
+		<div class="col-sm-2">
+			<%= submission.created_by.name %>
+		</div>
+		<div class="col-sm-2">
+			<%= link_to t('text.view_response'), app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-default btn-xs' %>
+		</div>
+		
+		<div class="col-sm-2">
+			<%= link_to submission.construct.workflow.name, app_workflow_path(@app, submission.construct.workflow, :highlight => highlight_stage || 0) %>
+		</div>
+		
+		<div class="col-sm-4">
+			<% submission.workflow_contents.each_with_index do |workflow_response, index| %>
+				<div class="workflow_item slide_up">
+					<%= '<span class="glyphicon glyphicon-ok"></span>'.html_safe if workflow_response.status == 'approved' %>
+					<%= '<span class="glyphicon glyphicon-remove"></span>'.html_safe if workflow_response.status == 'rejected' %>
+					<%= '<span class="glyphicon glyphicon-chevron-right"></span>'.html_safe if workflow_response.status == 'pending' %>
+					
+					<%= workflow_response.created_at.to_formatted_s(:short) %>
+					<strong>
+					<% if workflow_response.workflow_stage.send_to == current_user %>
+						<% if workflow_response.status == 'pending' %>
+							<%= link_to 'Approve', approve_app_form_submission_workflow_content_path(@app, submission.construct, submission, workflow_response), :class=>'btn btn-success btn-xs', :confirm=>'Please confirm you wish to approve this response.' %>
+							<%= link_to 'Reject', reject_app_form_submission_workflow_content_path(@app, submission.construct, submission, workflow_response), :class=>'btn btn-danger btn-xs', :confirm=>'Please confirm you wish to reject this response.' %>
+						<% end %>
+						<%= "#{workflow_response.status.humanize} by you".html_safe unless workflow_response.status == 'pending' %>
+					<% else %>
+						<%= workflow_response.status.humanize%> review by <%= mail_to workflow_response.workflow_stage.send_to.email, workflow_response.workflow_stage.send_to.name %> 
+					<% end %>
+					</strong>
+				</div>
+				<div class="workflow_item toggler">
+					<% if ((index+1) == submission.workflow_contents.count) %>
+						<% case workflow_response.status
+							when 'approved'%>
+								<span class="glyphicon glyphicon-ok"></span> Approved
+							<% when 'rejected' %>
+								<span class="glyphicon glyphicon-remove"></span> Rejected
+							<% when 'pending' %>
+								<span class="glyphicon glyphicon-chevron-right"></span> Pending
+						<% end %>
+					<% end %>	
+				</div>			
+			<% end %>
+		</div>
+	</div>
 <% end %>
-</table>
+</div>
+</div>
 <% else %>
 	<%= t('text.no_responses')%>
 <% end %>

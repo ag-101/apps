@@ -24,6 +24,30 @@ class ApplicationController < ActionController::Base
     end
   end  
   
+  def create_workflow_stage_content(submission)
+    @current_highest = WorkflowStage.joins(:workflow).joins(:workflow_contents).where('workflow_contents.status = ?', 'completed').where('workflow_contents.submission_id = ?', submission.id).where('workflows.app_id = ?', submission.construct.app.id).where('workflow_stages.workflow_id = ?', submission.construct.workflow_id).order('stage DESC').limit(1)
+    
+    @current_highest.count > 0 ? next_stage = (@current_highest.first.stage+1) : next_stage = 1
+    
+    @workflow_stage = WorkflowStage.joins(:workflow).where('workflows.app_id = ?', submission.construct.app.id).where('workflow_stages.stage = ?', next_stage).where('workflow_stages.workflow_id = ?', submission.construct.workflow_id)
+    
+    if @workflow_stage.count == 0
+      return additional_info = 'Workflow completed.'
+    
+    else 
+      @workflow_content = WorkflowContent.new
+      @workflow_content.created_by_id = current_user.id
+      @workflow_content.updated_by_id = current_user.id
+      
+      @workflow_content.status = 'pending'
+      @workflow_content.submission_id = submission.id
+      @workflow_content.workflow_stage_id = @workflow_stage.first.id
+      if @workflow_content.save
+        return additional_info = "It has been sent to #{ @workflow_content.workflow_stage.send_to.name } to review."
+    end
+    end
+  end
+  
   def find_app
     @app = App.find_by_id(params[:app_id]) if params[:app_id]
   end

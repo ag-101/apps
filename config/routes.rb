@@ -10,7 +10,10 @@ Forms::Application.routes.draw do
       match 'submissions_select', to: 'submissions'
       resources :forms do
         resources :submissions do
-          resources :workflow_content
+          resources :workflow_content, :controller =>'workflow_content' do
+            get 'approve', :on => :member
+            get 'reject', :on => :member
+          end
         end
         get 'swap_disabled_status', :on => :member
         get 'publish', :on => :member
@@ -28,7 +31,7 @@ Forms::Application.routes.draw do
   match '/role/:id/new', to: 'roles#new', as: 'role'
   match '/role/:id', to: 'roles#index_app', as: 'role'
    
-  match '/apps/new', to: 'apps#new' 
+
 
   
 

@@ -19,6 +19,15 @@
 	    </div>
 	  </div>  
 	  
+	  <% if @app.app_type == 2 %>
+		  <div class="form-group">
+		  	<%= f.label :workflow, :class=>'col-sm-2 control-label' %>
+		  	<div class="col-sm-10">
+		  		<%= collection_select(:construct, :workflow_id, @app.workflows, :id, :name, {:include_blank=>'', :selected=>@apps_construct.workflow_id},:class=>'form-control') %>
+			</div>
+		  </div>
+	  <% end %>
+	  
 	  <%= f.hidden_field :content %>
 	  
 

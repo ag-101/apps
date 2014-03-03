@@ -36,7 +36,6 @@
 		
 		  <div class="actions btn-group">
 		    <%= f.submit t('text.save'), :class=>'btn btn-success'  %>
-		    <%= button_icon_link('wrench', t('text.build_forms'), app_forms_path(@app), 'info')  if @app.id and check_role 'admin', @app.id%>
    		    <%= button_icon_link('ban-circle', t('text.cancel'), @app.id ? app_path(@app.id) : apps_path) %>
 		  </div>
 		<% end %>

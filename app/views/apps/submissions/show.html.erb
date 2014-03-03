@@ -3,13 +3,12 @@
 
 <h3><strong><%= @submission.construct.name %></strong> response by <strong><%= @submission.created_by.name %></strong>, <%= @submission.created_at.to_formatted_s(:long_ordinal)  %></h3>
 
-<%= link_to '<span class="glyphicon glyphicon-chevron-left"></span> Back to responses list'.html_safe, app_form_submissions_path(@app, @submission.construct), :class=>'btn btn-default' %>
 
 <div class="form-horizontal form_show">
 	<% pages.each_with_index do |(page, page_contents), index| %>
-		<div class="page" id="page_<%= index+1 %>">
-			<%= "<h4><strong>#{ index+1 }</strong>. #{ page.split(":", 2)[1] }</h4>".html_safe unless page.blank? %>
-			
+		<div class="page panel panel-default" id="page_<%= index+1 %>">
+			<%= "<div class='panel-heading'><h3 class='panel-title'><strong>#{ index+1 }</strong>. #{ page.split(":", 2)[1] }</h3></div>".html_safe unless page.blank? %>
+			<div class="panel-body">
 			<% retractions = 0 %>
 			<% page_contents.each_with_index do |page, page_index|%>
 				<% page.each do |item_type, properties| %>
@@ -18,7 +17,11 @@
 					<%= render "apps/forms/form_builder/#{item_type}", :properties => properties %>
 				<% end %>
 			<% end %>
+			</div>
 		</div>
 		
 	<% end %>
 </div>
+
+
+<%= button_icon_link 'chevron-left', t('text.submissions'), app_form_submissions_path(@app, @submission.construct)%>

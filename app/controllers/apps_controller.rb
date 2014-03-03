@@ -42,6 +42,7 @@ class AppsController < ApplicationController
   # GET /apps/new.json
   def new
     @app = App.new
+    @new_app = true
 
     respond_to do |format|
       format.html # new.html.erb

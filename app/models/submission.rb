@@ -7,4 +7,6 @@ class Submission < ActiveRecord::Base
   belongs_to :updated_by, :class_name => "User"    
   
   validates :content, presence: true  
+  
+  has_many :workflow_contents
 end

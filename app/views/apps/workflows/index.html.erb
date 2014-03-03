@@ -1,27 +1,32 @@
-<h2><strong><%= @app.name %></strong> <%= t('text.workflows').downcase %></h2>
+<h3><strong><%= @app.name %></strong> <%= t('text.workflows').downcase %></h3>
 <% if @workflows.count > 0 %>
 	
-	<table class="table table-striped table-hover table-bordered">
-		<tr>
-			<th><%= t('text.name')%></th>
-			<th><%= t('text.created')%></th>
-			<th><%= t('text.created_by')%></th>
-			<th><%= t('text.used')%></th>
-		</tr>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<div class="row">
+					<div class="col-sm-3"><%= t('text.name')%></div>
+					<div class="col-sm-3"><%= t('text.created')%></div>
+					<div class="col-sm-3"><%= t('text.created_by')%></div>
+					<div class="col-sm-3"><%= t('text.used')%></div>
+				</div>
+			</h3>
+		</div>
 		
-		<% @workflows.each do |workflow| %>
-		<tr>
-			<td><%= link_to workflow.name, app_workflow_path(@app, workflow) %></td>
-			<td><%= time_tag(workflow.created_at) %></td>
-			<td><%= workflow.created_by.name %></td>
-			<td><%= workflow.constructs %></td>
-		</tr>
-		<% end%>
-	</table>
+		<div class="panel-body">
+			<% @workflows.each do |workflow| %>
+				<div class="row">
+					<div class="col-sm-3"><%= link_to workflow.name, app_workflow_path(@app, workflow) %></div>
+					<div class="col-sm-3"><%= time_tag(workflow.created_at) %></div>
+					<div class="col-sm-3"><%= workflow.created_by.name %></div>
+					<div class="col-sm-3"><%= workflow.constructs.map(&:name).join(", ") %></div>
+				</div>
+			<% end %>
+		</div>
+	</div>
 <% else %>
 	<%= t('text.no_workflows')%>
 <% end %>
 
 <%= button_icon_link 'chevron-left', t('text.back'), app_path(@app) %>
-<%= button_icon_link 'plus', t('text.new_workflow'), new_app_workflow_path(@app), 'success' %>
-
+<%= button_icon_link 'plus', t('text.new_workflow'), new_app_workflow_path, 'success' %>
