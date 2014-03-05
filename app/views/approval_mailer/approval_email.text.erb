@@ -1,0 +1,11 @@
+Approve this
+============
+
+The form <%= @submission.construct.name %> has been completed by 
+<%= @submission.created_by.name %> and requires for you to review it.
+
+View response: <%= app_form_submission_path(@submission.construct.app, @submission.construct, @submission) %>
+
+Approve: <%= approve_app_form_submission_workflow_content_path(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last) %>
+
+Reject: <%= reject_app_form_submission_workflow_content_path(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last) %>

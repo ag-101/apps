@@ -1,0 +1,16 @@
+Form update
+===========
+
+The form <%= @submission.construct.name %> submitted by 
+<%= @submission.created_by.name %> has been
+
+<% case @current_status
+	when 'pending'%>
+	<%= "sent to #{@submission.workflow_contents.last.workflow_stage.send_to.name} for approval." %>
+<%	when 'approved', 'rejected'	 
+%>
+	<%= "#{@current_status} by #{@submission.workflow_contents.last.workflow_stage.send_to.name}." %>
+	<%= "\"#{@submission.workflow_contents.last.comment}\"" if @submission.workflow_contents.last.comment? %>
+<% end %>
+
+View response: <%= app_form_submission_path(@submission.construct.app, @submission.construct, @submission) %>

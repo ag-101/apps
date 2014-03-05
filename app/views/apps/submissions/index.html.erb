@@ -41,7 +41,16 @@
 			<%= submission.created_by.name %>
 		</div>
 		<div class="col-sm-2">
-			<%= link_to t('text.view_response'), app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-default btn-xs' %>
+			<div class="btn-group">
+				<%= link_to t('text.view'), app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-default btn-xs' %>
+			</div>
+		
+			<div class="btn-group">	
+				<% if submission.workflow_contents and submission.workflow_contents.last and submission.workflow_contents.last.workflow_stage.send_to == current_user and submission.workflow_contents.last.status == 'pending' %>
+					<%= link_to 'Approve', approve_app_form_submission_workflow_content_path(@app, submission.construct, submission, submission.workflow_contents.last), :class=>'btn btn-success btn-xs' %>
+					<%= link_to 'Reject', reject_app_form_submission_workflow_content_path(@app, submission.construct, submission, submission.workflow_contents.last), :class=>'btn btn-danger btn-xs' %>
+				<% end %>	
+			</div>		
 		</div>
 		
 		<div class="col-sm-2">
@@ -56,30 +65,25 @@
 					<%= '<span class="glyphicon glyphicon-chevron-right"></span>'.html_safe if workflow_response.status == 'pending' %>
 					
 					<%= workflow_response.created_at.to_formatted_s(:short) %>
-					<strong>
-					<% if workflow_response.workflow_stage.send_to == current_user %>
-						<% if workflow_response.status == 'pending' %>
-							<%= link_to 'Approve', approve_app_form_submission_workflow_content_path(@app, submission.construct, submission, workflow_response), :class=>'btn btn-success btn-xs', :confirm=>'Please confirm you wish to approve this response.' %>
-							<%= link_to 'Reject', reject_app_form_submission_workflow_content_path(@app, submission.construct, submission, workflow_response), :class=>'btn btn-danger btn-xs', :confirm=>'Please confirm you wish to reject this response.' %>
-						<% end %>
-						<%= "#{workflow_response.status.humanize} by you".html_safe unless workflow_response.status == 'pending' %>
-					<% else %>
-						<%= workflow_response.status.humanize%> review by <%= mail_to workflow_response.workflow_stage.send_to.email, workflow_response.workflow_stage.send_to.name %> 
-					<% end %>
+					Stage <%= workflow_response.workflow_stage.stage %>: <strong>
+						<%= workflow_response.status.humanize%> - <%= mail_to workflow_response.workflow_stage.send_to.email, workflow_response.workflow_stage.send_to.name %> 
 					</strong>
+					
+					<%= "<br/> <strong>Comment</strong>: \"#{workflow_response.comment}\"".html_safe if workflow_response.comment? %>
 				</div>
 				<div class="workflow_item toggler">
 					<% if ((index+1) == submission.workflow_contents.count) %>
 						<% case workflow_response.status
 							when 'approved'%>
-								<span class="glyphicon glyphicon-ok"></span> Approved
+								<span class="glyphicon glyphicon-ok"></span> <span>Approved</span>
 							<% when 'rejected' %>
-								<span class="glyphicon glyphicon-remove"></span> Rejected
+								<span class="glyphicon glyphicon-remove"></span> <span>Rejected</span>
 							<% when 'pending' %>
-								<span class="glyphicon glyphicon-chevron-right"></span> Pending
+								<span class="glyphicon glyphicon-chevron-right"></span> <span>Pending</span>
 						<% end %>
 					<% end %>	
-				</div>			
+				</div>		
+	
 			<% end %>
 		</div>
 	</div>

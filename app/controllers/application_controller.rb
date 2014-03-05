@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
     render :text => exception, :status => 500
   end
-  
+    
   # before_filter :authenticate_user!
   before_filter :get_ldap_info
   
@@ -25,13 +25,15 @@ class ApplicationController < ActionController::Base
   end  
   
   def create_workflow_stage_content(submission)
-    @current_highest = WorkflowStage.joins(:workflow).joins(:workflow_contents).where('workflow_contents.status = ?', 'completed').where('workflow_contents.submission_id = ?', submission.id).where('workflows.app_id = ?', submission.construct.app.id).where('workflow_stages.workflow_id = ?', submission.construct.workflow_id).order('stage DESC').limit(1)
+    @current_highest = WorkflowStage.joins(:workflow).joins(:workflow_contents).where('workflow_contents.status != ?', 'rejected').where('workflow_contents.submission_id = ?', submission.id).where('workflows.app_id = ?', submission.construct.app.id).where('workflow_stages.workflow_id = ?', submission.construct.workflow_id).order('stage DESC').limit(1)
     
     @current_highest.count > 0 ? next_stage = (@current_highest.first.stage+1) : next_stage = 1
-    
     @workflow_stage = WorkflowStage.joins(:workflow).where('workflows.app_id = ?', submission.construct.app.id).where('workflow_stages.stage = ?', next_stage).where('workflow_stages.workflow_id = ?', submission.construct.workflow_id)
     
-    if @workflow_stage.count == 0
+    @rejected = WorkflowContent.where('status = ?', 'rejected').where('submission_id = ?', submission.id)
+    
+    if @workflow_stage.count == 0 or @rejected.count > 0
+      ApprovalMailer.info_email(submission).deliver
       return additional_info = 'Workflow completed.'
     
     else 
@@ -43,6 +45,11 @@ class ApplicationController < ActionController::Base
       @workflow_content.submission_id = submission.id
       @workflow_content.workflow_stage_id = @workflow_stage.first.id
       if @workflow_content.save
+        
+        to = @workflow_content.workflow_stage.send_to
+        ApprovalMailer.approval_email(to, submission).deliver
+        ApprovalMailer.info_email(submission).deliver
+
         return additional_info = "It has been sent to #{ @workflow_content.workflow_stage.send_to.name } to review."
     end
     end

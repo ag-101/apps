@@ -20,7 +20,7 @@ class Apps::WorkflowsController < ApplicationController
   end
   
   def new
-    @workflow = Workflow.new
+    @workflow = (flash[:workflow]) ? flash[:workflow] : Workflow.new
     @new_workflow = true
   
     respond_to do |format|
@@ -52,7 +52,8 @@ class Apps::WorkflowsController < ApplicationController
         format.html { redirect_to app_workflow_path(params[:app_id], @workflow), notice: 'Workflow was successfully created.' }
         format.json {  }
       else
-        format.html { render action: "new" }
+        flash[:workflow] = @workflow
+        format.html { redirect_to new_app_workflow_path }
         format.json {  }
       end
     end

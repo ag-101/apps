@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+   
+  <body style="background:#efefef;">
+  	<table style="font-family:arial, calibri, sans-serif; font-size:12px; background:#fff;  border:1px solid #ccc;">
+	  	<tr>
+	  		<td colspan="2" style="padding:20px;">
+	    		<h1><%= @submission.construct.name%></h1>
+	    	</td>
+	    </tr>
+	    
+	    <tr>
+		    <td colspan="2" style="padding:20px;">
+				The form <strong><%= link_to @submission.construct.name, app_form_url(@submission.construct.app, @submission.construct), :style=>'text-decoration:none;', :only_path=>false %></strong> has been completed by 
+				<strong><%= @submission.created_by.name %></strong> and requires for you to review it.
+			</td>
+		</tr>
+		<tr><td>&nbsp;</td><td></td></tr>
+		<tr>
+			<td colspan="2" style="background:#333; text-align:center; padding:20px;">
+			<%= link_to t('text.view_response'), app_form_submission_url(@submission.construct.app, @submission.construct, @submission), :style=>'text-decoration:none; color:#fff;' %>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:50%; background:#009900; color:#fff; text-align:center; padding:20px;">
+				<%= link_to 'Approve', approve_app_form_submission_workflow_content_url(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last), :only_path=>false, :style=>'text-decoration:none; color:#fff;' %>
+			</td>
+			<td style="width:50%; background:#990000; color:#fff; text-align:center; padding:20px;">
+				<%= link_to 'Reject', reject_app_form_submission_workflow_content_url(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last), :only_path=>false, :style=>'text-decoration:none; color:#fff;' %>
+			</td>
+		</tr>
+	</table>
+  </body>
+</html>

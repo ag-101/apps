@@ -57,7 +57,7 @@ module ApplicationHelper
   end
 
   def title
-    (@app and @app.id) ? (link_to @app.name, app_path(@app)) : (link_to t('text.applications'), root_path)
+    (@app and @app.id) ? (link_to @app.name? ? @app.name : 'Apps'.html_safe, app_path(@app)) : (link_to t('text.applications'), root_path)
   end
   
   def glyphicon_text(icon, text)
@@ -69,7 +69,7 @@ module ApplicationHelper
     content_tag :div, :class=>'nav-tabs-container' do
       content_tag :ul, :class=>'nav nav-tabs' do
         if (@app and @app.id)
-          content = nav_link @app.name, "/#{ @app.slug }", 'apps'
+          content = nav_link @app.name? ? @app.name : 'Home'.html_safe, "/#{ @app.slug }", 'apps'
           
           @app.constructs.each do |construct|
             content += nav_link construct.name, app_form_path(@app, construct), 'apps/forms', {:construct => construct} if !construct.disabled? and construct.published?

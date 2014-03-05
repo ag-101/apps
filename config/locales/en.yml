@@ -19,7 +19,13 @@ en:
     created_by_html: 'Created <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>'
     updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>' 
   text:
+    workflow_warning_html: '<strong>WARNING</strong>&nbsp;&nbsp; Modifying this workflow will affect anything using it.  Click the button below to be able to modify this workflow.  <br/>The following forms are using this workflow:'
+    in_progress_workflows: '%{count} in progress will fail by editing this workflow.'
+    not_your_turn: It is not your turn to approve this form
+    ok_i_know: Enable editing controls anyway
+    error_saving_update: There was an error saving your update.
     admin: Admin
+    confirm: Confirm
     save: Save
     edit: Edit
     new: New
@@ -40,7 +46,6 @@ en:
     assign_a_user: Assign a user
     forms: Forms
     new_form: New form
-    responses: Responses
     workflows: Workflows
     workflow: Workflow
     previous: Previous

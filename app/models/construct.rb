@@ -10,5 +10,5 @@ class Construct < ActiveRecord::Base
   
   has_many :submissions, :dependent => :destroy
   
-  belongs_to :workflow
+  belongs_to :workflow, :dependent => :destroy
 end

@@ -41,7 +41,7 @@ class AppsController < ApplicationController
   # GET /apps/new
   # GET /apps/new.json
   def new
-    @app = App.new
+    @app = (flash[:app]) ? flash[:app] : App.new
     @new_app = true
 
     respond_to do |format|
@@ -89,7 +89,8 @@ class AppsController < ApplicationController
         format.html { redirect_to @app, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }
       else
-        format.html { render action: "new" }
+        flash[:app] = @app
+        format.html { redirect_to new_app_path }
         format.json { render json: @app.errors, status: :unprocessable_entity }
       end
     end
@@ -120,7 +121,7 @@ class AppsController < ApplicationController
     @app.destroy
 
     respond_to do |format|
-      format.html { redirect_to apps_url }
+      format.html { redirect_to apps_url, :notice => "'#{@app.name}' deleted" }
       format.json { head :no_content }
     end
   end

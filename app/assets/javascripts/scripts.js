@@ -11,12 +11,18 @@ $(document).ready(function(){
 		});
 	});
 	
+	$('#enable_workflow_controls').on('click', function(e){
+		$('.hidden_workflow').removeClass('hidden');
+		$(this).remove();
+		e.preventDefault();
+	});
+	
 	
 	$('.slide_up').slideUp(0);
 	
-	$('body').on('click', '.workflow_item', function(){
+	$('body').on('click', '.workflow_item.toggler', function(){
 		$(this).parents('.col-sm-4').find('.workflow_item.slide_up').slideDown();
-		$(this).removeClass('toggler');
+		$(this).slideUp();
 	});
 	
 	$('.banner_message').on('click', function(){
@@ -144,6 +150,7 @@ function ajax_call(url, dataType, type, data, object, callback){
 			alert("There was an error.");
 		});
 }
+
 
 function load_form(object, response, status){
 	$('.workflow_stage_container.hidden').clone().insertBefore($('#final_stage')).removeClass('hidden').slideUp(0, function(){

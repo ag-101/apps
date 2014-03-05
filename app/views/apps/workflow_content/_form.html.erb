@@ -1,0 +1,40 @@
+<h3><%= params[:action].humanize %> <strong><%= @submission.construct.name %></strong> <%= t('text.submission').downcase %> by <strong><%= @submission.created_by.name %></strong>
+	<%= link_to 'View response', app_form_submission_path(@app, @apps_construct, @submission), :class=>'btn btn-default right', :target=>"_blank" %>
+</h3>
+
+	<%= form_for @workflow_content, :url => (@workflow_content.id?) ? app_form_submission_workflow_content_path : root_path do |f| %>
+	  <% if @app.errors.any? %>
+	    <div class="alert alert-danger" id="alert_message">
+	      <strong><%= t('error.count', :count => pluralize(@app.errors.count, "error")) %> </strong>
+	
+	      <ul>
+	      <% @app.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+	  <div class="form-horizontal">	  
+		  <div class="form-group">
+		  	<%= f.hidden_field :status, :value=>(params[:action] == 'approve') ? 'approved' : 'rejected' %>
+		  
+		  
+		  <label class="col-sm-2 control-label">
+		  	<%= '<span class="required">*</span>'.html_safe if params[:action] == 'reject' %>
+		  	<%= "Comment #{'(optional)' if params[:action] == 'approve'}" %>
+		  </label>
+		    <div class="col-sm-10">
+		      <% required = false %>
+		      <% required = true if params[:action] != 'approve' %>
+		      <%= f.text_area :comment, :class=>'form-control no_wysiwyg', :rows=>5, :required=>required  %>
+		    </div>
+		  </div>  
+		  
+		
+		
+		  <div class="actions btn-group">
+		    <%= f.submit params[:action].humanize, :class=>"btn btn-#{ (params[:action] == 'approve') ? 'success' : 'danger'}"  %>
+   		    <%= button_icon_link('ban-circle', t('text.cancel'), app_form_submissions_path) %>
+		  </div>
+		<% end %>
+	</div>

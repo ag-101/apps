@@ -16,7 +16,8 @@
 			<span class="glyphicon glyphicon-ok"></span>
 			
 			Send to <%= mail_to workflow_stage.send_to.email, workflow_stage.send_to.name %>
-			<%= link_to t('text.remove_stage_html'), app_workflow_workflow_stage_path(@app, @workflow, workflow_stage), :method => :delete, :class=>'remove_stage btn btn-danger btn-xs' unless @workflow.workflow_contents.count > 0 %>
+			
+			<%= link_to t('text.remove_stage_html'), app_workflow_workflow_stage_path(@app, @workflow, workflow_stage), { :method => :delete, :remote=>true, :class=>"remove_stage btn btn-danger btn-xs #{ 'hidden_workflow hidden' if @workflow.constructs.count > 0}"} %>
 		</div>
 		
 		<%= t('arrows.down_html')%>
@@ -40,7 +41,29 @@
 </div>
 
 
+<% if @workflow.constructs.count > 0 %>
+	<br/></br/>
+	<div class="alert alert-warning">
+		<%= t('text.workflow_warning_html') %>
+		<ul>
+		<% @workflow.constructs.each do |construct| %>
+			<li><%= link_to construct.name, app_form_path(@app, construct), :class=>'alert-link'  %></li>
+		<% end %>
+		</ul>
+		
+		
+		<% in_progress_count = 0 %>
+		<% @workflow.workflow_contents.each{|workflow_content| in_progress_count = in_progress_count + 1 if workflow_content.status == 'pending' } %>
+		
+		<% if in_progress_count > 0 %>
+			<div class="alert alert-danger"><%= t('text.in_progress_workflows', :count=>pluralize(in_progress_count, 'workflow item'))%></div>
+		<% end %>
+		
+		<%= link_to t('text.ok_i_know'), '#', :class=>'btn btn-default btn-sm', :id=>'enable_workflow_controls' %>
+	</div>
+<% end %>
+
 <%= button_icon_link 'chevron-left', t('text.back'), app_workflows_path(@app)%>
-<span id="new_stage">
-	<%= button_icon_link 'plus', t('text.new_stage'), new_app_workflow_workflow_stage_path(@app, @workflow), 'success' unless @workflow.workflow_contents.count > 0 %>
+<span id="new_stage" <%= 'class="hidden_workflow hidden"' if @workflow.constructs.count > 0 %>>
+	<%= button_icon_link 'plus', t('text.new_stage'), new_app_workflow_workflow_stage_path(@app, @workflow), 'success' %>
 </span>

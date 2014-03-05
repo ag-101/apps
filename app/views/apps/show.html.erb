@@ -35,7 +35,7 @@
 					<%= button_closer_link 'wrench', t('text.forms'), app_forms_path(@app) %>	
 					<%= button_closer_link 'stats', t('text.responses'), app_submissions_select_path(@app)%>
 					<%= button_closer_link 'thumbs-up', t('text.permissions'), role_path(@app) %>
-					<%= button_closer_link 'tasks', t('text.workflows'), app_workflows_path(@app) %>
+					<%= button_closer_link 'tasks', t('text.workflows'), app_workflows_path(@app) if @app.app_type == 2 %>
 				</div>
 			<% end %>
 		</div>

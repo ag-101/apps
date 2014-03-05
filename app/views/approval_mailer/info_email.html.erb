@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+   
+  <body style="background:#efefef;">
+  	<table style="font-family:arial, calibri, sans-serif; font-size:12px; background:#fff;  border:1px solid #ccc;">
+	  	<tr>
+	  		<td colspan="2" style="padding:20px;">
+	    		<h1><%= @submission.construct.name%></h1>
+	    	</td>
+	    </tr>
+	    
+	    <tr>
+		    <td colspan="2" style="padding:20px;">
+				The form <strong><%= link_to @submission.construct.name, app_form_url(@submission.construct.app, @submission.construct), :style=>'text-decoration:none;', :only_path=>false %></strong> submitted by
+				<strong><%= @submission.created_by.name %></strong> has been 
+				
+				
+				<% case @current_status
+					when 'pending'%>
+					<%= "sent to <strong>#{@submission.workflow_contents.last.workflow_stage.send_to.name}</strong> for approval.".html_safe %>
+				<%	when 'approved', 'rejected'	%>
+					<%= "<strong>#{@current_status}</strong> by <strong>#{@submission.workflow_contents.last.workflow_stage.send_to.name}</strong>.".html_safe %>
+					<%= "<br/><br/>\"#{@submission.workflow_contents.last.comment}\"".html_safe if @submission.workflow_contents.last.comment? %>
+				<% end %>
+				
+				<br/></br/>
+
+				<table style="width:100%; font-family:arial, calibri, sans-serif; font-size:12px; border:1px solid #ccc;">
+					<tr>
+						<td colspan="3" style="padding:10px; background:#efefef;"><h3>Workflow stages</h3></td>
+					</tr>
+					<% @submission.construct.workflow.workflow_stages.each_with_index do |workflow_stage, index| %>
+						<tr>
+							<td style="padding:10px;">Stage <%= (index+1) %></td>
+							<td style="padding:10px;"><strong><%= workflow_stage.send_to.name %></strong></td>
+							
+							<% @submission.workflow_contents.each do |workflow_content| 
+							if workflow_content.workflow_stage == workflow_stage %>
+								<% 
+								span_colour = "#8a6d3b"
+								span_background = "#fcf8e3"
+								
+								case workflow_content.status 
+								  when 'approved'
+									 span_color = "#3c763d"
+									 span_background = "#dff0d8"
+								  when 'rejected'		
+									 span_color = "#a94442"		
+									 span_background = "#f2dede"				 			
+								end %>
+								
+								<td style="padding:10px; background:<%= span_background%>;">
+									<span style="<%= span_colour %>"><%= workflow_content.status.humanize %></span>
+								</td>
+							<% end 
+							end %>
+						</tr>
+					<% end %>
+				</table>
+			</td>
+		</tr>
+		<tr><td>&nbsp;</td><td></td></tr>
+		<tr>
+			<td colspan="2" style="background:#333; text-align:center; padding:20px;">
+			<%= link_to t('text.view_response'), app_form_submission_url(@submission.construct.app, @submission.construct, @submission), :style=>'text-decoration:none; color:#fff;' %>
+			</td>
+		</tr>
+	</table>
+  </body>
+</html>
