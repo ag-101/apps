@@ -1,5 +1,6 @@
 class Apps::FormsController < ApplicationController
-  
+    
+  before_filter :authenticate_user!
   before_filter :find_app 
   
   def swap_disabled_status
@@ -28,7 +29,7 @@ class Apps::FormsController < ApplicationController
         
         additional_info = ''
         
-        if @submission.construct.app.app_type == 2    # start workflow
+        if @submission.construct.app.app_type == 2 and @submission.construct.workflow    # start workflow
           additional_info = create_workflow_stage_content(@submission)
         end
         
@@ -88,7 +89,7 @@ class Apps::FormsController < ApplicationController
   # GET /apps/constructs/new
   # GET /apps/constructs/new.json
   def new
-    @apps_construct = Construct.new
+    @apps_construct = (flash[:construct]) ? flash[:construct] : Construct.new
     @new_form = true
 
     respond_to do |format|
@@ -116,7 +117,8 @@ class Apps::FormsController < ApplicationController
         format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Construct was successfully created.' }
         format.json {  }
       else
-        format.html { render action: "new" }
+        flash[:construct] = @apps_construct
+        format.html { redirect_to new_app_form_path }
         format.json {  }
       end
     end

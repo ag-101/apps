@@ -16,7 +16,9 @@
 							<tr>
 								<th><%= option %></th>
 								<% (1..(properties['columns'] || 1)).each_with_index do |i, index| %>
-									<td class='no_padding'><input type='text' class='table_input' placeholder='...' <%= 'disabled="disabled"' if properties['response'] %> value="<%= properties['response'][index + (properties['columns'] * row)] if properties['response'] %>" /></td>
+									<td class='no_padding'>
+										<input type='text' class='table_input' placeholder='...' <%= 'disabled="disabled"' if properties['response'] %> value="<%= properties['response'][index + (properties['columns'].to_i * row)] if properties['response'] %>" />
+									</td>
 								<% end %>
 							</tr>
 						<% end 

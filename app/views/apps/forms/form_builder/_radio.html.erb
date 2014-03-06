@@ -18,24 +18,34 @@
 				</div>
 			<% end 
 			end%>
+			
+			<%= render 'apps/forms/form_builder/other', :properties=>properties if properties['other'] %>
+
 		</div>
 	</div>
 <% else %>
 	<div class='li_handle'>
 		<h3><span class="text_content default_label">Radio buttons</span></h3>
-		<div class="remove"><input type="radio" name="roptions" value="r1" disabled="disabled"> Option 1<br/></div>
-		<div class="remove"><input type="radio" name="roptions" value="r2" disabled="disabled"> Option 2</div>
+		<input type="radio" name="roptions" value="r1"> <span class="option_text">Yes</span><br/>
+		<input type="radio" name="roptions" value="r2"> <span class="option_text">No</span>
+		<div class='appended'></div>
 	</div>
 	<div class="form_controls form-horizontal">
 		<form action="#">
 			<%= render 'apps/forms/form_builder/required_options', :type => 'radio' %>
 			<div class="form-group no-margin">
-				<div class="col-sm-12 options">
+				<div class="col-sm-10 options">
 					<div class="btn-group">
 						<%= link_to '<span class="glyphicon glyphicon-remove"></span> <span class="toggle_text">Remove</span>'.html_safe, '#', :class=>'btn-sm btn btn-danger remove_field' %>
 						<%= link_to '<span class="glyphicon glyphicon-pencil"></span> <span class="toggle_text">Edit options</span>'.html_safe, '#', "data-toggle" => "modal", "data-target" =>'#options_modal', :class=>'btn-sm btn btn-warning launch_modal' %>
+						<span class="option"><input type="radio" name="roptions" value="r1"> <span class="option_text">Yes</span></span>
+						<span class="option"><input type="radio" name="roptions" value="r2"> <span class="option_text">No</span></span>						
 					</div>
 				</div>
+				<div class="col-sm-2">
+					<input name="include_other_radio" type="checkbox" value="1" class="include_other  additional_option option_name_other" />
+					<label for="include_other_radio">Include 'other'</label>
+				</div>	
 				
 				<div class="hidden default_option_display">
 					<span class="option">

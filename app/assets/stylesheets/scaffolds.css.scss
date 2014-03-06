@@ -265,3 +265,8 @@ h3.panel-title .row{ margin:0; }
 .workflow_stage.completed .glyphicon-ok{ display:block; position:absolute; top:5px; right:5px; }
 
 .workflow_item{ padding:0 5px; }
+
+.checkbox .col-sm-2 .required_checkbox, .checkbox .col-sm-2 .include_other{ margin-left:0; float:none; }
+
+
+.panel-body-no-padding .workflow_item{ padding:5px 10px; }

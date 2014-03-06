@@ -155,10 +155,25 @@ $(document).ready(function(){
 		update_content();
 	});
 	
+	$('body').on('change', '.include_other', function(){
+		if($(this).prop('checked') == true){
+			add_other_to_appended($(this).parents('li'));
+		} else{
+			$(this).parents('li').find('.li_handle .appended .included_other').remove();
+		}
+		update_content();
+	});
+	
 	if($('#construct_content').val()){
 		load_content();
 	}	
 });
+
+function add_other_to_appended(object){
+	object.find('.li_handle .appended .included_other').remove();
+	object.find('.appended').appendTo(object.find('.li_handle'));
+	object.find('.li_handle .appended').append("<span class='included_other row'><label class='control-label col-sm-3'>Other:</label><div class='col-sm-9'><input type='text' class='form-control'></div></span>");
+}
 
 function display_page(page, speed){
 	
@@ -201,14 +216,22 @@ function update_content(){
 				current_item.required = true;
 			} else{
 				current_item.required = false;
-			}
-			
+			}	
 			$(this).parents('li').find('.additional_option').each(function(){
-				
 				if(typeof parseFloat($(this).val()) ==='number' && ($(this).val()%1)===0) {
 					option_name = $(this).prop('class').split('option_name_');
-					current_item[option_name[1]] = parseFloat($(this).val());
-					
+										
+					switch ($(this).prop('type')){
+						case "checkbox":
+							if ($(this).prop('checked') == true){
+								current_item[option_name[1]] = "true";	
+							}
+						break;
+						case "text":
+							current_item[option_name[1]] = parseFloat($(this).val());
+						break;
+					}
+
 				} else{
 					alert("Value must be an integer.");
 					$(this).val('');
@@ -270,6 +293,13 @@ function prepare_submission(){
 						checked.push($(this).val());
 					});
 					item_type[type[1]] = checked;
+					
+					if($(this).find('input[type=text]').length > 0){
+						var additional_options = {};
+						additional_option_type = $(this).find('input[type=text]').prop('class').split(' ');
+						additional_options[additional_option_type[1]] = $(this).find('input[type=text]').val();
+						item_type['additional_options'] = additional_options;
+					}
 				break;
 				case "table_horizontal":
 				case "table_vertical":
@@ -317,13 +347,17 @@ function load_content(){
 								$('#'+inserted_id).find(" .required_checkbox").prop('checked', true).trigger('change');
 							}
 						break;
+						case "other":
+							$('#'+inserted_id).find('.include_other').prop('checked', true).trigger('change');
+						break;
 						case "rows":
 							$('#'+inserted_id).find('.option_name_rows').val(value);
 						break;
 						case "columns":
 							$('#'+inserted_id).find('.option_name_columns').val(value);
 						break;
-						case "options":						
+						case "options":		
+							$('#'+inserted_id).find('.options .option').remove();
 							for (var value_option in value){		
 								$('#'+inserted_id).find('.options').append($('#'+inserted_id).find('.default_option_display').html());
 								if($('#'+inserted_id).find('.options .option').last().find('.option_text').length > 0){
@@ -421,7 +455,7 @@ function init_drag(){
 		zIndex:5000000,
 		stop: function(event, ui) {
 
-			$(this).find('.remove').not('input[type=text]').not('textarea').fadeTo(1000, 0.3);
+			//$(this).find('.remove').not('input[type=text]').not('textarea').fadeTo(1000, 0.3);
 
 			$(".drop_fields_here").slideUp("fast");
 			$(this).find('.form_controls').fadeIn();
@@ -507,6 +541,12 @@ function update_preview(object){
 			});		
 		break;
 	}
+	
+	if (object.find('.include_other').prop('checked') == true){
+		add_other_to_appended(object);
+	}
+	
+	
 	update_content();
 }
 

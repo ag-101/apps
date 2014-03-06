@@ -38,7 +38,10 @@
 			<%= yield %>
 		</div>
 		<div id="footer">
-			<a href="mailto:webteam@bthft.nhs.uk">webteam@bthft.nhs.uk</a>
+			<div class="btn-group">
+				<%= link_to 'Report a problem', app_form_path(1,1), :class=>'btn btn-xs btn-default' %>
+				<%= link_to 'Request a feature', app_form_path(1,2), :class=>'btn btn-xs btn-default' %>
+			</div>
 		</div>
 	</div>
 </body>

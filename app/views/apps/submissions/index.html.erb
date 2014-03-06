@@ -10,8 +10,8 @@
 				<div class="col-sm-2"><%= t('text.submitted') %></div>
 				<div class="col-sm-2"><%= t('text.submitted_by') %></div>
 				<div class="col-sm-2"><%= t('text.submission') %></div>
-				<div class="col-sm-2"><%= t('text.workflow') %></div>
-				<div class="col-sm-4"><%= t('text.status') %></div>
+				<div class="col-sm-2"><%= t('text.workflow') if @apps_construct.workflow %></div>
+				<div class="col-sm-4"><%= t('text.status') if @apps_construct.workflow %></div>
 			</div>
 		</h3>
 	</div>
@@ -33,7 +33,7 @@
 		 	highlight_stage = highlight_stage + 1 unless submission.workflow_contents.last.status == 'pending'
 	end%>
 
-	<div class="row border-bottom <%= row_class %>">
+	<div class="row <%= row_class %>">
 		<div class="col-sm-2">
 			<%= submission.created_at.to_formatted_s(:long_ordinal)  %>
 		</div>
@@ -54,37 +54,11 @@
 		</div>
 		
 		<div class="col-sm-2">
-			<%= link_to submission.construct.workflow.name, app_workflow_path(@app, submission.construct.workflow, :highlight => highlight_stage || 0) %>
+			<%= link_to submission.construct.workflow.name, app_workflow_path(@app, submission.construct.workflow, :highlight => highlight_stage || 0) if submission.construct.workflow %>
 		</div>
 		
 		<div class="col-sm-4">
-			<% submission.workflow_contents.each_with_index do |workflow_response, index| %>
-				<div class="workflow_item slide_up">
-					<%= '<span class="glyphicon glyphicon-ok"></span>'.html_safe if workflow_response.status == 'approved' %>
-					<%= '<span class="glyphicon glyphicon-remove"></span>'.html_safe if workflow_response.status == 'rejected' %>
-					<%= '<span class="glyphicon glyphicon-chevron-right"></span>'.html_safe if workflow_response.status == 'pending' %>
-					
-					<%= workflow_response.created_at.to_formatted_s(:short) %>
-					Stage <%= workflow_response.workflow_stage.stage %>: <strong>
-						<%= workflow_response.status.humanize%> - <%= mail_to workflow_response.workflow_stage.send_to.email, workflow_response.workflow_stage.send_to.name %> 
-					</strong>
-					
-					<%= "<br/> <strong>Comment</strong>: \"#{workflow_response.comment}\"".html_safe if workflow_response.comment? %>
-				</div>
-				<div class="workflow_item toggler">
-					<% if ((index+1) == submission.workflow_contents.count) %>
-						<% case workflow_response.status
-							when 'approved'%>
-								<span class="glyphicon glyphicon-ok"></span> <span>Approved</span>
-							<% when 'rejected' %>
-								<span class="glyphicon glyphicon-remove"></span> <span>Rejected</span>
-							<% when 'pending' %>
-								<span class="glyphicon glyphicon-chevron-right"></span> <span>Pending</span>
-						<% end %>
-					<% end %>	
-				</div>		
-	
-			<% end %>
+			<%= render 'workflow_status', :submission => submission, :full_workflow => false if submission.construct.workflow == 2 and submission.workflow_contents %>
 		</div>
 	</div>
 <% end %>

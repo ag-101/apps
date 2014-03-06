@@ -9,15 +9,17 @@
 	<input type="hidden" name="content" id="prepared_submission">
 	
   	<% if pages.count > 1 %>
-		<ul class="pagination">
-		  <li class="disabled"><a class="page_trigger_previous page_trigger_pn" href="#">&laquo;</a></li>
-		  <% current_page = params[:page] ? params[:page].to_i : 1 %>
-		  
-		  <% pages.each_with_index do |page, index| %>
-		  	<li <%= 'class=active disabled' if current_page == index+1 %>><a id="page_trigger<%= index+1 %>"  class="page_trigger" href="#"><%= index+1 %></a></li>
-		  <% end %>
-		  <li><a class="page_trigger_next page_trigger_pn" href="#">&raquo;</a></li>
-		</ul>
+  		<div class="text-center">
+			<ul class="pagination">
+			  <li class="disabled"><a class="page_trigger_previous page_trigger_pn" href="#">&laquo;</a></li>
+			  <% current_page = params[:page] ? params[:page].to_i : 1 %>
+			  
+			  <% pages.each_with_index do |page, index| %>
+			  	<li <%= 'class=active disabled' if current_page == index+1 %>><a id="page_trigger<%= index+1 %>"  class="page_trigger" href="#"><%= index+1 %></a></li>
+			  <% end %>
+			  <li><a class="page_trigger_next page_trigger_pn" href="#">&raquo;</a></li>
+			</ul>
+		</div>
 	<% end %>
 	
 	<% pages.each_with_index do |(page, page_contents), index| %>
@@ -44,7 +46,7 @@
 	<% end %>
 	
 	<div class="actions clear">
-		<input type="submit" class="right validate_form btn btn-success <%= 'hidden' unless pages.count == 1 %> <%= 'disabled' if !@apps_construct.published? or @apps_construct.disabled? %>" value="<%= t('text.save')%>">			
+		<input type="submit" class="right validate_form btn btn-success <%= 'hidden' unless pages.count == 1 %> <%= 'disabled' if !@apps_construct.published? %>" value="<%= t('text.save')%>">			
 		<% if !@apps_construct.published? or @apps_construct.disabled?
 			cancel_link = app_forms_path
 		else
@@ -55,18 +57,21 @@
 		<%= button_icon_link 'ban-circle', t('text.cancel'), cancel_link %>
 		<%= button_closer_link 'pencil', t('text.edit'), edit_app_form_path(@app, @apps_construct), 'warning' if check_role 'edit', @app.id and @apps_construct.id and !@apps_construct.published? %>
 	</div> 	
-	<% unless @apps_construct.published? %>
-		<div class="alert alert-info form-status-message">
-			<%= t('text.not_yet_published') %>
-			<%= link_to t('text.publish'), publish_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-primary right', :confirm=>"#{ t('confirm.publish_form_html')}" %>
-		</div>
-	<% end %>
 	
-	<% if @apps_construct.disabled? %>
-		<div class="alert alert-danger form-status-message">
-			<%= t('text.currently_disabled')%>
-			<%= link_to t('text.enable'), swap_disabled_status_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-default btn-danger right' %>
-		</div>
-	<% end %>	
+	<% if check_role 'admin', @app.id %>
+		<% unless @apps_construct.published? %>
+			<div class="alert alert-info form-status-message">
+				<%= t('text.not_yet_published') %>
+				<%= link_to t('text.publish'), publish_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-primary right', :confirm=>"#{ t('confirm.publish_form_html')}" %>
+			</div>
+		<% end %>
+		
+		<% if @apps_construct.disabled? %>
+			<div class="alert alert-danger form-status-message">
+				<%= t('text.currently_disabled')%>
+				<%= link_to t('text.enable'), swap_disabled_status_app_form_path(params[:app_id], @apps_construct.id), :class=>'btn btn-default btn-danger right' %>
+			</div>
+		<% end %>	
+	<% end %>
 <% end %>
 </div>

@@ -1,0 +1,37 @@
+
+<%= '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Workflow</h3></div><div class="panel-body-no-padding">'.html_safe if full_workflow %>
+
+<% submission.workflow_contents.each_with_index do |workflow_response, index| %>
+	<% case workflow_response.status
+		when 'approved'
+			alert_colour = 'alert-success'
+			text = '<span class="glyphicon glyphicon-ok"></span> <span>Approved</span>'.html_safe
+		 when 'rejected'
+		 	alert_colour = 'alert-danger' 
+			text = '<span class="glyphicon glyphicon-remove"></span> <span>Rejected</span>'.html_safe
+		 when 'pending' 
+		 	alert_colour = 'alert-warning'
+			text = '<span class="glyphicon glyphicon-chevron-right"></span> <span>Pending</span>'.html_safe
+	 end %>
+
+	<div class="workflow_item <%= alert_colour %> <%= 'slide_up' unless full_workflow %>">
+		<%= '<span class="glyphicon glyphicon-ok"></span>'.html_safe if workflow_response.status == 'approved' %>
+		<%= '<span class="glyphicon glyphicon-remove"></span>'.html_safe if workflow_response.status == 'rejected' %>
+		<%= '<span class="glyphicon glyphicon-chevron-right"></span>'.html_safe if workflow_response.status == 'pending' %>
+		
+		<%= workflow_response.created_at.to_formatted_s(:short) %>
+		Stage <%= workflow_response.workflow_stage.stage %>: <strong>
+			<%= workflow_response.status.humanize%> - <%= mail_to workflow_response.workflow_stage.send_to.email, workflow_response.workflow_stage.send_to.name %> 
+		</strong>
+		
+		<%= "<br/> <strong>Comment</strong>: \"#{workflow_response.comment}\"".html_safe if workflow_response.comment? %>
+	</div>
+	<div class="workflow_item <%= alert_colour %> <%= 'toggler' unless full_workflow %>">
+		<% if ((index+1) == submission.workflow_contents.count) %>
+			<%= text %>
+		<% end %>	
+	</div>		
+
+<% end %>
+
+<%= '</div></div>'.html_safe if full_workflow %>

@@ -12,7 +12,9 @@
 			<% retractions = 0 %>
 			<% page_contents.each_with_index do |page, page_index|%>
 				<% page.each do |item_type, properties| %>
+				
 					<% properties['response'] = response["page_#{index+1}"][(page_index - retractions)][item_type] unless item_type == 'page_content' %>
+					<% properties['additional_options'] = response["page_#{index+1}"][(page_index - retractions)]['additional_options'] unless item_type == 'page_content' %>
 					<% retractions = retractions +1 if item_type == 'page_content'%>
 					<%= render "apps/forms/form_builder/#{item_type}", :properties => properties %>
 				<% end %>
@@ -23,5 +25,15 @@
 	<% end %>
 </div>
 
+<div class="btn-group">	
+	<% if @submission.workflow_contents and @submission.workflow_contents.last and @submission.workflow_contents.last.workflow_stage.send_to == current_user and @submission.workflow_contents.last.status == 'pending' %>
+		<%= link_to 'Approve', approve_app_form_submission_workflow_content_path(@app, @submission.construct, @submission, @submission.workflow_contents.last), :class=>'btn btn-success' %>
+		<%= link_to 'Reject', reject_app_form_submission_workflow_content_path(@app, @submission.construct, @submission, @submission.workflow_contents.last), :class=>'btn btn-danger' %>
+	<% end %>
+</div>
+
+<div class="full_workflow">
+	<%= render 'workflow_status', :submission => @submission, :full_workflow => true if @submission.construct.workflow and @app.app_type == 2 %>
+</div>
 
 <%= button_icon_link 'chevron-left', t('text.submissions'), app_form_submissions_path(@app, @submission.construct)%>

@@ -1,0 +1,4 @@
+<label class='col-sm-2 control-label'><%= t('text.other_label') %></label>
+<div class="col-sm-10">
+	<input type="text" class="form-control other" <%= 'disabled="disabled"' if properties and properties['additional_options'] %> value="<%= properties['additional_options']['other'] if properties and properties['additional_options'] and properties['additional_options']['other']  %>" />
+</div>

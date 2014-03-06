@@ -1,4 +1,7 @@
 class Apps::SubmissionsController < ApplicationController
+  
+  before_filter :authenticate_user!
+  
   def submissions_select
     @app = App.find_by_id(params[:app_id])
   end
