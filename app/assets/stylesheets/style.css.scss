@@ -23,10 +23,10 @@ form .clearfix:before, form .clearfix:after {
   display: inline;
 }
 
-.left{ float:left; }
-.right{ float:right; }
-.clear{ clear:both; }
-.block{ display:block; }
+.left{ float:left !important; }
+.right{ float:right !important; }
+.clear{ clear:both !important; }
+.block{ display:block !important; }
 
 .workflow_item.toggler{ cursor:pointer; }
 .workflow_item.toggler:hover{ opacity:0.5; }
@@ -61,7 +61,7 @@ h1 a{ color:#999; }
 .nav-tabs .active a:hover{ box-shadow:0px 0px 12px #999 !important; }
 
 #user{ position:absolute; top:5px; right:18px;  }
-#content{ margin:0 20px; min-height:600px; padding:20px; background:#fff; position:relative;  box-shadow:0px 5px 5px #ccc; border:1px solid #ccc; border-top:none; }
+#content{ margin:0 20px; min-height:740px; padding:20px; background:#fff; position:relative;  box-shadow:0px 5px 5px #ccc; border:1px solid #ccc; border-top:none; }
 #content_container{ position:relative; }
 
 div.banner_message.alert{ background:#d2322d;   }
@@ -268,4 +268,11 @@ ol.breadcrumb{ border-bottom:1px solid #efefef; background:none; margin:-20px -2
 
 
 .panel-body-no-padding .workflow_item{ padding:5px 10px; }
-.no-vertical-padding{ padding:2px 15px; }
+.no-vertical-padding{ padding:3px 15px; }
+
+.panel-body.no-vertical-padding{ line-height:28px; }
+
+.slide_toggle{ cursor:pointer; }
+.slide_toggle:hover{ opacity:0.5; }
+
+.help_panel{ min-height:550px; }

@@ -3,10 +3,7 @@ class Apps::WorkflowStagesController < ApplicationController
    before_filter :authenticate_user!
    before_filter :find_app 
   
-#  before_filter lambda { check_permission('create') }, :only => [:new]
-#  before_filter lambda { check_permission('edit') }, :only => [:edit]
-#  before_filter lambda { check_permission('delete') }, :only => [:destroy]
-#  before_filter lambda { check_permission('view') }, :only => [:show]
+   before_filter lambda { check_permission('admin', true) }
 
   # GET /apps
   # GET /apps.json

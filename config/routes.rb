@@ -1,7 +1,7 @@
 Forms::Application.routes.draw do 
-  resources :helps
   get '/help', to: 'helps#index'
-
+  resources :helps
+  
   resources :homes
   
   resources :apps do

@@ -19,6 +19,7 @@ en:
     created_by_html: 'Created <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>'
     updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>' 
   text:
+    help: Help
     pdf: PDF
     form_success_title: Success
     form_follows_workflow_html: The <strong>%{form}</strong> form follows the <strong>%{workflow}</strong> workflow.

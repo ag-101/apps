@@ -5,7 +5,7 @@ class AppsController < ApplicationController
   before_filter lambda { check_permission('create') }, :only => [:new]
   before_filter lambda { check_permission('edit') }, :only => [:edit]
   before_filter lambda { check_permission('delete') }, :only => [:destroy]
-  before_filter lambda { check_permission('view') }, :only => [:show]
+  before_filter lambda { check_permission('view') }, :only => [:show, :index]
 
   # GET /apps
   # GET /apps.json

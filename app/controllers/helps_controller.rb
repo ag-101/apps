@@ -2,28 +2,17 @@ class HelpsController < ApplicationController
   
   before_filter :authenticate_user!
   
-  before_filter lambda { check_permission('top_banana') }, :except => [:index]
+  before_filter lambda { check_permission('top_banana', false) }, :except => [:index]
     
   # GET /helps
   # GET /helps.json
   def index
-    @helps = Help.all
+    @helps = Help.find(:all, :order => "name")
     @release_notes = WorkflowContent.where('comment LIKE "[0.%" OR comment LIKE "[1.%"').order('comment DESC')
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @helps }
-    end
-  end
-
-  # GET /helps/1
-  # GET /helps/1.json
-  def show
-    @help = Help.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @help }
     end
   end
 
@@ -50,7 +39,7 @@ class HelpsController < ApplicationController
 
     respond_to do |format|
       if @help.save
-        format.html { redirect_to @help, notice: 'Help was successfully created.' }
+        format.html { redirect_to helps_path, notice: 'Help was successfully created.' }
         format.json { render json: @help, status: :created, location: @help }
       else
         format.html { render action: "new" }
@@ -66,7 +55,7 @@ class HelpsController < ApplicationController
 
     respond_to do |format|
       if @help.update_attributes(params[:help])
-        format.html { redirect_to @help, notice: 'Help was successfully updated.' }
+        format.html { redirect_to helps_path, notice: 'Help was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

@@ -11,6 +11,11 @@ $(document).ready(function(){
 		});
 	});
 	
+	$('body').on('click', '.slide_toggle', function(e){
+		$(this).parents('.panel').find('.slide_up').slideDown();
+		$(this).removeClass('slide_toggle');
+	});
+	
 	$('#enable_workflow_controls').on('click', function(e){
 		$('.hidden_workflow').removeClass('hidden');
 		$(this).remove();

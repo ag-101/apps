@@ -23,8 +23,6 @@
 			
 			<%= render :partial => '/partials/created_updated_details', :locals => { :item => @app } %>
 			
-			<%= button_icon_link 'chevron-left', t('text.applications'), apps_path %>
-			
 			<div class="btn-group">
 				<%= button_closer_link 'pencil', t('text.edit'), edit_app_path(@app), 'warning' if check_role 'admin', @app.id %>
 				<%= button_closer_link 'remove', t('text.delete'), {:action => 'destroy', :id => @app.id }, 'danger', { :method => :delete, :confirm => "#{ t('confirm.delete_app', :app_name => @app.name)}" } if check_role 'delete', @app.id %>	
@@ -32,10 +30,10 @@
 			
 			<% if check_role 'admin', @app.id %>
 				<div class="btn-group">
-					<%= button_closer_link 'wrench', t('text.forms'), app_forms_path(@app) %>	
-					<%= button_closer_link 'stats', t('text.responses'), app_submissions_select_path(@app)%>
-					<%= button_closer_link 'thumbs-up', t('text.permissions'), role_path(@app) %>
-					<%= button_closer_link 'tasks', t('text.workflows'), app_workflows_path(@app) if @app.app_type == 2 %>
+					<%= button_icon_link 'wrench', t('text.forms'), app_forms_path(@app) %>	
+					<%= button_icon_link 'stats', t('text.responses'), app_submissions_select_path(@app)%>
+					<%= button_icon_link 'thumbs-up', t('text.permissions'), role_path(@app) %>
+					<%= button_icon_link 'tasks', t('text.workflows'), app_workflows_path(@app) if @app.app_type == 2 %>
 				</div>
 			<% end %>
 		</div>

@@ -38,7 +38,7 @@
 			<%= yield %>
 		</div>
 		<div id="footer">
-			<div class="left">Version 0.9.0 <small>Beta 1</small></div>
+			<div class="left">Version <%= link_to version, help_path %></div>
 			<div class="btn-group">
 				<%= link_to 'Report a problem', app_form_path(1,1), :class=>'btn btn-xs btn-danger' %>
 				<%= link_to 'Request a feature', app_form_path(1,2), :class=>'btn btn-xs btn-primary' %>

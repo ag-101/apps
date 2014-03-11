@@ -2,7 +2,7 @@ class RolesController < ApplicationController
 
   before_filter :authenticate_user!
   
-  before_filter lambda { check_permission('top_banana') }
+  before_filter lambda { check_permission('admin', true) }
   
   # GET /roles
   # GET /roles.json

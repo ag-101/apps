@@ -1,6 +1,8 @@
 class Apps::SubmissionsController < ApplicationController
   
   before_filter :authenticate_user!
+ 
+  before_filter lambda { check_permission('admin', true) }
   
   def submissions_select
     @app = App.find_by_id(params[:app_id])

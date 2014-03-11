@@ -3,6 +3,11 @@ class Apps::FormsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :find_app 
   
+  before_filter lambda { check_permission('create', true) }, :only => [:new]
+  before_filter lambda { check_permission('edit', true) }, :only => [:edit]
+  before_filter lambda { check_permission('delete', true) }, :only => [:destroy]
+  before_filter lambda { check_permission('view', true) }, :only => [:show, :index]  
+  
   def swap_disabled_status
     @apps_construct = Construct.find(params[:id])
     

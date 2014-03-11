@@ -4,11 +4,7 @@ class Apps::WorkflowContentController < ApplicationController
    before_filter :find_app 
    
    before_filter :check_approval_status
-  
-#  before_filter lambda { check_permission('create') }, :only => [:new]
-#  before_filter lambda { check_permission('edit') }, :only => [:edit]
-#  before_filter lambda { check_permission('delete') }, :only => [:destroy]
-#  before_filter lambda { check_permission('view') }, :only => [:show]
+   before_filter lambda { check_permission('admin', true) }
 
   def check_approval_status
     @workflow_content = WorkflowContent.find_by_id(params[:id])

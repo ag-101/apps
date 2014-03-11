@@ -10,5 +10,3 @@
 <div class="full_workflow">
 	<%= render 'workflow_status.html.erb', :submission => @submission, :full_workflow => true if @submission.construct.workflow and @app.app_type == 2 %>
 </div>
-
-<%= button_icon_link 'chevron-left', t('text.submissions'), app_form_submissions_path(@app, @submission.construct)%>

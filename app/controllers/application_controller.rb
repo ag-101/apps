@@ -73,13 +73,15 @@ class ApplicationController < ActionController::Base
   end
   
   def check_permission(role_name, check_app = true, app_parent = '', text = '')
+    id = params[:app_id] ? params[:app_id] : params[:id]
+    
     if check_app
-      if params[:id]
+      if id
         if app_parent != ''
-          app_parent_check = app_parent.find_by_id(params[:id])
+          app_parent_check = app_parent.find_by_id(id)
           lookup = app_parent_check.app_id
         else
-          lookup = params[:id]
+          lookup = id
         end
         
         app = App.find(lookup) unless lookup == 0
@@ -90,7 +92,7 @@ class ApplicationController < ActionController::Base
     session[:return_to] ||= request.referer
     unless (check_role(role_name, app_id || 0))
       flash[:notice] = text.blank? ? 'You need permission to view that page' : text
-      redirect_to session.delete(:return_to)
+      redirect_to session.delete(:return_to) || root_path
     end
   end
   
