@@ -403,8 +403,76 @@ function destroy_drag(){
 	//$(".edit #fields ul").sortable('destroy');
 }
 
-function init_drag(){
+/*
+function init_drag_html5(){
+	$('body').on({
+		dragstart: function(e){
+			// ADD DRAG FEEDBACK
+			$('.drop_fields_here').fadeOut("slow");
+			$('#fields ul').addClass('alert-warning');
+		
+			e.originalEvent.dataTransfer.effectAllowed = 'move';
+			e.originalEvent.dataTransfer.setData('text/html', this.outerHTML);
+		},
+		
+		dragend: function(e){
+			// CANCEL DRAG FEEDBACK
+			$('#fields ul').removeClass('alert-warning').removeClass('alert-success');
+			e.preventDefault();
+		},
+		
+		dragenter: function(e){
+			e.preventDefault();
+		},
+		
+	}, '#field_picker li');
 	
+	$('body').on({
+		dragover: function(e){
+			// DRAG OVER VALID AREA
+			$(this).removeClass('alert-warning');
+			$(this).addClass('alert-success');
+			e.preventDefault();
+		},
+		
+		dragleave: function(e){
+			// DISABLE VALID AREA FEEDBACK
+			$(this).addClass('alert-warning');
+			$(this).removeClass('alert-success');
+			e.preventDefault();
+		},
+		
+		drop: function(e){
+			$(this).removeClass('alert-warning', 250);
+			$(this).removeClass('alert-success', 250);			
+			
+			var html_data = $.parseHTML(e.originalEvent.dataTransfer.getData('text/html'));
+
+			if($(html_data).find('.field_label').val() == ""){
+				$(html_data).find('.li_handle h3 .text_content').animate({ opacity:0 },0 , function(){
+					$(this).text($(html_data).find('.field_label').prop('placeholder'));
+					$(this).animate({opacity:1}, "slow");
+				});
+			}
+			
+			if($(html_data).prop('id') == ""){
+				$(html_data).prop('id', 'field_'+new Date().getTime());
+			}
+			
+			$(this).append($(html_data));
+			$(this).find('.form_controls').fadeIn();
+
+			
+			update_content();
+			
+			
+		}
+	}, '#fields ul');
+
+}
+*/
+
+function init_drag(){
 	$(".edit #field_picker ul li").draggable({ 
 		connectToSortable: '.edit #fields ul',
 			helper: 'clone',
@@ -415,7 +483,6 @@ function init_drag(){
 			appendTo: '#fields',
 			zIndex:5000000,			
 	});	
-	
 	
 	$('.edit #fields ul').droppable({
 	      activate: function( event, ui ) {

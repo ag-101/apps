@@ -17,6 +17,10 @@ class Apps::FormsController < ApplicationController
     end
   end
   
+  def success
+    @apps_construct = Construct.find_by_id(params[:id])
+  end
+  
   def save
     @submission = Submission.new()
     @submission.content = params[:content]
@@ -32,8 +36,7 @@ class Apps::FormsController < ApplicationController
         if @submission.construct.app.app_type == 2 and @submission.construct.workflow    # start workflow
           additional_info = create_workflow_stage_content(@submission)
         end
-        
-        redirect_to app_path(params[:app_id]), notice: "Your response to form '#{ @submission.construct.name }' has been saved.  #{additional_info}"
+        redirect_to success_app_form_path(@submission.construct.app, @submission.construct), notice: "Your response to form '#{ @submission.construct.name }' has been saved.  #{additional_info}"
       else
         redirect_to app_path(params[:app_id]), alert: "There has been an error saving your response"
       end

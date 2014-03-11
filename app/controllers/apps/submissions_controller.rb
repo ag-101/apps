@@ -23,6 +23,11 @@ class Apps::SubmissionsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.pdf do
+        render :pdf => "#{ @submission.construct.name } - #{@submission.created_by.name}",
+               :layout => 'pdf.html',
+               :basic_auth => true
+      end      
     end
   end  
 end

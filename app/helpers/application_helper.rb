@@ -86,13 +86,15 @@ module ApplicationHelper
             end         
           end
 
-          content
+
         else
           content = nav_link t('text.Home'), root_path, 'homes'
           content += nav_link t('text.Apps'), apps_path, 'apps'
           content += nav_link t('text.Permissions'), roles_path, 'roles' if check_role 'top_banana'
-          content
+
         end
+        content += nav_link t('text.help'), helps_path, 'helps'
+        content
       end
     end
   end

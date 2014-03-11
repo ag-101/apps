@@ -10,12 +10,12 @@
 				<div class="col-sm-2"><%= t('text.submitted') %></div>
 				<div class="col-sm-2"><%= t('text.submitted_by') %></div>
 				<div class="col-sm-2"><%= t('text.submission') %></div>
-				<div class="col-sm-2"><%= t('text.workflow') if @apps_construct.workflow %></div>
+				<div class="col-sm-2">First question response</div>
 				<div class="col-sm-4"><%= t('text.status') if @apps_construct.workflow %></div>
 			</div>
 		</h3>
 	</div>
-	<div class="panel-body">
+	<div class="panel-body no_padding">
 <% @submissions.each do |submission| %>
 
 	<% row_class = '' %>
@@ -43,22 +43,17 @@
 		<div class="col-sm-2">
 			<div class="btn-group">
 				<%= link_to t('text.view'), app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-default btn-xs' %>
-			</div>
-		
-			<div class="btn-group">	
-				<% if submission.workflow_contents and submission.workflow_contents.last and submission.workflow_contents.last.workflow_stage.send_to == current_user and submission.workflow_contents.last.status == 'pending' %>
-					<%= link_to 'Approve', approve_app_form_submission_workflow_content_path(@app, submission.construct, submission, submission.workflow_contents.last), :class=>'btn btn-success btn-xs' %>
-					<%= link_to 'Reject', reject_app_form_submission_workflow_content_path(@app, submission.construct, submission, submission.workflow_contents.last), :class=>'btn btn-danger btn-xs' %>
-				<% end %>	
-			</div>		
+				<%= link_to t('text.pdf'), "#{ app_form_submission_path(submission.construct.app, submission.construct, submission)}.pdf", :target=>'_blank', :class=>'btn btn-default btn-xs' %>
+			</div>	
 		</div>
 		
 		<div class="col-sm-2">
-			<%= link_to submission.construct.workflow.name, app_workflow_path(@app, submission.construct.workflow, :highlight => highlight_stage || 0) if submission.construct.workflow %>
+			<% response = JSON.parse submission.content %>
+			<%= truncate response.values[0][0].values[0], :length => 25 %>
 		</div>
 		
 		<div class="col-sm-4">
-			<%= render 'workflow_status', :submission => submission, :full_workflow => false if submission.construct.workflow == 2 and submission.workflow_contents %>
+			<%= render 'workflow_status', :submission => submission, :full_workflow => (false if submission.construct.workflow == 2 and submission.workflow_contents) %>
 		</div>
 	</div>
 <% end %>

@@ -1,0 +1,41 @@
+<h3>Help</h3>
+
+<% @helps.each do |help| %>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><%= help.name %></h3>
+		</div>
+		<div class="panel-body">
+			<%= help.content.html_safe %>
+		</div>
+	</div>
+
+    <%= link_to 'Show', help %></td>
+    <%= link_to 'Edit', edit_help_path(help) %></td>
+    <%= link_to 'Destroy', help, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+<% end %>
+
+<%= link_to 'New', new_help_path, :class=>'btn btn-success' if check_role 'top_banana' %>
+
+<h3>Release notes</h3>
+<% current_version = '' %>
+
+
+<div class="panel panel-default">
+	<% @release_notes.each do |release_note| %>
+	
+		<% release_note.comment = release_note.comment.split(']', 2) %>
+		<% if release_note.comment[0] != current_version %>
+			<div class="panel-heading">
+				<h3 class="panel-title"><%= release_note.comment[0][1..-1] %></h3>
+			</div>
+			<% current_version = release_note.comment[0] %>
+		<% end %>
+	
+		<div class="panel-body no-vertical-padding">
+			<%= release_note.comment[1] %>
+		</div>
+	<% end %>
+</div>
+

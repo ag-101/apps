@@ -1,0 +1,42 @@
+<div class="workflow_stage_container">
+	<div class="workflow_stage <%= 'completed' if params[:highlight] %>">
+		<span class="glyphicon glyphicon-ok"></span>
+		Form submitted
+	</div>
+	
+	<%= t('arrows.down_html')%>
+</div>
+
+<% workflow.workflow_stages.each do |workflow_stage| %>
+
+	<div class="workflow_stage_container">
+		<div class="workflow_stage <%= 'completed' if params[:highlight] and workflow_stage.stage < params[:highlight].to_i %> <%= 'highlighted' if params[:highlight] and workflow_stage.stage == params[:highlight].to_i %>">
+			
+			<span class="glyphicon glyphicon-ok"></span>
+			
+			Send to <%= mail_to workflow_stage.send_to.email, workflow_stage.send_to.name %>
+			
+			<%= link_to t('text.remove_stage_html'), app_workflow_workflow_stage_path(@app, workflow, workflow_stage), { :method => :delete, :remote=>true, :class=>"remove_stage btn btn-danger btn-xs #{ 'hidden_workflow hidden' if workflow.constructs.count > 0}"} if edit %>
+		</div>
+		
+		<%= t('arrows.down_html')%>
+	</div>
+<% end %>
+
+
+
+
+<div class="workflow_stage_container" id="final_stage">
+	<div class="workflow_stage <%= 'completed' if params[:highlight] and params[:highlight].to_i > workflow.workflow_stages.count %>">
+		<span class="glyphicon glyphicon-ok"></span>
+		<%= t('text.completed') %>
+	</div>
+</div>
+
+<% if edit %>
+	<div class="workflow_stage_container hidden">
+		<div class="workflow_stage">
+		</div>
+		<%= t('arrows.down_html')%>
+	</div>
+<% end %>

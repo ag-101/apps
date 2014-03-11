@@ -1,39 +1,14 @@
-<% pages = JSON.parse @submission.construct.content %>
-<% response = JSON.parse @submission.content %>
+<%= render 'show' %>
 
-<h3><strong><%= @submission.construct.name %></strong> response by <strong><%= @submission.created_by.name %></strong>, <%= @submission.created_at.to_formatted_s(:long_ordinal)  %></h3>
-
-
-<div class="form-horizontal form_show">
-	<% pages.each_with_index do |(page, page_contents), index| %>
-		<div class="page panel panel-default" id="page_<%= index+1 %>">
-			<%= "<div class='panel-heading'><h3 class='panel-title'><strong>#{ index+1 }</strong>. #{ page.split(":", 2)[1] }</h3></div>".html_safe unless page.blank? %>
-			<div class="panel-body">
-			<% retractions = 0 %>
-			<% page_contents.each_with_index do |page, page_index|%>
-				<% page.each do |item_type, properties| %>
-				
-					<% properties['response'] = response["page_#{index+1}"][(page_index - retractions)][item_type] unless item_type == 'page_content' %>
-					<% properties['additional_options'] = response["page_#{index+1}"][(page_index - retractions)]['additional_options'] unless item_type == 'page_content' %>
-					<% retractions = retractions +1 if item_type == 'page_content'%>
-					<%= render "apps/forms/form_builder/#{item_type}", :properties => properties %>
-				<% end %>
-			<% end %>
-			</div>
-		</div>
-		
-	<% end %>
-</div>
-
-<div class="btn-group">	
-	<% if @submission.workflow_contents and @submission.workflow_contents.last and @submission.workflow_contents.last.workflow_stage.send_to == current_user and @submission.workflow_contents.last.status == 'pending' %>
+<% if @submission.workflow_contents and @submission.workflow_contents.last and @submission.workflow_contents.last.workflow_stage.send_to == current_user and @submission.workflow_contents.last.status == 'pending' %>
+	<div class="btn-group margin-bottom">
 		<%= link_to 'Approve', approve_app_form_submission_workflow_content_path(@app, @submission.construct, @submission, @submission.workflow_contents.last), :class=>'btn btn-success' %>
 		<%= link_to 'Reject', reject_app_form_submission_workflow_content_path(@app, @submission.construct, @submission, @submission.workflow_contents.last), :class=>'btn btn-danger' %>
-	<% end %>
-</div>
+	</div>
+<% end %>
 
 <div class="full_workflow">
-	<%= render 'workflow_status', :submission => @submission, :full_workflow => true if @submission.construct.workflow and @app.app_type == 2 %>
+	<%= render 'workflow_status.html.erb', :submission => @submission, :full_workflow => true if @submission.construct.workflow and @app.app_type == 2 %>
 </div>
 
 <%= button_icon_link 'chevron-left', t('text.submissions'), app_form_submissions_path(@app, @submission.construct)%>

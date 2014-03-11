@@ -37,7 +37,6 @@ class Apps::WorkflowsController < ApplicationController
   
   def show 
     @workflow = Workflow.find_by_id(params[:id])
-    @workflow_stages = WorkflowStage.where('workflow_id = ?', @workflow.id)
   end
     
   def create

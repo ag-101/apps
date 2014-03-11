@@ -123,6 +123,9 @@ GEM
       json (>= 1.8.0)
     warden (1.2.3)
       rack (>= 1.0)
+    wicked_pdf (0.9.10)
+      rails
+    wkhtmltopdf-binary (0.9.9.1)
 
 PLATFORMS
   x86-mingw32
@@ -138,3 +141,5 @@ DEPENDENCIES
   rails (= 3.2.13)
   sass-rails (~> 3.2.3)
   uglifier (>= 1.0.3)
+  wicked_pdf
+  wkhtmltopdf-binary

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140227120514) do
+ActiveRecord::Schema.define(:version => 20140311092028) do
 
   create_table "apps", :force => true do |t|
     t.string   "name"
@@ -30,11 +30,22 @@ ActiveRecord::Schema.define(:version => 20140227120514) do
     t.integer  "app_id"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
-    t.integer  "published",     :limit => 1, :default => 0
-    t.integer  "disabled",      :limit => 1, :default => 0
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+    t.integer  "published",      :limit => 1, :default => 0
+    t.integer  "disabled",       :limit => 1, :default => 0
     t.integer  "workflow_id"
+    t.text     "message_before"
+    t.text     "message_after"
+  end
+
+  create_table "helps", :force => true do |t|
+    t.string   "name"
+    t.text     "content"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "homes", :force => true do |t|
@@ -44,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20140227120514) do
     t.integer  "created_by_id", :null => false
     t.integer  "updated_by_id", :null => false
     t.integer  "app_id"
+    t.string   "page_type"
   end
 
   create_table "roles", :force => true do |t|

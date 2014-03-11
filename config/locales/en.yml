@@ -19,7 +19,12 @@ en:
     created_by_html: 'Created <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>'
     updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>' 
   text:
-    other_label: Other
+    pdf: PDF
+    form_success_title: Success
+    form_follows_workflow_html: The <strong>%{form}</strong> form follows the <strong>%{workflow}</strong> workflow.
+    form_no_workflow_html: The <strong>%{form}</strong> form has no workflow, and so all data has now been captured.
+    form_success: The form will now be processed according to the workflow, and you'll be contacted if needed.
+    other_label: Other/additional info
     workflow_warning_html: '<strong>WARNING</strong>&nbsp;&nbsp; Modifying this workflow will affect anything using it.  Click the button below to be able to modify this workflow.  <br/>The following forms are using this workflow:'
     in_progress_workflows: '%{count} in progress will fail by editing this workflow.'
     not_your_turn: It is not your turn to approve this form

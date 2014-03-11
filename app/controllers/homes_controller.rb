@@ -7,12 +7,16 @@ class HomesController < ApplicationController
   before_filter lambda { check_permission('edit', true, Home) }, :only => [:edit]
   
   def index
-    @homes = Home.where('app_id = 0')
+    @homes = Home.where('app_id = 0 and page_type = "home"')
     
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @homes }
     end
+  end
+  
+  def help
+    
   end
 
 

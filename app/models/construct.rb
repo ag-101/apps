@@ -1,5 +1,5 @@
 class Construct < ActiveRecord::Base
-  attr_accessible :app_id, :content, :created_by_id, :name, :updated_by_id, :workflow_id
+  attr_accessible :app_id, :content, :created_by_id, :name, :updated_by_id, :workflow_id, :message_before, :message_after
   belongs_to :app
   
   belongs_to :created_by, :class_name => "User"
@@ -10,5 +10,5 @@ class Construct < ActiveRecord::Base
   
   has_many :submissions, :dependent => :destroy
   
-  belongs_to :workflow, :dependent => :destroy
+  belongs_to :workflow
 end

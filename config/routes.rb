@@ -1,4 +1,7 @@
 Forms::Application.routes.draw do 
+  resources :helps
+  get '/help', to: 'helps#index'
+
   resources :homes
   
   resources :apps do
@@ -16,6 +19,7 @@ Forms::Application.routes.draw do
             get 'process_response', :on => :member
           end
         end
+        get 'success', :on => :member
         get 'swap_disabled_status', :on => :member
         get 'publish', :on => :member
         get 'new_submission', :on => :member
