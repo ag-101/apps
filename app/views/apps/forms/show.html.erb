@@ -45,8 +45,13 @@
 	</div>
 	<% end %>
 	
+	<input type="hidden" name="draft" id="draft" value="0">
+	
 	<div class="actions clear">
-		<input type="submit" class="right validate_form btn btn-success <%= 'hidden' unless pages.count == 1 %> <%= 'disabled' if !@apps_construct.published? %>" value="<%= t('text.save')%>">			
+		<div class="btn-group right">
+			<input type="button" class="validate_form btn btn-default <%= 'hidden' unless pages.count == 1 %> <%= 'disabled' if !@apps_construct.published? %>" value="<%= t('text.save_for_later')%>">
+			<input type="submit" class="validate_form btn btn-success <%= 'hidden' unless pages.count == 1 %> <%= 'disabled' if !@apps_construct.published? %>" value="<%= t('text.submit')%>">
+		</div>						
 		<% if !@apps_construct.published? or @apps_construct.disabled?
 			cancel_link = app_forms_path
 		else

@@ -19,7 +19,11 @@ en:
     created_by_html: 'Created <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>'
     updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>' 
   text:
+    response_in_draft: This response is in draft mode
+    save_for_later: Save draft
+    submit: Submit
     create_an_app: Create an app
+    unpublished: "[Unpublished]"
     help: Help
     pdf: PDF
     form_success_title: Success

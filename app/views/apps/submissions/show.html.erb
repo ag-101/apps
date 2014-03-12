@@ -1,4 +1,4 @@
-<%= render 'show' %>
+<%= render 'show', :edit => false %>
 
 <% if @submission.workflow_contents and @submission.workflow_contents.last and @submission.workflow_contents.last.workflow_stage.send_to == current_user and @submission.workflow_contents.last.status == 'pending' %>
 	<div class="btn-group margin-bottom">

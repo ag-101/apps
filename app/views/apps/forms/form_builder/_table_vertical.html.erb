@@ -24,7 +24,7 @@
 						if properties['options']
 							properties['options'].each_with_index do |option, column|%>
 
-							<td class='no_padding'><input type='text' <%= 'disabled="disabled"' if properties['response'] %> class='table_input' placeholder='...' value="<%= properties['response'][column + (items_per_row * row)] if properties['response'] %>" /></td>
+							<td class='no_padding'><input type='text' <%= 'disabled="disabled"' if properties['response'] and !properties['edit'] %> class='table_input' placeholder='...' value="<%= properties['response'][column + (items_per_row * row)] if properties['response'] %>" /></td>
 						<% end 
 					end%>
 					</tr>

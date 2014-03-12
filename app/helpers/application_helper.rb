@@ -89,6 +89,8 @@ module ApplicationHelper
             content += nav_link construct.name, app_form_path(@app, construct), 'apps/forms', {:construct => construct} if !construct.disabled? and construct.published?
           end
           
+          content += nav_link @apps_construct.name, app_form_path(@app, @apps_construct), 'apps/forms', {:construct => @apps_construct} if @apps_construct and !@submissions and !@new_form and (!@apps_construct.published? or @apps_construct.disabled?)
+          
           if check_role 'view', @app.id
             content += content_tag :li do
                nested_content = link_to "#{ t('text.admin')} <span class='glyphicon glyphicon-chevron-right'></span>".html_safe, '#', :class=>'admin_button'               

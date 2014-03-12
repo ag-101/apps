@@ -34,24 +34,11 @@ class Apps::FormsController < ApplicationController
     @submission = Submission.new()
     @submission.content = params[:content]
     @submission.construct_id = params[:form_id]
+    @submission.draft = params[:draft]
     @submission.created_by_id = current_user.id
     @submission.updated_by_id = current_user.id
 
-    if @submission.construct.published?
-      if @submission.save
-        
-        additional_info = ''
-        
-        if @submission.construct.app.app_type == 2 and @submission.construct.workflow    # start workflow
-          additional_info = create_workflow_stage_content(@submission)
-        end
-        redirect_to success_app_form_path(@submission.construct.app, @submission.construct), notice: "Your response to form '#{ @submission.construct.name }' has been saved.  #{additional_info}"
-      else
-        redirect_to app_path(params[:app_id]), alert: "There has been an error saving your response"
-      end
-    else
-       redirect_to app_path(params[:app_id]), alert: "The form '#{ @submission.construct.name }' has not yet been published."  
-    end
+    save_response(@submission)
   end
   
   def submissions

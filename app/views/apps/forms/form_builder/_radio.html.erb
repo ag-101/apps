@@ -12,7 +12,7 @@
 				properties['options'].each do |option|%>
 				<div class="radio"
 					<label>
-						<input <%= 'checked="checked"' if properties['response'] and properties['response'].include? option %> <%= 'disabled="disabled"' if properties['response'] %> type="radio" name="<%= properties['label'].parameterize %>" value="<%= option%>">
+						<input <%= 'checked="checked"' if properties['response'] and properties['response'].include? option %> <%= 'disabled="disabled"' if properties['response'] and !properties['edit'] %> type="radio" name="<%= properties['label'].parameterize %>" value="<%= option%>">
 						<%= option %>
 					</label>
 				</div>

@@ -42,8 +42,9 @@
 		</div>
 		<div class="col-sm-2">
 			<div class="btn-group">
-				<%= link_to t('text.view'), app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-default btn-xs' %>
-				<%= link_to t('text.pdf'), "#{ app_form_submission_path(submission.construct.app, submission.construct, submission)}.pdf", :target=>'_blank', :class=>'btn btn-default btn-xs' %>
+				<%= link_to t('text.view'), app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-primary btn-xs' %>
+				<%= link_to t('text.pdf'), "#{ app_form_submission_path(submission.construct.app, submission.construct, submission)}.pdf", :target=>'_blank', :class=>'btn btn-danger btn-xs' %>
+				<%= link_to t('text.edit'), edit_app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-warning btn-xs' if current_user == submission.created_by and submission.draft? %>
 			</div>	
 		</div>
 		
@@ -53,6 +54,7 @@
 		</div>
 		
 		<div class="col-sm-4">
+			<%= '<div class="workflow_item"><span class="glyphicon glyphicon-list-alt"></span> Saved as draft</div>'.html_safe if submission.draft? %>
 			<%= render 'workflow_status', :submission => submission, :full_workflow => (false if submission.construct.workflow == 2 and submission.workflow_contents) %>
 		</div>
 	</div>

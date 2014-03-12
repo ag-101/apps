@@ -35,7 +35,7 @@ class HomesController < ApplicationController
 
     respond_to do |format|
       if @home.update_attributes(params[:home])
-        format.html { redirect_to path, notice: 'Home item was successfully updated.' }
+        format.html { redirect_to path, notice: 'Item was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

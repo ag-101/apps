@@ -24,6 +24,43 @@ class ApplicationController < ActionController::Base
     end
   end  
   
+  def save_response(submission, method = 'save')
+    if submission.construct.published?
+      saved_to_db = false      
+ 
+      if method == 'save'
+        if submission.save
+          saved_to_db = true
+        end
+      else
+        if submission.update_attributes(params[:submission])
+          saved_to_db = true
+        end
+      end
+      
+      if saved_to_db
+        
+        additional_info = ''
+        
+        if submission.construct.app.app_type == 2 and submission.construct.workflow and submission.draft != 1   # start workflow
+          additional_info = create_workflow_stage_content(submission)
+        end
+        
+        notice = "Your response to form '#{ submission.construct.name }' has been saved.  #{additional_info}"
+        
+        if submission.draft?
+          redirect_to edit_app_form_submission_path(@app, submission.construct, submission), notice: notice
+        else
+          redirect_to success_app_form_path(@app, submission.construct), notice: notice
+        end
+      else
+        redirect_to app_path(params[:app_id]), alert: "There has been an error saving your response"
+      end
+    else
+       redirect_to app_path(params[:app_id]), alert: "The form '#{ submission.construct.name }' has not yet been published."  
+    end
+  end    
+  
   def create_workflow_stage_content(submission)
     @current_highest = WorkflowStage.joins(:workflow).joins(:workflow_contents).where('workflow_contents.status != ?', 'rejected').where('workflow_contents.submission_id = ?', submission.id).where('workflows.app_id = ?', submission.construct.app.id).where('workflow_stages.workflow_id = ?', submission.construct.workflow_id).order('stage DESC').limit(1)
     
@@ -78,7 +115,7 @@ class ApplicationController < ActionController::Base
     
     if check_app
       if id
-        if app_parent != ''
+        if app_parent != '' and !params[:app_id]
           app_parent_check = app_parent.find_by_id(id)
           lookup = app_parent_check.app_id
         else

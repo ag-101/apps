@@ -61,12 +61,12 @@ h1 a{ color: #333; text-shadow: 0px 0px 4px #ccc; }
 .nav-tabs .active a:hover{ box-shadow:0px 0px 10px #ccc !important;}
 
 #user{ position:absolute; top:5px; right:18px;  }
-#content{ margin:0 20px; min-height:500px; padding:20px; background:#fff; position:relative;  box-shadow:0px 0px 5px #ccc; border-top:1px solid #ccc; }
+#content{ min-height:500px; padding:20px; background:#fff; position:relative;  box-shadow:0px 0px 5px #ccc; border-top:1px solid #ccc; }
 #content_container{ position:relative; }
 
-div.banner_message.alert{ background:#d2322d;   }
-div.banner_message.notice{ background:#ed9c28;}
-div.banner_message{ position:absolute; top:65px; left:0; width:100%; cursor:pointer; padding:0 2%; color:#fff; text-shadow:1px 1px 2px #000; border-radius:0px; }
+div.banner_message.alert{ background:#f2dede; color:#a94442; border:1px solid #ebccd1;   }
+div.banner_message.notice{ background:#fcf8e3; color:#8a6d3b; border:1px solid #faebcc; }
+div.banner_message{ margin:-20px -20px 20px -20px; cursor:pointer; padding:10px 1%; border-left:none; font-weight:bold; border-right:none; border-radius:0px; }
 
 .side-margin{ margin:20px !important;  }
 
@@ -128,9 +128,11 @@ a:hover .toggle_text{ width:100px;  }
 #options_modal input{ margin-bottom:2px; }
 
 #fields .default_label{ color:#999;}
-#field_picker h3, #fields h3{ text-align:center; }
+#fields h3{ text-align:center; }
 #field_picker .li_handle{ width:100%; }
 #field_picker li{ margin:10px; width:200px; }
+#field_picker h4{ margin:0; }
+
 
 #fields .page{ border:1px solid #ccc;   border:1px solid white; border-radius:5px; border-radius:5px; padding:10px; margin:20px; }
 
@@ -185,11 +187,7 @@ box-sizing: border-box;
 padding: 0 10px 0 0;  
 }
 
-#field_picker{ border-radius:0px; position:fixed; z-index:1000; bottom:0; left:0; margin:0; height:200px; width:auto; width:100%; overflow:hidden; }
-
-
-
-
+#field_picker{ border-radius:0px; position:fixed; z-index:1000; bottom:0; left:0; margin:0; height:170px; width:auto; width:100%; overflow:hidden; }
 
 .als-prev{ left:25px; }
 .als-next{ right:25px;}
@@ -277,3 +275,5 @@ ol.breadcrumb{ position:absolute; min-height:40px; z-index:2000; width:100%;  ba
 .slide_toggle:hover{ opacity:0.5; }
 
 .help_panel{ min-height:550px; }
+
+.unpublished{ padding:3px 1px; color:#999; }

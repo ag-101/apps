@@ -8,7 +8,7 @@
 		</label>
 		
 		<div class='col-sm-10'>
-			<textarea <%= 'disabled="disabled"' if properties['response'] %> name="<%= properties['label'].parameterize %>" class='form-control no_wysiwyg' rows='10'><%= properties['response'] %></textarea>
+			<textarea <%= 'disabled="disabled"' if properties['response'] and !properties['edit'] %> name="<%= properties['label'].parameterize %>" class='form-control no_wysiwyg' rows='10'><%= properties['response'] %></textarea>
 		</div>
 	</div>
 <% else %>

@@ -1,5 +1,5 @@
 class Submission < ActiveRecord::Base
-  attr_accessible :app_id, :content, :created_by_id, :updated_by_id
+  attr_accessible :app_id, :draft, :content, :created_by_id, :updated_by_id
   
   belongs_to :construct
   

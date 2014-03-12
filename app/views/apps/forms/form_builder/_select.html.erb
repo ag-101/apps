@@ -8,7 +8,7 @@
 		</label>
 		
 		<div class='col-sm-10'>
-			<select name="<%= properties['label'].parameterize %>" class="form-control" <%= 'disabled="disabled"' if properties['response'] %>>
+			<select name="<%= properties['label'].parameterize %>" class="form-control" <%= 'disabled="disabled"' if properties['response'] and !properties['edit'] %>>
 				<option></option>
 				<% if properties['options'] 
 					properties['options'].each do |option|%>

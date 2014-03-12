@@ -8,7 +8,7 @@
 
 
 
-<% if check_role 'admin', @app.id %>
+<% if check_role 'edit', @app.id %>
 <br/><br/>
 
 	<div class="panel panel-default">
@@ -24,15 +24,15 @@
 			<%= render :partial => '/partials/created_updated_details', :locals => { :item => @app } %>
 			
 			<div class="btn-group">
-				<%= button_closer_link 'pencil', t('text.edit'), edit_app_path(@app), 'warning' if check_role 'admin', @app.id %>
+				<%= button_closer_link 'pencil', t('text.edit'), edit_app_path(@app), 'warning' if check_role 'edit', @app.id %>
 				<%= button_closer_link 'remove', t('text.delete'), {:action => 'destroy', :id => @app.id }, 'danger', { :method => :delete, :confirm => "#{ t('confirm.delete_app', :app_name => @app.name)}" } if check_role 'delete', @app.id %>	
 			</div>
 			
-			<% if check_role 'admin', @app.id %>
+			<% if check_role 'view', @app.id %>
 				<div class="btn-group">
 					<%= button_icon_link 'wrench', t('text.forms'), app_forms_path(@app) %>	
 					<%= button_icon_link 'stats', t('text.responses'), app_submissions_select_path(@app)%>
-					<%= button_icon_link 'thumbs-up', t('text.permissions'), role_path(@app) %>
+					<%= button_icon_link 'thumbs-up', t('text.permissions'), role_path(@app) if check_role 'admin', @app.id %>
 					<%= button_icon_link 'tasks', t('text.workflows'), app_workflows_path(@app) if @app.app_type == 2 %>
 				</div>
 			<% end %>

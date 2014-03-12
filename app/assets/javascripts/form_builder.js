@@ -9,8 +9,9 @@ $(document).ready(function(){
 	$('body').on('click', '.remove_page', function(e){
 		$(this).parents('.page').slideUp("fast", function(){
 			$(this).remove();
+			update_content();
 		});
-		update_content();
+		
 		e.preventDefault();
 	});
 	

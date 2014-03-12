@@ -2,7 +2,7 @@ $(document).ready(function(){
 	$('.banner_message').slideUp(0, function(){
 		$('body').animate({opacity:1}, 100, function(){
 			$('.banner_message').slideDown("fast", function(){
-				$(this).animate({opacity:1}, 5000, function(){
+				$(this).animate({opacity:1}, 7000, function(){
 					$(this).slideUp(600, function(){
 						$(this).remove();
 					});
@@ -87,12 +87,12 @@ $(document).ready(function(){
 	}
 	
 	$('.validate_form').on('click', function(e){
-		validate_form($(this).parents('form'));
+		validate_form($(this).parents('form'), $(this).prop('type'));
 		e.preventDefault();
 	});
 });
 
-function validate_form(form){
+function validate_form(form, button_type){
 	$('.error.field_with_errors').removeClass('error').removeClass('field_with_errors');
 	$('.panel-danger').removeClass('panel-danger').addClass('panel-default');
 	$('#notice').html('');
@@ -126,7 +126,14 @@ function validate_form(form){
 		}
 	});
 	if (form_valid == true){
-		$(form).submit();
+		if(button_type == "submit"){
+			$('#draft').val('0');
+			$(form).submit();
+		} else{
+			$('#draft').val('1');
+			$(form).submit();
+		}
+		
 	} else{
 		$('#notice').html('<div class="alert alert-danger">One or more mandatory fields have not been completed.</div>');
 		$('#notice .alert').slideUp(0, function(){
