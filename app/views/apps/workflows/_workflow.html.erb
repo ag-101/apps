@@ -16,7 +16,7 @@
 			
 			Send to <%= mail_to workflow_stage.send_to.email, workflow_stage.send_to.name %>
 			
-			<%= link_to t('text.remove_stage_html'), app_workflow_workflow_stage_path(@app, workflow, workflow_stage), { :method => :delete, :remote=>true, :class=>"remove_stage btn btn-danger btn-xs #{ 'hidden_workflow hidden' if workflow.constructs.count > 0}"} if edit %>
+			<%= link_to t('text.remove_stage_html'), app_workflow_workflow_stage_path(@app, workflow, workflow_stage), { :method => :delete, :remote=>true, :class=>"remove_stage btn btn-danger btn-xs #{ 'hidden_workflow hidden' if workflow.constructs.count > 0}"} if edit and check_role 'admin', @app.id %>
 		</div>
 		
 		<%= t('arrows.down_html')%>

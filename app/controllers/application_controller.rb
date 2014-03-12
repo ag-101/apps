@@ -59,9 +59,10 @@ class ApplicationController < ActionController::Base
     @app = App.find_by_id(params[:app_id]) if params[:app_id]
   end
   
-  def check_role(role_name, app_id = 0)
+  def check_role(role_name, app_id = 0, suppress_app_check = false)
     if user_signed_in?
-      must_have = Role.where("((name = '#{role_name}' OR name = 'Admin') AND (app_id = #{app_id || 0} OR app_id = 0)) OR name = 'top_banana'")
+      (suppress_app_check == true) ? additional = '' : additional = " AND (app_id = #{app_id || 0} OR app_id = 0)"
+      must_have = Role.where("((name = '#{role_name}' OR name = 'admin') #{additional}) OR name = 'top_banana'")
       have = current_user.roles
 
       if (must_have & have).count > 0

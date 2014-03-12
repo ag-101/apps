@@ -2,7 +2,7 @@
 
 <%= render 'workflow', :workflow => @workflow, :edit => true  %>
 
-<% if @workflow.constructs.count > 0 %>
+<% if @workflow.constructs.count > 0  and check_role 'admin', @app.id %>
 	<br/></br/>
 	<div class="alert alert-warning">
 		<%= t('text.workflow_warning_html') %>

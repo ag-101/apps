@@ -5,7 +5,6 @@ class AppsController < ApplicationController
   before_filter lambda { check_permission('create') }, :only => [:new]
   before_filter lambda { check_permission('edit') }, :only => [:edit]
   before_filter lambda { check_permission('delete') }, :only => [:destroy]
-  before_filter lambda { check_permission('view') }, :only => [:show, :index]
 
   # GET /apps
   # GET /apps.json
@@ -66,7 +65,7 @@ class AppsController < ApplicationController
     respond_to do |format|
       if @app.save
         home = Home.new
-        home.content = "<b>#{@app.name}</b><br><br>If you're seeing this text and are the administrator for this application, you should edit this message."
+        home.content = "<h3>#{@app.name}</h3>If you're seeing this text and are the administrator for this application, you should edit this message."
         home.created_by_id = current_user.id
         home.updated_by_id = current_user.id
         home.app_id = @app.id

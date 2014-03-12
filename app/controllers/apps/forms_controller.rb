@@ -6,7 +6,11 @@ class Apps::FormsController < ApplicationController
   before_filter lambda { check_permission('create', true) }, :only => [:new]
   before_filter lambda { check_permission('edit', true) }, :only => [:edit]
   before_filter lambda { check_permission('delete', true) }, :only => [:destroy]
-  before_filter lambda { check_permission('view', true) }, :only => [:show, :index]  
+  before_filter lambda { check_permission('view', true) }, :only => [:index]
+  
+  before_filter lambda { check_permission('edit', true) }, :only => [:publish]
+  before_filter lambda { check_permission('edit', true) }, :only => [:swap_disabled_status]
+    
   
   def swap_disabled_status
     @apps_construct = Construct.find(params[:id])

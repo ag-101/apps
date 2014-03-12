@@ -19,9 +19,11 @@ module ApplicationHelper
   def breadcrumbs
     @breadcrumbs = {}
     
-    add_breadcrumb_item(t('text.apps'), apps_path) if check_role 'admin' or check_role 'view', 0 or check_role 'create', 0
+    enhanced_role = true if check_role 'admin' or check_role 'view', 0 or check_role 'create', 0
     
-    add_breadcrumb_item(@app.name, app_path(@app)) if @app and !@new_app
+    add_breadcrumb_item(t('text.apps'), apps_path) if enhanced_role
+    
+    add_breadcrumb_item(enhanced_role ? @app.name : 'Home', app_path(@app)) if @app and !@new_app
     add_breadcrumb_item(t('text.new'), new_app_path) if @new_app
     
     add_breadcrumb_item(t('text.forms'), app_forms_path) if params[:controller] == 'apps/forms' and check_role 'admin'
@@ -81,18 +83,18 @@ module ApplicationHelper
     content_tag :div, :class=>'nav-tabs-container' do
       content_tag :ul, :class=>'nav nav-tabs' do
         if (@app and @app.id)
-          content = nav_link @app.name? ? @app.name : 'Home'.html_safe, "/#{ @app.slug }", 'apps'
+          content = nav_link 'Home', "/#{ @app.slug }", 'apps'
           
           @app.constructs.each do |construct|
             content += nav_link construct.name, app_form_path(@app, construct), 'apps/forms', {:construct => construct} if !construct.disabled? and construct.published?
           end
           
-          if check_role 'admin', @app.id
+          if check_role 'view', @app.id
             content += content_tag :li do
                nested_content = link_to "#{ t('text.admin')} <span class='glyphicon glyphicon-chevron-right'></span>".html_safe, '#', :class=>'admin_button'               
                nested_content += nav_link glyphicon_text('wrench', t('text.forms')), app_forms_path(@app), 'apps/forms', {:class=>'admin_link'}
                nested_content += nav_link glyphicon_text('stats', t('text.submissions')), app_submissions_select_path(@app), 'apps/submissions', {:class=>'admin_link'}          
-               nested_content += nav_link glyphicon_text('thumbs-up', t('text.permissions')), role_path(@app.id), 'roles', {:class=>'admin_link'}
+               nested_content += nav_link glyphicon_text('thumbs-up', t('text.permissions')), role_path(@app.id), 'roles', {:class=>'admin_link'} if check_role 'admin', @app.id
                nested_content += nav_link glyphicon_text('tasks', t('text.workflows')), app_workflows_path(@app), 'apps/workflows', {:class=>'admin_link'} if @app.app_type == 2
                nested_content
             end         
@@ -101,7 +103,7 @@ module ApplicationHelper
 
         else
           content = nav_link t('text.Home'), root_path, 'homes'
-          content += nav_link t('text.Apps'), apps_path, 'apps' if check_role 'view' or check_role 'create'
+          content += nav_link t('text.Apps'), apps_path, 'apps' if check_role 'admin', 0, true or check_role 'create'
           content += nav_link t('text.Permissions'), roles_path, 'roles' if check_role 'top_banana'
 
         end

@@ -1,4 +1,6 @@
 <% @homes.each do |home| %>
-	<%= home.content.html_safe %>
+	<div class="home"><%= home.content.html_safe %></div>
 	<%= link_to '<span class="glyphicon glyphicon-pencil"></span> <span class="toggle_text">Edit</span>'.html_safe, edit_home_path(home), :class=>'btn btn-xs btn-warning right' if check_role 'top_banana'%>
 <% end %>
+
+<%= button_icon_link 'plus', t('text.create_an_app'), new_app_path, 'success' if check_role 'create' %>

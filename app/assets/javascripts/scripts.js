@@ -14,6 +14,9 @@ $(document).ready(function(){
 	$('body').on('click', '.slide_toggle', function(e){
 		$(this).parents('.panel').find('.slide_up').slideDown();
 		$(this).removeClass('slide_toggle');
+		
+		var pos = $(this).offset();
+	    $('body').animate({ scrollTop: (pos.top - 10) });		
 	});
 	
 	$('#enable_workflow_controls').on('click', function(e){

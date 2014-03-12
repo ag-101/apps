@@ -50,18 +50,18 @@ a.align_right.disabled, a.align_left.disabled{ color:#333; }
 
 h1, h2, h3{ margin:0 0 10px 0; }
 h1#title{ padding:20px 20px 0 20px; color:#999; }
-h1 a{ color:#999; }
+h1 a{ color: #333; text-shadow: 0px 0px 4px #ccc; }
 
 .nav-tabs-container{ margin:40px 20px 0 20px; }
 .nav-tabs a{ color:#999; }
-.nav-tabs .active a, .nav-tabs a:hover{ background:#fff !important; box-shadow:0px 4px 6px #ccc !important; border-color:#ccc !important; border-bottom:1px solid #fff !important; }
+.nav-tabs .active a, .nav-tabs a:hover{ z-index:1000; background:#f8f8f8 !important; box-shadow:0px 0px 5px #ccc !important; border-color:#f8f8f8 !important; }
 .nav-tabs .alt{ opacity:0.5; }
-.nav-tabs{ border-bottom:1px solid #ccc; }
+.nav-tabs{ border-bottom:1px solid #fff; margin-bottom:-1px; }
 .nav-tabs .active a{  cursor:pointer !important; }
-.nav-tabs .active a:hover{ box-shadow:0px 0px 12px #999 !important; }
+.nav-tabs .active a:hover{ box-shadow:0px 0px 10px #ccc !important;}
 
 #user{ position:absolute; top:5px; right:18px;  }
-#content{ margin:0 20px; min-height:740px; padding:20px; background:#fff; position:relative;  box-shadow:0px 5px 5px #ccc; border:1px solid #ccc; border-top:none; }
+#content{ margin:0 20px; min-height:500px; padding:20px; background:#fff; position:relative;  box-shadow:0px 0px 5px #ccc; border-top:1px solid #ccc; }
 #content_container{ position:relative; }
 
 div.banner_message.alert{ background:#d2322d;   }
@@ -253,8 +253,9 @@ padding: 0 10px 0 0;
 
 .workflow_stage.highlighted{ background-color: #fcf8e3; border-color: #faebcc; color: #8a6d3b; }
 
-ol.breadcrumb{ border-bottom:1px solid #efefef; background:none; margin:-20px -20px 20px -20px; border-radius:0px; }
-.breadcrumb .current_page{ color:#666; cursor:default; }
+#breadcrumb_container{ position:relative; min-height:41px; margin:-20px -20px 20px -20px; border-bottom:1px solid #efefef; }
+ol.breadcrumb{ position:absolute; min-height:40px; z-index:2000; width:100%;  background:#f8f8f8; color:#666;  border-radius:0px; }
+.breadcrumb .current_page{ color:#fff; cursor:default; }
 
 .panel-body .row{ margin:2px 0; }
 

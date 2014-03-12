@@ -19,6 +19,7 @@ en:
     created_by_html: 'Created <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>'
     updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>' 
   text:
+    create_an_app: Create an app
     help: Help
     pdf: PDF
     form_success_title: Success
@@ -69,7 +70,7 @@ en:
     use_this_form: Use this form
     preview: Preview
     not_yet_published: This form has not yet been published for use.
-    currently_disabled: This form is currently hidden.
+    currently_disabled: This form is currently hidden from the navigation.
     submitted: Submitted
     submitted_by: Submitted by
     view_response: View response
@@ -77,9 +78,10 @@ en:
     completed: Completed
     permissions_text_html:   "
     <ul>
-      <li>An <strong>admin</strong> role can also <strong>create</strong>, <strong>edit</strong>, <strong>delete</strong> and <strong>view</strong> even if the user isn't assigned those roles directly.</li>  
-      <li>You can't remove an <strong>admin</strong> role from yourself - because that would be stupid and you wouldn't be able to return to this page.</li>
-      <li>The other roles are independent - so adding <strong>edit</strong> won't let them view the app until you give them <strong>view</strong> permission too.</li>
+      <li>An <strong>Admin</strong> role inherits <strong>Create</strong>, <strong>Edit</strong>, <strong>Delete</strong> and <strong>View</strong> rights even if the user isn't assigned those roles directly.</li>  
+      <li>The other roles are independent - so adding <strong>Edit</strong> to a user won't let them view the app until you give them <strong>View</strong> permission too.</li>
+      <li><strong>View</strong> refers to the ability to view responses and workflows.  Anyone that is signed in will be able to view and complete any form if given the link.</li>
+      <li>Users included in a workflow require <strong>View</strong> or <strong>Admin</strong> rights to be able to approve or reject.</li>
     </ul>"
     new_workflow: New workflow
     new_stage: New stage

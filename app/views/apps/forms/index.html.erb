@@ -41,14 +41,18 @@
 						<% if apps_construct.published? %>
 							<%= link_to t('text.published'), '#', :class=>'btn btn-success disabled btn-sm' %>
 						<% else %> 
-							<%= link_to t('text.publish'), publish_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-primary btn-sm', :confirm=>"#{ t('confirm.publish_form_html')}" %>
+							<% if check_role 'edit', @app.id %>
+								<%= link_to t('text.publish'), publish_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-primary btn-sm', :confirm=>"#{ t('confirm.publish_form_html')}" %>
+							<% else %>
+								<%= link_to t('text.unpublished'), '#', :class=>'btn btn-danger btn-sm disabled' %>
+							<% end %>
 						<% end %>
 					</div>
 					<div class='col-sm-2'>	
 						<% if apps_construct.disabled? %>
-							<%= link_to t('text.disabled'), swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-danger btn-sm' %>
+							<%= link_to t('text.disabled'), swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>"btn btn-default btn-danger btn-sm #{ 'disabled' unless check_role 'edit', @app.id }" %>
 						<% else %> 
-							<%= link_to t('text.enabled'), swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-default btn-success btn-sm' %>
+							<%= link_to t('text.enabled'), swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>"btn btn-default btn-success btn-sm #{ 'disabled' unless check_role 'edit', @app.id }" %>
 						<% end %>				
 					</div>
 				</div>

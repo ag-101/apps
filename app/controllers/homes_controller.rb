@@ -31,7 +31,7 @@ class HomesController < ApplicationController
     @home = Home.find(params[:id])
     @home.updated_by = current_user
     
-    path = (@home.app_id == 0) ? root_url : app_home_path(@home.app_id)
+    path = (@home.app_id == 0) ? root_url : app_path(@home.app_id)
 
     respond_to do |format|
       if @home.update_attributes(params[:home])

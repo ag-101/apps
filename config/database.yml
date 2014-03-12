@@ -29,6 +29,6 @@ production:
   encoding: utf8
   database: applications
   username: root
-  password: 
+  password: atlant15mad1na
   host: localhost
   port: 3306

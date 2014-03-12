@@ -3,7 +3,7 @@ class Apps::WorkflowStagesController < ApplicationController
    before_filter :authenticate_user!
    before_filter :find_app 
   
-   before_filter lambda { check_permission('admin', true) }
+   before_filter lambda { check_permission('view', true) }
 
   # GET /apps
   # GET /apps.json
