@@ -1,6 +1,6 @@
 class HelpsController < ApplicationController
   
-  before_filter :authenticate_user!
+ # before_filter :authenticate_user!
   
   before_filter lambda { check_permission('top_banana', false) }, :except => [:index]
     
