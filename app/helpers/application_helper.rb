@@ -43,7 +43,7 @@ module ApplicationHelper
     add_breadcrumb_item(@submission.construct.name, app_form_submissions_path(@app, @submission.construct.workflow)) if @submission
     add_breadcrumb_item("#{t('text.submission')} by #{@submission.created_by.name}", root_path) if @submission
     
-    add_breadcrumb_item(t('text.help'), help_path) if params[:controller] == 'helps'
+    add_breadcrumb_item(t('text.help'), helps_path) if params[:controller] == 'helps'
 
 
     content_tag :ol, :class=>'breadcrumb' do
@@ -63,7 +63,7 @@ module ApplicationHelper
       @active_enabled = false
     end
     
-    class_name = "#{class_name} right" if link_path == help_path
+    class_name = "#{class_name} right" if link_path == helps_path
 
     content_tag(:li, :class=>class_name) do
       link_to link_text, link_path, :class=>options[:class] || 'standard'
@@ -109,7 +109,7 @@ module ApplicationHelper
           content += nav_link t('text.Permissions'), roles_path, 'roles' if check_role 'top_banana'
 
         end
-        content += nav_link glyphicon_text('question-sign', t('text.help')), help_path, 'helps'
+        content += nav_link glyphicon_text('question-sign', t('text.help')), helps_path, 'helps'
         content
       end
     end

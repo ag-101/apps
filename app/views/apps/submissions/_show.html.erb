@@ -1,9 +1,10 @@
 <% pages = JSON.parse @submission.construct.content %>
 <% response = JSON.parse @submission.content %>
+<% notice = '' unless notice %>
+<p id="notice"><%= notice %></p>
+<h3><strong><%= @submission.construct.name %></strong> response by <strong><%= @submission.created_by.name %></strong> <small><%= @submission.created_at.to_formatted_s(:long_ordinal)  %></small></h3>
 
-<h3><strong><%= @submission.construct.name %></strong> response by <strong><%= @submission.created_by.name %></strong>, <%= @submission.created_at.to_formatted_s(:long_ordinal)  %></h3>
-
-<%= "<div class='alert alert-info'>#{t('text.response_in_draft')}</div>".html_safe if @submission.draft? %>
+<%= "<div class='alert alert-info' id='draft_mode'>#{t('text.response_in_draft', :user => @submission.created_by.name)}</div>".html_safe if @submission.draft? %>
 
 <div class="form-horizontal form_show">
 		
@@ -36,8 +37,8 @@
 			
 			<div class="actions clear">
 				<div class="btn-group right">
-					<input type="button" class="validate_form btn btn-default <%= 'hidden' unless pages.count == 1 %> <%= 'disabled' if !@submission.construct.published? %>" value="<%= t('text.save_for_later')%>">
-					<input type="submit" class="validate_form btn btn-success <%= 'hidden' unless pages.count == 1 %> <%= 'disabled' if !@submission.construct.published? %>" value="<%= t('text.submit')%>">
+					<input type="button" class="validate_form btn btn-default <%= 'disabled' if !@submission.construct.published? %>" value="<%= t('text.save_for_later')%>">
+					<input type="submit" class="validate_form btn btn-success <%= 'disabled' if !@submission.construct.published? %>" value="<%= t('text.submit')%>">
 				</div>	
 			</div>
 			

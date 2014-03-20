@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   helper_method :check_role, :check_permission
   
   protect_from_forgery
+
   
   def home_checks(url)
     @app = App.find_by_id(params[:id]) unless url
@@ -84,9 +85,17 @@ class ApplicationController < ActionController::Base
       if @workflow_content.save
         
         to = @workflow_content.workflow_stage.send_to
-        ApprovalMailer.approval_email(to, submission).deliver
-        ApprovalMailer.info_email(submission).deliver
 
+        @submission = submission
+        @use_form = true
+        pdf = render_to_string :pdf => "#{ @submission.construct.name } - #{@submission.created_by.name}",
+               :layout => 'pdf.html',
+               :template => 'apps/submissions/show.pdf.erb',
+               :basic_auth => true
+        
+        ApprovalMailer.approval_email(to, submission, pdf).deliver
+        ApprovalMailer.info_email(submission).deliver
+        
         return additional_info = "It has been sent to #{ @workflow_content.workflow_stage.send_to.name } to review."
     end
     end

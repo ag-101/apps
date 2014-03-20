@@ -1,8 +1,9 @@
 Forms::Application.routes.draw do 
-  get '/help', to: 'helps#index'
-  resources :helps
+  resources :helps, :path =>'help'
   
   resources :homes
+  
+  match '/apps/:app_id/forms/:form_id/submissions/csv', to: 'apps/submissions#csv', as: 'csv'
   
   resources :apps do
     scope module: :apps do

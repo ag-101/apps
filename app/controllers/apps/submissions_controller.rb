@@ -6,7 +6,17 @@ class Apps::SubmissionsController < ApplicationController
   before_filter lambda { check_permission('view', true) }, :except => [:edit, :show]
   
   def submissions_select
-    @app = App.find_by_id(params[:app_id])
+
+  end
+  
+  def csv
+    @submissions = Submission.joins(:construct).where('draft != 1 AND construct_id = ?', params[:form_id])
+    
+    require 'csv'
+    
+    respond_to do |format|        
+      format.csv { render :layout => false }
+    end
   end
   
   def index

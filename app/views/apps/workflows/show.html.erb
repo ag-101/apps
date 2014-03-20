@@ -25,5 +25,5 @@
 <% end %>
 
 <span id="new_stage" <%= 'class="hidden_workflow hidden"' if @workflow.constructs.count > 0 %>>
-	<%= button_icon_link 'plus', t('text.new_stage'), new_app_workflow_workflow_stage_path(@app, @workflow), "success #{ 'hidden hidden_workflow' }" %>
+	<%= button_icon_link 'plus', t('text.new_stage'), new_app_workflow_workflow_stage_path(@app, @workflow), "success" %>
 </span>

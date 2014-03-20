@@ -11,6 +11,12 @@ $(document).ready(function(){
 		});
 	});
 	
+	$('body').on('click', '.continue_new_response', function(e){
+		$(this).parents('.alert').slideUp();
+		$('#continue_new_response').slideDown();
+		e.preventDefault();
+	});
+	
 	$('body').on('click', '.slide_toggle', function(e){
 		$(this).parents('.panel').find('.slide_up').slideDown();
 		$(this).removeClass('slide_toggle');
@@ -84,7 +90,7 @@ $(document).ready(function(){
 	
 	if ($('.nav .active').find('.admin_link').length > 0){
 		show_admin_buttons(0);
-	}
+	}	
 	
 	$('.validate_form').on('click', function(e){
 		validate_form($(this).parents('form'), $(this).prop('type'));
@@ -93,62 +99,68 @@ $(document).ready(function(){
 });
 
 function validate_form(form, button_type){
-	$('.error.field_with_errors').removeClass('error').removeClass('field_with_errors');
-	$('.panel-danger').removeClass('panel-danger').addClass('panel-default');
-	$('#notice').html('');
+	if(button_type == "submit"){
+		$('.error.field_with_errors').removeClass('error').removeClass('field_with_errors');
+		$('.panel-danger').removeClass('panel-danger').addClass('panel-default');
+		$('#notice').html('');
+		
+		var form_valid = true;
+		var errors = [];
+		$(form).find('.required').each(function(){
+			var parent = $(this).parents('.form-group');
+			var app_type = parent.prop('class').split(" ");
 	
-	var form_valid = true;
-	var errors = [];
-	$(form).find('.required').each(function(){
-		var parent = $(this).parents('.form-group');
-		var app_type = parent.prop('class').split(" ");
-
-
-
-		switch (app_type[1]){
-			case 'select':
-			case 'text_field':
-			case 'textarea':
-			case 'table_vertical':
-			case 'table_horizontal':
-				if (parent.find('select, input, textarea').val() == ''){
-					errors.push(parent);
-					form_valid = false;
-				}				
-			break;
-			case 'radio':
-			case 'checkbox':
-				if (parent.find('input:checked').length == 0){
-					errors.push(parent);
-					form_valid = false;
-				}
-			break;
-		}
-	});
-	if (form_valid == true){
-		if(button_type == "submit"){
+	
+	
+			switch (app_type[1]){
+				case 'select':
+				case 'text_field':
+				case 'textarea':
+				case 'table_vertical':
+				case 'table_horizontal':
+					if (parent.find('select, input, textarea').val() == ''){
+						errors.push(parent);
+						form_valid = false;
+					}				
+				break;
+				case 'radio':
+				case 'checkbox':
+					if (parent.find('input:checked').length == 0 && (parent.find('input[type="text"]').length > 0 && parent.find('input[type="text"]').val() == '')){
+						errors.push(parent);
+						form_valid = false;
+					}
+				break;
+			}
+		});
+		
+		if (form_valid == true){
 			$('#draft').val('0');
 			$(form).submit();
 		} else{
-			$('#draft').val('1');
-			$(form).submit();
-		}
-		
-	} else{
-		$('#notice').html('<div class="alert alert-danger">One or more mandatory fields have not been completed.</div>');
-		$('#notice .alert').slideUp(0, function(){
-			$(this).slideDown("fast", function(){
-				$(this).animate({opacity:1}, 3000, function(){
-					$(this).slideUp();
+			$('#notice').html('<div class="alert alert-danger">One or more mandatory fields have not been completed.</div>');
+			$('#notice .alert').slideUp(0, function(){
+				$(this).slideDown("fast", function(){
+					$(this).animate({opacity:1}, 3000, function(){
+						$(this).slideUp();
+					});
 				});
 			});
-		});
-		for (var i = 0; i < errors.length; i++) {
-			errors[i].addClass('field_with_errors').addClass('error');
-			errors[i].parents('.panel-default').removeClass('panel-default').addClass('panel-danger');
-		};
-		page_id = errors[0].parents('.page').prop('id').split('page_');
-		display_page(page_id[1], 100);
+			for (var i = 0; i < errors.length; i++) {
+				errors[i].addClass('field_with_errors').addClass('error');
+				errors[i].parents('.panel-default').removeClass('panel-default').addClass('panel-danger');
+			};
+			page_id = errors[0].parents('.page').prop('id').split('page_');
+			
+			if($('#draft_mode').length > 0){
+			    $('body').animate({ scrollTop: ($('#draft_mode').offset().top - 60) });
+			} else{
+				display_page(page_id[1], 100);
+			}
+		}
+	
+	} else{
+		$('#draft').val('1');
+		$(form).submit();
 	}
 }
 

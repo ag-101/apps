@@ -66,4 +66,4 @@
 <% end %>
 <%= paginate @submissions %>
 <br/>
-
+<%= link_to 'Export to CSV', "#{csv_path}.csv", :class=>'btn btn-info' %>

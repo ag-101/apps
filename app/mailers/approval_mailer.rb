@@ -1,11 +1,22 @@
 class ApprovalMailer < ActionMailer::Base
   default from: "noreply@bthft.nhs.uk"
   
-  def approval_email(to, submission)
+  def approval_email(to, submission, pdf)
+    
+
     @submission = submission
     @to = to
     
-    mail(from: "\"#{submission.created_by.name}\" <#{submission.created_by.email}>", to: @to.email, subject: "#{submission.construct.app.name}: #{submission.construct.name}")
+   # file = open("#{ app_form_submission_url(submission.construct.app, submission.construct, submission)}.pdf", "r")
+  #  attachments.inline['response.pdf'] = file
+  
+#     attachments["submission.pdf"] = {:mime_type => 'application/pdf',
+                                  #:content => 'aa'}
+                                  
+     attachments['submission.pdf'] = pdf
+
+     mail(from: "\"#{submission.created_by.name}\" <#{submission.created_by.email}>", to: @to.email, subject: "#{submission.construct.app.name}: #{submission.construct.name}")
+  #  file.close
   end
   
   def info_email(submission) 
@@ -20,7 +31,7 @@ class ApprovalMailer < ActionMailer::Base
     to = to.uniq
     
     @current_status = submission.workflow_contents.last.status
-         
+
     mail(from: "\"#{submission.created_by.name}\" <#{submission.created_by.email}>", to: to, subject: "#{submission.construct.app.name}: #{submission.construct.name}")
   end
 end

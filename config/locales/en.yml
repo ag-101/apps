@@ -19,7 +19,10 @@ en:
     created_by_html: 'Created <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>'
     updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>' 
   text:
-    response_in_draft: This response is in draft mode
+    you_have_drafts_html: 'You already have <strong>%{drafts}</strong> for this form:'
+    start_new_submission: Create a new response anyway
+    continue_editing: Continue editing
+    response_in_draft: This response is in draft mode.  It can be shared with users that have 'view' or 'admin' permissions, but can only be edited by %{user}.
     save_for_later: Save draft
     submit: Submit
     create_an_app: Create an app

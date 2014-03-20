@@ -76,6 +76,9 @@ class Apps::FormsController < ApplicationController
   def show
     require 'json' 
     @apps_construct = Construct.find(params[:id])
+    
+    @drafts = Submission.where('created_by_id = ?', current_user.id).where('construct_id = ?', @apps_construct.id).where('draft = 1')
+    
     @use_form = true
     
 
@@ -113,7 +116,7 @@ class Apps::FormsController < ApplicationController
 
     respond_to do |format|
       if @apps_construct.save
-        format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Construct was successfully created.' }
+        format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Form was successfully created.' }
         format.json {  }
       else
         flash[:construct] = @apps_construct
@@ -135,7 +138,7 @@ class Apps::FormsController < ApplicationController
   
       respond_to do |format|
         if @apps_construct.update_attributes(params[:construct])
-          format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Construct was successfully updated.' }
+          format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Form was successfully updated.' }
           format.json {  }
         else
           format.html { render action: "edit" }
@@ -152,7 +155,7 @@ class Apps::FormsController < ApplicationController
     @apps_construct.destroy
 
     respond_to do |format|
-      format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Construct was successfully deleted.'}
+      format.html { redirect_to app_forms_path(params[:app_id]), notice: 'Form was successfully deleted.'}
       format.json { head :no_content }
     end
   end

@@ -1,6 +1,27 @@
+<h3><%= @apps_construct.name %></h3>
+
 <p id="notice"><%= notice %></p>
 
-<h3><%= @apps_construct.name %></h3>
+<% if @drafts.count > 0 %>
+	<div class="alert alert-warning"><%= t('text.you_have_drafts_html', :drafts => pluralize(@drafts.count, 'draft response'))%>
+		<br/><br/>
+		<ul>
+			<% @drafts.each do |draft| %>
+				<li><%= draft.created_at.to_formatted_s(:long_ordinal)%>
+					<div class="btn-group">
+						<%= link_to t('text.continue_editing'), edit_app_form_submission_path(@app, draft.construct, draft), :class=>'btn btn-warning btn-xs'  %>
+					</div>
+				</li>
+			<% end %>
+		</ul>
+		<br/>	<br/>
+		<%= link_to t('text.start_new_submission'), '#', :class=>'continue_new_response btn btn-primary btn-sm btn-block' %>
+	</div>
+	
+	<div class="slide_up" id="continue_new_response">
+<% end %>
+
+
 
 <div class="form-horizontal form_show">
 <%= form_for @apps_construct, :url => "/apps/#{ @apps_construct.app_id }/forms/#{ @apps_construct.id }/save" do |f| %>
@@ -80,3 +101,4 @@
 	<% end %>
 <% end %>
 </div>
+<% if @drafts.count > 0 %></div><% end %>
