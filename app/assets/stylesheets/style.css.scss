@@ -157,6 +157,7 @@ ul{ margin-bottom:0px; }
 
 .table_input{ width:100%; height:100%; min-height:20px; border:none; padding:0 5px; }
 .no_padding{ padding:0 !important; }
+.no_padding label{ margin-bottom:0px; font-weight:normal; }
 
 table .no_padding{ line-height:1 !important;}
 
@@ -243,7 +244,7 @@ padding: 0 10px 0 0;
 
 .next_prev{ padding:5px 0; }
 
-.workflow_stage{ margin-top:-7px; position:relative; border:1px solid #ccc; padding:20px; width:50%; margin:auto; text-align:center; border-radius:5px; background:#fcfcfc;  }
+.workflow_stage{ margin-top:-7px; position:relative; border:1px solid #ccc; padding:20px; width:50%; margin:auto; text-align:center; border-radius:5px;  }
 .workflow_arrow{ text-align:center; }
 .workflow_arrow .glyphicon-arrow-down{ font-size:3.2em; padding-top:5px; color:#009900;  }
 .workflow_actions{ text-align:center; clear:both;  }
@@ -253,7 +254,6 @@ padding: 0 10px 0 0;
 .stage_number{ position:absolute; left:3px; top:3px; color:#999; }
 
 .workflow_stage .form-group{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
-.workflow_stage .btn-success{ display:none; }
 
 .workflow_stage.highlighted{ background-color: #fcf8e3; border-color: #faebcc; color: #8a6d3b; }
 
@@ -283,3 +283,7 @@ ol.breadcrumb{ position:absolute; min-height:40px; z-index:2000; width:100%;  ba
 .help_panel{ min-height:550px; }
 
 .unpublished{ padding:3px 1px; color:#999; }
+
+.form-group.radio, .form-group.checkbox{
+  padding-left:0px;
+}

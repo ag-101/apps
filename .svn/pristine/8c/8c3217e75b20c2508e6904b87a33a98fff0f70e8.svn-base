@@ -1,0 +1,109 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  helpers:
+    label:
+      app:
+        name: 'Name'
+        app_type: 'Application type'
+        description: 'Brief description'
+  views:
+    pagination:
+      first: "&laquo;"
+      last: "&raquo;"
+      previous: "&lsaquo;"
+      next: "&rsaquo;"
+      truncate: "..."
+  time:
+    created_by_html: 'Created <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>'
+    updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>' 
+  text:
+    you_have_drafts_html: 'You already have <strong>%{drafts}</strong> for this form:'
+    start_new_submission: Create a new response anyway
+    continue_editing: Continue editing
+    response_in_draft: This response is in draft mode.  It can be shared with users that have 'view' or 'admin' permissions, but can only be edited by %{user}.
+    save_for_later: Save draft
+    submit: Submit
+    create_an_app: Create an app
+    unpublished: "[Unpublished]"
+    help: Help
+    pdf: PDF
+    form_success_title: Success
+    form_follows_workflow_html: The <strong>%{form}</strong> form follows the <strong>%{workflow}</strong> workflow.
+    form_no_workflow_html: The <strong>%{form}</strong> form has no workflow, and so all data has now been captured.
+    form_success: The form will now be processed according to the workflow, and you'll be contacted if needed.
+    other_label: Other/additional info
+    workflow_warning_html: '<strong>WARNING</strong>&nbsp;&nbsp; Modifying this workflow will affect anything using it.  Click the button below to be able to modify this workflow.  <br/>The following forms are using this workflow:'
+    in_progress_workflows: '%{count} in progress will fail by editing this workflow.'
+    not_your_turn: It is not your turn to approve this form
+    ok_i_know: Enable editing controls anyway
+    error_saving_update: There was an error saving your update.
+    admin: Admin
+    confirm: Confirm
+    save: Save
+    edit: Edit
+    new: New
+    name: Name
+    created: Created
+    created_by: Created by
+    edit_page_content: Edit page content
+    cancel: Cancel
+    run: Run
+    delete: Delete
+    permissions: Permissions
+    applications: Applications
+    home: Home
+    apps: Apps
+    app: App
+    role_name: Role name
+    users_assigned_html: Users assigned to role <hint>Click a user to remove their role</hint>
+    assign_a_user: Assign a user
+    forms: Forms
+    new_form: New form
+    workflows: Workflows
+    workflow: Workflow
+    previous: Previous
+    submissions: Responses
+    submissions_list: Responses list
+    submission: Response
+    next: Next
+    publish: Publish
+    published: Published
+    enable: Show
+    disable: Hide
+    enabled: Visible
+    disabled: Hidden
+    use_this_form: Use this form
+    preview: Preview
+    not_yet_published: This form has not yet been published for use.
+    currently_disabled: This form is currently hidden from the navigation.
+    submitted: Submitted
+    submitted_by: Submitted by
+    view_response: View response
+    global: Global
+    completed: Completed
+    permissions_text_html:   "
+    <ul>
+      <li>An <strong>Admin</strong> role inherits <strong>Create</strong>, <strong>Edit</strong>, <strong>Delete</strong> and <strong>View</strong> rights even if the user isn't assigned those roles directly.</li>  
+      <li>The other roles are independent - so adding <strong>Edit</strong> to a user won't let them view the app until you give them <strong>View</strong> permission too.</li>
+      <li><strong>View</strong> refers to the ability to view responses and workflows.  Anyone that is signed in will be able to view and complete any form if given the link.</li>
+      <li>Users included in a workflow require <strong>View</strong> or <strong>Admin</strong> rights to be able to approve or reject.</li>
+    </ul>"
+    new_workflow: New workflow
+    new_stage: New stage
+    no_workflows: There are no workflows yet for this app. 
+    remove_stage_html: <div class="glyphicon glyphicon-remove"></div>
+    no_forms: There are no forms in this project to be able to view responses.
+    no_responses: There have been no responses for this form.
+    used: Used on
+  confirm:
+    delete_app: Delete '%{app_name}' application?
+    delete_form: Delete '%{form_name}' form?
+    publish_form_html: Are you sure?  This cannot be undone, and once a form is published it cannot be edited.
+    role_remove: Are you sure you want to take '%{role}' role take away from %{user}?
+  error:
+    count: '%{count} prohibited this form from being saved'
+  arrows:
+    down_html: '<div class="workflow_arrow"><div class="glyphicon glyphicon-arrow-down"></div></div>'
+    

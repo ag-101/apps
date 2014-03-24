@@ -1,0 +1,14 @@
+<h3><%= t('text.form_success_title')%></h3>
+
+<%= "<div class='alert alert-info'>#{ t('text.form_success') }</div>".html_safe if flash[:notice] %>
+
+<% if @apps_construct.message_after.blank? %>
+	<%= @apps_construct.workflow.blank? ? t('text.form_no_workflow_html', { :form => @apps_construct.name }) : t('text.form_follows_workflow_html', { :form => @apps_construct.name, :workflow => @apps_construct.workflow.name}) %>
+<% else %>
+	<%= @apps_construct.message_after.html_safe %>
+<% end%>
+
+<% unless @apps_construct.workflow.blank?
+	params[:highlight] = 1  %>
+	<%= render '/apps/workflows/workflow', :workflow => @apps_construct.workflow, :edit => true %>
+<% end %>

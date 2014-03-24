@@ -4,7 +4,7 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
    
-  <body style="background:#efefef;">
+  <body style="background:#efefef;"> 	
   	<table style="font-family:arial, calibri, sans-serif; font-size:12px; background:#fff;  border:1px solid #ccc;">
 	  	<tr>
 	  		<td colspan="2" style="padding:20px;">
@@ -15,8 +15,15 @@
 	    <tr>
 		    <td colspan="2" style="padding:20px;">
 		    	<p>
-		    		A form in the <%= link_to @submission.construct.app.name, app_url(@submission.construct.app), :style=>'text-decoration:none;' %> application has had an action performed in its workflow that now requires your input.
+		    		<% if @workflow_stage.info_only? %>
+						The <%= @submission.construct.name %> form in the <strong><%= @submission.construct.app.name%></strong>	application has been completed and sent to you for information.
+		    		<% else %>
+			    		The <%= @submission.construct.name %> form in the <strong><%= @submission.construct.app.name %></strong> application has had an action performed in its workflow that now requires your input.
+		    		<% end %>
+		    		
 		    	</p>
+		    	
+		    	<p>Refer to the attached PDF to view the response.</p>
 		    	
 		    	<table style="font-family: arial, calibri, sans-serif; font-size:12px;">
 		    		<tr>
@@ -33,7 +40,13 @@
 		    		</tr>
 		    		<tr>
 		    			<td style="padding:2px 0px" valign="top"><strong>Last action</strong></td>
-		    			<td style="padding:2px 10px"><strong style="color:red;">Sent to you to review</strong></td>
+		    			<td style="padding:2px 10px">
+		    				<% if @workflow_stage.info_only? %>
+		    					Sent to you for information
+		    				<% else %>
+		    					<strong style="color:red;">Sent to you to review</strong>
+		    				<% end %>
+		    			</td>
 		    		</tr>
 		    	</table>
 			</td>
@@ -44,14 +57,16 @@
 			<%= link_to t('text.view_response'), app_form_submission_url(@submission.construct.app, @submission.construct, @submission), :style=>'text-decoration:none; color:#fff;' %>
 			</td>
 		</tr>
-		<tr>
-			<td style="width:50%; background:#009900; color:#fff; text-align:center; padding:20px;">
-				<%= link_to 'Approve', approve_app_form_submission_workflow_content_url(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last), :only_path=>false, :style=>'text-decoration:none; color:#fff;' %>
-			</td>
-			<td style="width:50%; background:#990000; color:#fff; text-align:center; padding:20px;">
-				<%= link_to 'Reject', reject_app_form_submission_workflow_content_url(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last), :only_path=>false, :style=>'text-decoration:none; color:#fff;' %>
-			</td>
-		</tr>
+		<% unless @workflow_stage.info_only? %>
+			<tr>
+				<td style="width:50%; background:#009900; color:#fff; text-align:center; padding:20px;">
+					<%= link_to 'Approve', approve_app_form_submission_workflow_content_url(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last), :only_path=>false, :style=>'text-decoration:none; color:#fff;' %>
+				</td>
+				<td style="width:50%; background:#990000; color:#fff; text-align:center; padding:20px;">
+					<%= link_to 'Reject', reject_app_form_submission_workflow_content_url(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last), :only_path=>false, :style=>'text-decoration:none; color:#fff;' %>
+				</td>
+			</tr>
+		<% end %>
 	</table>
   </body>
 </html>

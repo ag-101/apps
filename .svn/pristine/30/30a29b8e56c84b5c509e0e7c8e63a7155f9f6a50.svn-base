@@ -1,0 +1,34 @@
+<% if @use_form %>
+	<div class='form-group textarea'>
+		<label class="col-sm-2 control-label">
+			<% if properties['required']%>
+				<span class='required'>*</span>
+			<% end %>
+			<%= properties['label'] %>
+		</label>
+		
+		<div class='col-sm-10'>
+			<textarea <%= 'disabled="disabled"' if properties['response'] and !properties['edit'] %> name="<%= properties['label'].parameterize %>" class='form-control no_wysiwyg' rows='10'><%= properties['response'] %></textarea>
+		</div>
+	</div>
+<% else %>
+	<div class='li_handle' draggable="true">
+		<h3><span class="text_content default_label">Textarea</span></h3>
+		<textarea disabled="disabled" class="no_wysiwyg form-control remove"></textarea>
+		
+	</div>
+	<div class="form_controls form-horizontal">
+		<form action="#">
+			<%= render 'apps/forms/form_builder/required_options', :type => 'textarea' %>
+			<div class="form-group no-margin">
+				<div class="col-sm-12 options">
+					<div class="btn-group">
+						<%= link_to '<span class="glyphicon glyphicon-remove"></span> <span class="toggle_text">Remove</span>'.html_safe, '#', :class=>'btn-sm btn btn-danger remove_field' %>
+					</div>
+				</div>						
+			</div>
+		</form>
+		
+	</div>
+	<div class="clear"></div>
+<% end %>

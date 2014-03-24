@@ -1,0 +1,41 @@
+<% @home.each do |home| %>
+	<%= home.content.html_safe %>
+	<%= button_closer_link 'pencil', t('text.edit_page_content'), edit_home_path(home), 'warning btn-xs right' if check_role 'edit', @app.id %>
+<% end %>
+
+
+
+
+
+
+<% if check_role 'edit', @app.id %>
+<br/><br/>
+
+	<div class="panel panel-default">
+		<div class="panel-heading"><h3 class="panel-title">Admin</h3></div>
+		<div class="panel-body">
+			<div class="alert alert-success"><strong><%= app_types.select{ |x| x[1] == @app.app_type }.first.first %></strong> application</div>
+			<%= "<div class='alert alert-info'>#{@app.description}</div>".html_safe if @app.description? %>
+			
+			<div class="alert alert-warning">
+				<input type="text" id="distribute_url" value="<%= "#{root_url}#{@app.name.parameterize}" %>">
+			</div>
+			
+			<%= render :partial => '/partials/created_updated_details', :locals => { :item => @app } %>
+			
+			<div class="btn-group">
+				<%= button_closer_link 'pencil', t('text.edit'), edit_app_path(@app), 'warning' if check_role 'edit', @app.id %>
+				<%= button_closer_link 'remove', t('text.delete'), {:action => 'destroy', :id => @app.id }, 'danger', { :method => :delete, :confirm => "#{ t('confirm.delete_app', :app_name => @app.name)}" } if check_role 'delete', @app.id %>	
+			</div>
+			
+			<% if check_role 'view', @app.id %>
+				<div class="btn-group">
+					<%= button_icon_link 'wrench', t('text.forms'), app_forms_path(@app) %>	
+					<%= button_icon_link 'stats', t('text.responses'), app_submissions_select_path(@app)%>
+					<%= button_icon_link 'thumbs-up', t('text.permissions'), role_path(@app) if check_role 'admin', @app.id %>
+					<%= button_icon_link 'tasks', t('text.workflows'), app_workflows_path(@app) if @app.app_type == 2 %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+<% end %>

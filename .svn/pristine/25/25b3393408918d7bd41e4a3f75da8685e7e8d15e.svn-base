@@ -1,0 +1,29 @@
+<h3><strong><%= @workflow.name %></strong> <%= t('text.workflow').downcase %></h3>
+
+<%= render 'workflow', :workflow => @workflow, :edit => true  %>
+
+<% if @workflow.constructs.count > 0  and check_role 'admin', @app.id %>
+	<br/></br/>
+	<div class="alert alert-warning">
+		<%= t('text.workflow_warning_html') %>
+		<ul>
+		<% @workflow.constructs.each do |construct| %>
+			<li><%= link_to construct.name, app_form_path(@app, construct), :class=>'alert-link'  %></li>
+		<% end %>
+		</ul>
+		
+		
+		<% in_progress_count = 0 %>
+		<% @workflow.workflow_contents.each{|workflow_content| in_progress_count = in_progress_count + 1 if workflow_content.status == 'pending' } %>
+		
+		<% if in_progress_count > 0 %>
+			<div class="alert alert-danger"><%= t('text.in_progress_workflows', :count=>pluralize(in_progress_count, 'workflow item'))%></div>
+		<% end %>
+		
+		<%= link_to t('text.ok_i_know'), '#', :class=>'btn btn-default btn-sm', :id=>'enable_workflow_controls' %>
+	</div>
+<% end %>
+
+<span id="new_stage" <%= 'class="hidden_workflow hidden"' if @workflow.constructs.count > 0 %>>
+	<%= button_icon_link 'plus', t('text.new_stage'), new_app_workflow_workflow_stage_path(@app, @workflow), "success" %>
+</span>

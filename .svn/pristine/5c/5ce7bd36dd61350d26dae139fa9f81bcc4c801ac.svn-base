@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Applications</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<div id="content_container" class="clear">
+	
+		<h1 id="title"><%= title %></h1>
+		
+		<div id="user">
+			<% if user_signed_in? %>
+				<div class="right btn-group toggle_trigger" id="roles">
+					<%= link_to current_user.name || current_user.login, "#", :class=>'btn btn-xs btn-primary disabled' %>
+					<%= link_to "Sign out", destroy_user_session_path, :method => :delete, :class=>'btn btn-primary btn-xs' %>
+				</div>				
+				
+				<div id="toggle_roles" class="toggle clear"><%= "You have no roles assigned to you." if current_user.roles.count < 1 %><%= current_user.roles.map { |r| link_to r.name.humanize.titleize, "#", :class=>'btn btn-xs btn-default',  :onclick => "alert('App #{r.app_id}')" }.join(" ").html_safe %></div>
+			<% else %>
+				<div class="right btn-group">
+					<%= link_to "Sign in", new_user_session_path, :class=>'btn btn-default btn-xs btn-primary' %>
+				</div>
+			<% end %>
+		</div>
+		
+		<%= nav %>
+		
+		<div id="content" class="clear">	
+			<div id="breadcrumb_container">
+				<%= breadcrumbs %>
+			</div>
+			
+			<% if notice %><div class="notice banner_message"><%= notice %></div><% end %>
+			<% if alert %><div class="alert banner_message"><%= alert %></div><% end %>
+			<%= yield %>
+		</div>
+		<div id="footer">
+			<div class="left">Version <%= link_to version, helps_path %></div>
+			<div class="btn-group">
+				<%= link_to 'Report a problem', app_form_path(1,1), :class=>'btn btn-xs btn-default' %>
+				<%= link_to 'Request a feature', app_form_path(1,2), :class=>'btn btn-xs btn-primary' %>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

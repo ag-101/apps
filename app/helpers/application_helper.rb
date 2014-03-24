@@ -13,7 +13,11 @@ module ApplicationHelper
   
   def version
     @version = WorkflowContent.where('comment LIKE "[0.%" or comment LIKE "[1.%"').order('comment DESC').limit(1)
-    @version.first.comment.split(']')[0][1..-1]
+    if @version.count > 0
+      @version.first.comment.split(']')[0][1..-1] rescue "0"
+    else
+      "0"
+    end
   end
   
   def breadcrumbs

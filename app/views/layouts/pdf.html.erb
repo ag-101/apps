@@ -20,6 +20,7 @@
 			.panel {
 				margin-bottom: 20px;
 				background-color: #ffffff;
+				clear:both;
 				
 			}
 			
@@ -29,16 +30,21 @@
 			
 			.well{ padding:10px; background:#efefef; border:1px solid #ccc; margin:10px 0; }
 			
-			label{ font-weight:bold; }
+			label{ font-weight:bold; padding-top:5px; }
 			
 			textarea, input{ width:100%; padding:20px; color:#333; }
 			
 			.hidden{ display:none; }
 			
-			.col-sm-2{ width:16.666666666666664%; float:left; }
-			.col-sm-10 { width: 83.33333333333334%; float:left; }
+			.col-sm-2, .span25{ width:25%; float:left; }
+			.col-sm-10, .span75 { width: 75%; float:left; }
+			
+			.form-group{ clear:both; padding:50px 0; }
 			
 			.required{ color:red; }
+			
+			.radio .span25, .checkbox .span25{ width:10%; margin-top:10px; margin-bottom:10px; }
+			.radio .span75, .checkbox .span75{ width:90%; margin-top:13px; margin-bottom:10px;}
 
 		</style>
 	</head>

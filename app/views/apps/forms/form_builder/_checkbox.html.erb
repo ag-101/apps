@@ -12,13 +12,14 @@
 			    properties['options'].each do |option| %>
 				<div class="checkbox">
 					<label>
-						<input <%= 'checked="checked"' if properties['response'] and properties['response'].include? option %> <%= 'disabled="disabled"' if properties['response'] and !properties['edit'] %> type="checkbox" name="<%= properties['label'].parameterize %>" value="<%= option %>"> <%= option %>
+						<span class="span25"><input <%= 'checked="checked"' if properties['response'] and properties['response'].include? option %> <%= 'disabled="disabled"' if properties['response'] and !properties['edit'] %> type="checkbox" name="<%= properties['label'].parameterize %>" value="<%= option %>"></span> 
+						<span class="span75"><%= option %></span>
 					</label>
 				</div>
 			<% end
 			end %>
 			
-			<%= render 'apps/forms/form_builder/other', :properties=>properties if properties['other'] %>
+			<%= render 'apps/forms/form_builder/other.html', :properties=>properties if properties['other'] %>
 
 		</div>
 	</div>

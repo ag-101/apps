@@ -19,6 +19,8 @@ en:
     created_by_html: 'Created <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>'
     updated_by_html: '<br/>Updated <strong>%{time}</strong> by <a href="mailto:%{email}">%{name}</a>' 
   text:
+    for_info: for info
+    for_approval: for approval
     you_have_drafts_html: 'You already have <strong>%{drafts}</strong> for this form:'
     start_new_submission: Create a new response anyway
     continue_editing: Continue editing
@@ -80,7 +82,7 @@ en:
     currently_disabled: This form is currently hidden from the navigation.
     submitted: Submitted
     submitted_by: Submitted by
-    view_response: View response
+    view_response: View response in web browser
     global: Global
     completed: Completed
     permissions_text_html:   "

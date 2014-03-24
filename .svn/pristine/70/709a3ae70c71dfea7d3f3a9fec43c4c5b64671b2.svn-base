@@ -1,0 +1,70 @@
+<% if @apps_constructs.count == 0 %>
+	<div class="alert alert-info">There are no forms yet for this application.  Use the <span class="glyphicon glyphicon-plus"></span> icon below to add one.</div>
+<% else %>
+	<h3><strong><%= @app.name %></strong> forms</h3> 
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<div class="row">
+					<div class="col-sm-2">Form name</div>
+					<div class="col-sm-2"><%= 'Workflow' if @app.app_type == 2 %></div>
+					<div class="col-sm-4">Actions</div>
+					<div class="col-sm-2">Published?</div>
+					<div class="col-sm-2">Visible?</div>
+				</div>
+			</h3>
+		</div>
+		
+		<div class="panel-body">
+			<% @apps_constructs.each_with_index  do |apps_construct, count| %>
+				<div class='row'>
+					<div class="col-sm-2">
+						<%= link_to apps_construct.name, app_form_path(@app, apps_construct), :class=>'btn btn-sm btn-default strong' %>
+					</div>
+					
+					<div class="col-sm-2">
+						<%= link_to apps_construct.workflow.name, app_workflow_path(@app, apps_construct.workflow_id), :class=>'btn btn-sm btn-default' if apps_construct.workflow and @app.app_type == 2 %>
+					</div>		
+			
+					<div class="col-sm-4">
+						<div class="btn-group">
+							<%= button_closer_link 'play', apps_construct.published? ? t('text.use_this_form') : t('text.preview'), app_form_path(@app, apps_construct), 'success btn-sm'%>
+							<%= button_closer_link 'pencil', t('text.edit'), edit_app_form_path(@app, apps_construct), "warning btn-sm #{ 'disabled' if apps_construct.published? }" if check_role 'edit', @app.id and apps_construct.id %>
+							<%= button_closer_link 'remove', t('text.delete'), {:action => 'destroy', :id => apps_construct.id }, "danger btn-sm #{ 'disabled' if apps_construct.published? }", :method => :delete, :confirm => "#{t('confirm.delete_form', :form_name => apps_construct.name)}" if check_role 'delete', @app.id and apps_construct.id %>
+							
+							
+						</div>
+						<%= link_to pluralize(apps_construct.submissions.count, 'response'), app_form_submissions_path(@app, apps_construct), :class=>'btn btn-default btn-sm' if apps_construct.published? %>
+					</div>
+					<div class='col-sm-2'>
+						<% if apps_construct.published? %>
+							<%= link_to t('text.published'), '#', :class=>'btn btn-success disabled btn-sm' %>
+						<% else %> 
+							<% if check_role 'edit', @app.id %>
+								<%= link_to t('text.publish'), publish_app_form_path(params[:app_id], apps_construct.id), :class=>'btn btn-primary btn-sm', :confirm=>"#{ t('confirm.publish_form_html')}" %>
+							<% else %>
+								<%= link_to t('text.unpublished'), '#', :class=>'btn btn-danger btn-sm disabled' %>
+							<% end %>
+						<% end %>
+					</div>
+					<div class='col-sm-2'>	
+						<% if apps_construct.published? %>
+							<% if apps_construct.disabled? %>
+								<%= link_to t('text.disabled'), swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>"btn btn-default btn-danger btn-sm #{ 'disabled' unless check_role 'edit', @app.id }" %>
+							<% else %> 
+								<%= link_to t('text.enabled'), swap_disabled_status_app_form_path(params[:app_id], apps_construct.id), :class=>"btn btn-default btn-success btn-sm #{ 'disabled' unless check_role 'edit', @app.id }" %>
+							<% end %>											
+						<% else %>
+							<div class="unpublished"><%= t('text.unpublished')%></div>
+						<% end %>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+
+<% end %>
+
+<%= button_icon_link 'plus', t('text.new_form'), new_app_form_path, 'success' if check_role 'create', @app.id %>
+

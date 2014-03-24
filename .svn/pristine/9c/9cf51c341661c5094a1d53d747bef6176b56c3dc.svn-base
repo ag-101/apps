@@ -1,0 +1,6 @@
+<div class="created_updated_details alert">
+	<%= t('time.created_by_html', :time => time_tag(item.created_at, :format=>'%d/%m/%y %R'), :name => item.created_by.name, :email => item.created_by.email)%>	
+	<% if item.updated_at != item.created_at %>
+		<%= t('time.updated_by_html', :time => time_tag(item.updated_at, :format=>'%d/%m/%y %R'), :name => item.updated_by.name, :email => item.updated_by.email)%>
+	<% end %>
+</div>

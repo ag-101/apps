@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140312164031) do
+ActiveRecord::Schema.define(:version => 20140324133013) do
 
   create_table "apps", :force => true do |t|
     t.string   "name"
@@ -114,8 +114,9 @@ ActiveRecord::Schema.define(:version => 20140312164031) do
     t.integer  "send_to_id"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.integer  "info_only",     :limit => 1, :default => 0
   end
 
   create_table "workflows", :force => true do |t|

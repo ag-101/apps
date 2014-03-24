@@ -1,0 +1,62 @@
+
+<%= "<div class='panel panel-default'><div class='panel-heading'><h3 class='panel-title'><strong>#{ submission.construct.workflow.name } </strong>workflow</h3></div><div class='panel-body-no-padding'>".html_safe if full_workflow %>
+
+<ul>
+<% submission.workflow_contents.each_with_index do |workflow_response, index| %>
+	<% case workflow_response.status
+		when 'approved'
+			alert_colour = 'alert-success'
+			text = '<span class="glyphicon glyphicon-ok"></span> <span>Approved</span>'.html_safe
+		 when 'rejected'
+		 	alert_colour = 'alert-danger' 
+			text = '<span class="glyphicon glyphicon-remove"></span> <span>Rejected</span>'.html_safe
+		 when 'pending' 
+		 	alert_colour = 'alert-warning'
+			text = '<span class="glyphicon glyphicon-chevron-right"></span> <span>Pending</span>'.html_safe
+	 end %>
+	 
+	<% if index == 0 %>
+		<div class="workflow_item <%= full_workflow ? 'hidden' : 'slide_up' %>"><h4><strong><%= workflow_response.workflow_stage.workflow.name %></strong> workflow</h4></div>
+	<% end %>
+	
+	<div class="workflow_item <%= alert_colour %> <%= 'slide_up' unless full_workflow %>">
+		<div class="row">
+			<div class="col-sm-3 <%= 'no_padding' unless full_workflow %>">
+				<%= '<span class="glyphicon glyphicon-ok"></span>'.html_safe if workflow_response.status == 'approved' %>
+				<%= '<span class="glyphicon glyphicon-remove"></span>'.html_safe if workflow_response.status == 'rejected' %>
+				<%= '<span class="glyphicon glyphicon-chevron-right"></span>'.html_safe if workflow_response.status == 'pending' %>
+				Stage <%= workflow_response.workflow_stage.stage %>
+			</div>
+			
+			<div class="col-sm-9">
+			<%= workflow_response.created_at.to_formatted_s(:short) %>
+			 
+			<strong>
+				<%= workflow_response.status.humanize%> - <%= mail_to workflow_response.workflow_stage.send_to.email, workflow_response.workflow_stage.send_to.name %> 
+			</strong>
+			
+			<%= "\"<em>#{workflow_response.comment}</em>\"".html_safe if workflow_response.comment? %>
+			</div>
+		</div>
+	</div>
+	
+
+	<% if submission.workflow_contents and submission.workflow_contents.last and submission.workflow_contents.last.workflow_stage.send_to == current_user and submission.workflow_contents.last.status == 'pending' %>
+		<div class="workflow_item slide_up margin-bottom">
+			<div class="btn-group">	
+				<%= link_to 'Approve', approve_app_form_submission_workflow_content_path(@app, submission.construct, submission, submission.workflow_contents.last), :class=>'btn btn-success btn-xs' %>
+				<%= link_to 'Reject', reject_app_form_submission_workflow_content_path(@app, submission.construct, submission, submission.workflow_contents.last), :class=>'btn btn-danger btn-xs' %>
+			</div>	
+		</div>
+	<% end %>	
+
+	
+	<div class="workflow_item <%= alert_colour %> <%= 'toggler' unless full_workflow %>">
+		<% if ((index+1) == submission.workflow_contents.count) %>
+			<%= text %>
+		<% end %>	
+	</div>		
+
+<% end %>
+</ul>
+<%= '</div></div>'.html_safe if full_workflow %>

@@ -1,0 +1,1 @@
+<%= render 'apps/submissions/show.html.erb', :edit => false %>

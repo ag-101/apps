@@ -15,7 +15,7 @@
 	    <tr>
 		    <td colspan="2" style="padding:20px;">
 		    	<p>
-		    		A form in the <%= link_to @submission.construct.app.name, app_url(@submission.construct.app), :style=>'text-decoration:none;' %> application has had an action performed in its workflow.  A summary of the current status can be found below.
+		    		The <%= @submission.construct.name %> form in the <strong><%= @submission.construct.app.name %></strong> application has had an action performed in its workflow.  A summary of the current status can be found below.
 		    	</p>
 		    	
 		    	<table style="font-family: arial, calibri, sans-serif; font-size:12px;">
@@ -35,7 +35,9 @@
 		    			<td style="padding:2px 0px" valign="top"><strong>Last action</strong></td>
 		    			<td style="padding:2px 10px">				
 					    	<% case @current_status
-								when 'pending'%>
+					    		when 'sent for info'%>
+								<%= "Sent to <strong>#{@submission.workflow_contents.last.workflow_stage.send_to.name}</strong> for info".html_safe %>					    		
+							<%	when 'pending'%>
 								<%= "Sent to <strong>#{@submission.workflow_contents.last.workflow_stage.send_to.name}</strong> for approval".html_safe %>
 							<%	when 'approved', 'rejected'	%>
 								<%= "<strong>#{@current_status.humanize}</strong> by <strong>#{@submission.workflow_contents.last.workflow_stage.send_to.name}</strong>".html_safe %>
@@ -66,6 +68,9 @@
 								  when 'approved'
 									 span_color = "#3c763d"
 									 span_background = "#dff0d8"
+								  when 'sent for info'
+								  	 span_color = '#31708f'
+								  	 span_background = '#d9edf7'
 								  when 'rejected'		
 									 span_color = "#a94442"		
 									 span_background = "#f2dede"				 			

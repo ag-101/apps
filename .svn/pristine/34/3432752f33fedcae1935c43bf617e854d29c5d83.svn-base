@@ -1,0 +1,69 @@
+<h3><strong><%= @apps_construct.name %></strong> <%= t('text.submissions').downcase %></h3>
+
+<%= paginate @submissions %>
+
+<% if @submissions.count > 0 %>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<div class="row">
+				<div class="col-sm-2"><%= t('text.submitted') %></div>
+				<div class="col-sm-2"><%= t('text.submitted_by') %></div>
+				<div class="col-sm-2"><%= t('text.submission') %></div>
+				<div class="col-sm-2">First question response</div>
+				<div class="col-sm-4"><%= t('text.status') if @apps_construct.workflow %></div>
+			</div>
+		</h3>
+	</div>
+	<div class="panel-body no_padding">
+<% @submissions.each do |submission| %>
+
+	<% row_class = '' %>
+	
+	<% 	if submission.workflow_contents.last 
+			case submission.workflow_contents.last.status 
+			when 'approved'
+				row_class = 'alert-success'
+			when 'pending'
+				row_class = 'alert-warning'
+			when 'rejected'
+				row_class = 'alert-danger'
+		 	end
+		 	highlight_stage = submission.workflow_contents.last.workflow_stage.stage
+		 	highlight_stage = highlight_stage + 1 unless submission.workflow_contents.last.status == 'pending'
+	end%>
+
+	<div class="row <%= row_class %>">
+		<div class="col-sm-2">
+			<%= submission.created_at.to_formatted_s(:long_ordinal)  %>
+		</div>
+		<div class="col-sm-2">
+			<%= submission.created_by.name %>
+		</div>
+		<div class="col-sm-2">
+			<div class="btn-group">
+				<%= link_to t('text.view'), app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-primary btn-xs' %>
+				<%= link_to t('text.pdf'), "#{ app_form_submission_path(submission.construct.app, submission.construct, submission)}.pdf", :target=>'_blank', :class=>'btn btn-danger btn-xs' %>
+				<%= link_to t('text.edit'), edit_app_form_submission_path(submission.construct.app, submission.construct, submission), :class=>'btn btn-warning btn-xs' if current_user == submission.created_by and submission.draft? %>
+			</div>	
+		</div>
+		
+		<div class="col-sm-2">
+			<% response = JSON.parse submission.content %>
+			<%= truncate response.values[0][0].values[0], :length => 25 %>
+		</div>
+		
+		<div class="col-sm-4">
+			<%= '<div class="workflow_item"><span class="glyphicon glyphicon-list-alt"></span> Saved as draft</div>'.html_safe if submission.draft? %>
+			<%= render 'workflow_status', :submission => submission, :full_workflow => (false if submission.construct.workflow == 2 and submission.workflow_contents) %>
+		</div>
+	</div>
+<% end %>
+</div>
+</div>
+<% else %>
+	<%= t('text.no_responses')%>
+<% end %>
+<%= paginate @submissions %>
+<br/>
+<%= link_to 'Export to CSV', "#{csv_path}.csv", :class=>'btn btn-info' %>

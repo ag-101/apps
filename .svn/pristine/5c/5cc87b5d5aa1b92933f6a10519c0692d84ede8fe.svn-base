@@ -1,0 +1,3 @@
+<div class="alert alert-danger">Couldn't find the page you were looking for.</div>
+
+<%= link_to 'Return to home page', root_path, :class=>'btn btn-block btn-default' %>

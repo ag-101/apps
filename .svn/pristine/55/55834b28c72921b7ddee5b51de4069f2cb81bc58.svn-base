@@ -1,0 +1,7 @@
+<%= render 'form' %>
+
+<div class="edit_form_details">
+	<%= render :partial => '/partials/created_updated_details', :locals => { :item => @apps_construct } %>
+</div>
+
+<br/></br/>

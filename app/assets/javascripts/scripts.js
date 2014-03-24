@@ -45,10 +45,6 @@ $(document).ready(function(){
 		});
 	});
 	
-	$('body').on('change', '#workflow_stage_send_to_id', function(){
-		$(this).parents('form').submit();
-	});
-	
 	$('.toggle_trigger').on('click', function(){
 		$('#toggle_'+$(this).prop('id')).slideToggle();
 	});

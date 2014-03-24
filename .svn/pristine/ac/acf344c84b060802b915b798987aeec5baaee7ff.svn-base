@@ -1,0 +1,32 @@
+<h3><strong><%= @app.name %></strong> <%= t('text.workflows').downcase %></h3>
+<% if @workflows.count > 0 %>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<div class="row">
+					<div class="col-sm-3"><%= t('text.name')%></div>
+					<div class="col-sm-3"><%= t('text.created')%></div>
+					<div class="col-sm-3"><%= t('text.created_by')%></div>
+					<div class="col-sm-3"><%= t('text.used')%></div>
+				</div>
+			</h3>
+		</div>
+		
+		<div class="panel-body no_padding">
+			<% @workflows.each do |workflow| %>
+				<div class="row">
+					<div class="col-sm-3"><%= link_to workflow.name, app_workflow_path(@app, workflow) %></div>
+					<div class="col-sm-3"><%= time_tag(workflow.created_at) %></div>
+					<div class="col-sm-3"><%= workflow.created_by.name %></div>
+					<div class="col-sm-3"><%= workflow.constructs.map(&:name).join(", ") %></div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+<% else %>
+	<%= t('text.no_workflows')%>
+<% end %>
+
+<div class="clear"></div>
+<%= button_icon_link 'plus', t('text.new_workflow'), new_app_workflow_path, 'success' %>

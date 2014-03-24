@@ -1,0 +1,3 @@
+<h2>New home item</h2>
+
+<%= render 'form' %>

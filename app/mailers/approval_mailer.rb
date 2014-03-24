@@ -1,26 +1,18 @@
 class ApprovalMailer < ActionMailer::Base
   default from: "noreply@bthft.nhs.uk"
   
-  def approval_email(to, submission, pdf)
-    
-
+  def approval_email(to, submission, pdf, workflow_stage)
     @submission = submission
+    @workflow_stage = workflow_stage
     @to = to
-    
-   # file = open("#{ app_form_submission_url(submission.construct.app, submission.construct, submission)}.pdf", "r")
-  #  attachments.inline['response.pdf'] = file
-  
-#     attachments["submission.pdf"] = {:mime_type => 'application/pdf',
-                                  #:content => 'aa'}
-                                  
-     attachments['submission.pdf'] = pdf
+                      
+    attachments['submission.pdf'] = pdf
 
-     mail(from: "\"#{submission.created_by.name}\" <#{submission.created_by.email}>", to: @to.email, subject: "#{submission.construct.app.name}: #{submission.construct.name}")
-  #  file.close
+    mail(from: "\"#{submission.created_by.name}\" <#{submission.created_by.email}>", to: @to.email, subject: "#{submission.construct.app.name}: #{submission.construct.name}")
   end
   
   def info_email(submission) 
-    @submission = submission        
+    @submission = Submission.find_by_id(submission.id)        
     to = Array.new()    
     to.push("\"#{submission.created_by.name}\" <#{submission.created_by.email}>")
     

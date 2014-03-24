@@ -2,10 +2,14 @@ Approve this
 ============
 
 The form <%= @submission.construct.name %> has been completed by 
-<%= @submission.created_by.name %> and requires for you to review it.
+<%= @submission.created_by.name %>.
 
-View response: <%= app_form_submission_path(@submission.construct.app, @submission.construct, @submission) %>
+Open the attached PDF to view the response.
 
+<%= t('text.view_response')%>: <%= app_form_submission_path(@submission.construct.app, @submission.construct, @submission) %>
+
+<% unless @workflow_stage.info_only? %>
 Approve: <%= approve_app_form_submission_workflow_content_path(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last) %>
 
 Reject: <%= reject_app_form_submission_workflow_content_path(@submission.construct.app, @submission.construct, @submission, @submission.workflow_contents.last) %>
+<% end %>

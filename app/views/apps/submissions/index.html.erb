@@ -19,11 +19,12 @@
 <% @submissions.each do |submission| %>
 
 	<% row_class = '' %>
-	
 	<% 	if submission.workflow_contents.last 
 			case submission.workflow_contents.last.status 
 			when 'approved'
 				row_class = 'alert-success'
+			when 'sent for info'
+				row_class = 'alert-info'
 			when 'pending'
 				row_class = 'alert-warning'
 			when 'rejected'

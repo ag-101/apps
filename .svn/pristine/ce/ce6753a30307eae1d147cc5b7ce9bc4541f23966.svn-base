@@ -1,0 +1,31 @@
+<% if @use_form %>
+	<div class="well">
+		<%= properties['label'].html_safe %>
+	</div>
+<% else %>
+	<div class='li_handle' draggable="true">
+		<h3>
+			Text content
+			<span class="text_content default_label hidden">Text content</span></h3>
+		<div class="message">A message to be displayed.  Basic HTML formatting is allowed.</div>
+		
+	</div>
+	<div class="form_controls form-horizontal">
+		<form action="#">
+			<div class="form-group">
+				<div class="col-sm-12">
+					<textarea class="form-control field_label no_wysiwyg" name="label">A message to be displayed</textarea>
+				</div>						
+			</div>
+			<div class="form-group no-margin">
+				<div class="col-sm-12 options">
+					<div class="btn-group">
+						<%= link_to '<span class="glyphicon glyphicon-remove"></span> <span class="toggle_text">Remove</span>'.html_safe, '#', :class=>'btn-sm btn btn-danger remove_field' %>
+					</div>
+				</div>						
+			</div>
+		</form>
+		
+	</div>
+	<div class="clear"></div>
+<% end %>

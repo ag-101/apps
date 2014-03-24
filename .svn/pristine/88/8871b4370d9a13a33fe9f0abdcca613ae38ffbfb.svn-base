@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+   
+  <body style="background:#efefef;">
+  	<table style="font-family:arial, calibri, sans-serif; font-size:12px; background:#fff;  border:1px solid #ccc;">
+	  	<tr>
+	  		<td colspan="2" style="padding:20px;">
+	    		<h1><%= @submission.construct.name%></h1>
+	    	</td>
+	    </tr>
+	    
+	    <tr>
+		    <td colspan="2" style="padding:20px;">
+		    	<p>
+		    		A form in the <%= link_to @submission.construct.app.name, app_url(@submission.construct.app), :style=>'text-decoration:none;' %> application has had an action performed in its workflow.  A summary of the current status can be found below.
+		    	</p>
+		    	
+		    	<table style="font-family: arial, calibri, sans-serif; font-size:12px;">
+		    		<tr>
+		    			<td style="padding:2px 0px"><strong>Form</strong></td>
+		    			<td style="padding:2px 10px"><%= link_to @submission.construct.name, app_form_url(@submission.construct.app, @submission.construct), :style=>'text-decoration:none;', :only_path=>false %></td>
+		    		</tr>	
+		    		<tr>
+		    			<td style="padding:2px 0px"><strong>Submitted</strong></td>
+		    			<td style="padding:2px 10px"><%= @submission.created_at.to_formatted_s(:long_ordinal) %></td>
+		    		</tr>
+		    		<tr>
+		    			<td style="padding:2px 0px"><strong>Submitted by</strong></td>
+		    			<td style="padding:2px 10px"><%= mail_to @submission.created_by.email, @submission.created_by.name, :style=>'text-decoration:none;' %></td>
+		    		</tr>
+		    		<tr>
+		    			<td style="padding:2px 0px" valign="top"><strong>Last action</strong></td>
+		    			<td style="padding:2px 10px">				
+					    	<% case @current_status
+								when 'pending'%>
+								<%= "Sent to <strong>#{@submission.workflow_contents.last.workflow_stage.send_to.name}</strong> for approval".html_safe %>
+							<%	when 'approved', 'rejected'	%>
+								<%= "<strong>#{@current_status.humanize}</strong> by <strong>#{@submission.workflow_contents.last.workflow_stage.send_to.name}</strong>".html_safe %>
+								<%= "<br/><br/>\"#{@submission.workflow_contents.last.comment}\"".html_safe if @submission.workflow_contents.last.comment? %>
+							<% end %>
+						</td>
+		    		</tr>
+		    	</table>
+				
+				<br/></br/>
+
+				<table style="width:100%; font-family:arial, calibri, sans-serif; font-size:12px; border:1px solid #ccc;">
+					<tr>
+						<td colspan="3" style="padding:10px; background:#efefef;"><h3>Workflow stages</h3></td>
+					</tr>
+					<% @submission.construct.workflow.workflow_stages.each_with_index do |workflow_stage, index| %>
+						<tr>
+							<td style="padding:10px;">Stage <%= (index+1) %></td>
+							<td style="padding:10px;"><strong><%= workflow_stage.send_to.name %></strong></td>
+							
+							<% @submission.workflow_contents.each do |workflow_content| 
+							if workflow_content.workflow_stage == workflow_stage %>
+								<% 
+								span_colour = "#8a6d3b"
+								span_background = "#fcf8e3"
+								
+								case workflow_content.status 
+								  when 'approved'
+									 span_color = "#3c763d"
+									 span_background = "#dff0d8"
+								  when 'rejected'		
+									 span_color = "#a94442"		
+									 span_background = "#f2dede"				 			
+								end %>
+								
+								<td style="padding:10px; background:<%= span_background%>;">
+									<span style="<%= span_colour %>"><%= workflow_content.status.humanize %></span>
+								</td>
+							<% end 
+							end %>
+						</tr>
+					<% end %>
+				</table>
+			</td>
+		</tr>
+		<tr><td>&nbsp;</td><td></td></tr>
+		<tr>
+			<td colspan="2" style="background:#333; text-align:center; padding:20px;">
+			<%= link_to t('text.view_response'), app_form_submission_url(@submission.construct.app, @submission.construct, @submission), :style=>'text-decoration:none; color:#fff;' %>
+			</td>
+		</tr>
+	</table>
+  </body>
+</html>

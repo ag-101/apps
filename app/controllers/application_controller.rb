@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
     end
   end    
   
-  def create_workflow_stage_content(submission)
+  def create_workflow_stage_content(submission, suppress = false)
     @current_highest = WorkflowStage.joins(:workflow).joins(:workflow_contents).where('workflow_contents.status != ?', 'rejected').where('workflow_contents.submission_id = ?', submission.id).where('workflows.app_id = ?', submission.construct.app.id).where('workflow_stages.workflow_id = ?', submission.construct.workflow_id).order('stage DESC').limit(1)
     
     @current_highest.count > 0 ? next_stage = (@current_highest.first.stage+1) : next_stage = 1
@@ -73,13 +73,12 @@ class ApplicationController < ActionController::Base
     if @workflow_stage.count == 0 or @rejected.count > 0
       ApprovalMailer.info_email(submission).deliver
       return additional_info = 'Workflow completed.'
-    
     else 
       @workflow_content = WorkflowContent.new
       @workflow_content.created_by_id = current_user.id
       @workflow_content.updated_by_id = current_user.id
       
-      @workflow_content.status = 'pending'
+      @workflow_content.status = @workflow_stage.first.info_only? ? 'sent for info' : 'pending'
       @workflow_content.submission_id = submission.id
       @workflow_content.workflow_stage_id = @workflow_stage.first.id
       if @workflow_content.save
@@ -88,13 +87,17 @@ class ApplicationController < ActionController::Base
 
         @submission = submission
         @use_form = true
+        
         pdf = render_to_string :pdf => "#{ @submission.construct.name } - #{@submission.created_by.name}",
                :layout => 'pdf.html',
                :template => 'apps/submissions/show.pdf.erb',
                :basic_auth => true
         
-        ApprovalMailer.approval_email(to, submission, pdf).deliver
-        ApprovalMailer.info_email(submission).deliver
+        
+        ApprovalMailer.approval_email(to, submission, pdf, @workflow_stage.first).deliver
+        ApprovalMailer.info_email(submission).deliver unless @workflow_stage.first.info_only?
+        
+        create_workflow_stage_content(submission, true) if @workflow_stage.first.info_only?
         
         return additional_info = "It has been sent to #{ @workflow_content.workflow_stage.send_to.name } to review."
     end

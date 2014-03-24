@@ -1,0 +1,51 @@
+<h3>Help</h3>
+<div class="help_panel">
+	<% @helps.each do |help| %>
+		<div class="panel panel-default">
+			<div class="panel-heading slide_toggle">
+				<h3 class="panel-title"><%= help.name %>
+				<% if check_role 'top_banana' %>
+					<div class="right btn-group">
+						<%= button_closer_link 'ok', 'New', new_help_path, 'success btn-xs' %>
+					    <%= button_closer_link 'wrench', 'Edit', edit_help_path(help), 'warning btn-xs' %>
+					    <%= button_closer_link 'remove', 'Delete', help, 'danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' } %>
+				    </div>
+			    <% end %>
+					
+				</h3>
+			</div>
+			<div class="panel-body slide_up">
+				<%= help.content.html_safe %>
+			</div>
+		</div>
+	<% end %>
+</div>
+
+
+<div class="panel panel-default">
+	<div class="panel-heading slide_toggle">
+		<h3 class="panel-title"><strong>Release notes</strong></h3>	
+	</div>	
+	
+	<div class="panel-body slide_up">
+			<div class="panel panel-default">
+				<% current_version = '' %>
+				<% @release_notes.each do |release_note| %>
+	
+				<% release_note.comment = release_note.comment.split(']', 2) %>
+				<% if release_note.comment[0] != current_version %>
+					<div class="panel-heading">
+						<h3 class="panel-title"><%= release_note.comment[0][1..-1] %></h3>
+					</div>
+				<% current_version = release_note.comment[0] %>
+				<% end %>
+	
+			<div class="panel-body no-vertical-padding">
+				<%= release_note.comment[1] %>
+			</div>
+		<% end %>
+		</div>
+	</div>
+</div>
+
+

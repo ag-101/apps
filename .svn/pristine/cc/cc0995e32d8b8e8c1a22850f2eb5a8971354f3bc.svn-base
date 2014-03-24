@@ -1,0 +1,12 @@
+<%= render 'show', :edit => false %>
+
+<% if @submission.workflow_contents and @submission.workflow_contents.last and @submission.workflow_contents.last.workflow_stage.send_to == current_user and @submission.workflow_contents.last.status == 'pending' %>
+	<div class="btn-group margin-bottom">
+		<%= link_to 'Approve', approve_app_form_submission_workflow_content_path(@app, @submission.construct, @submission, @submission.workflow_contents.last), :class=>'btn btn-success' %>
+		<%= link_to 'Reject', reject_app_form_submission_workflow_content_path(@app, @submission.construct, @submission, @submission.workflow_contents.last), :class=>'btn btn-danger' %>
+	</div>
+<% end %>
+
+<div class="full_workflow">
+	<%= render 'workflow_status.html.erb', :submission => @submission, :full_workflow => true if @submission.construct.workflow and @app.app_type == 2 %>
+</div>
